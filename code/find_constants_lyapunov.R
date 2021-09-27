@@ -21,7 +21,7 @@ find_constants_GLV_embedding <- function(
   Y = NULL, # points to test if NULL, sample values uniformly in a n-dimensional box
   THRESH = 10^(-16), # consider extinct below this threshold when integrating dynamics
   EQUIL = 10^(-14), # consider dy/dt|y* = 0 if abs(dy/dt|y*) < EQUIL when searching numerically for equilibrium
-  n_points = 100000, # number of points to consider when searching numerically for Lyapunov function
+  n_points = 10000, # number of points to consider when searching numerically for Lyapunov function
   k = 10, # take points in the n-dimensional box defined by the edges (0, k y_i*)
   n_rounds = 3, # number of iterations for numerical search
   num_steps = 5000, # number of iterations for each optim algorithm
