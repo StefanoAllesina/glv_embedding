@@ -23,6 +23,7 @@ biblio-style: unsrt
 header-includes: 
   - \usepackage{amsmath}
   - \usepackage{xcolor}
+  - \usepackage{fancybox}
 output: rticles::arxiv_article
 ---
 
@@ -41,12 +42,14 @@ Blah, blah
 # Quasi-Polynomial systems
 \label{sec:qp}
 
+We now introduce a generalization of Eq. \ref{eq:glv}, which defines the class of quasi-polynomial systems (QP-systems):
+
 \begin{equation}
 \label{eq:qp}
-\dot{y}_i = y_i \left( \lambda_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}} \right)
+\dot{y}_i = y_i \left( s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}} \right)
 \end{equation}
 
-where $\lambda$ is a vector of length $n$; $M$ is a matrix of size $n \times m$ containing real coefficients, and $B$ a matrix of size $m \times n$, also containing real coefficients. If $n = m$, and thus $M$ is a square matrix, and $B=I_n$ the model reduces to the Generalized Lotka-Volterra model in Eq. \ref{eq:glv} with $r = \lambda$ and $A = M$. If $B$ contains only integers, Eq. \ref{eq:qp} defines a *polynomial* system of differential equations; relaxing this condition to admit $B$ composed of real numbers, we obtain a *quasi-polynomial* (QP) system.
+where we have $n$ equations, $\dot{y}_1, \ldots, \dot{y}_n$, $s$ is a vector of length $n$; $M$ is a matrix of size $n \times m$ containing real coefficients, and $B$ a matrix of size $m \times n$, also containing real coefficients. If $n = m$, and thus $M$ is a square matrix, and $B=I_n$ the model reduces to the Generalized Lotka-Volterra model in Eq. \ref{eq:glv} with $r = s$ and $A = M$. If $B$ contains only integers, Eq. \ref{eq:qp} defines a *polynomial* system of differential equations; relaxing this condition to admit $B$ composed of real numbers, we obtain a *quasi-polynomial* (QP-) system.
 
 ****
 
@@ -64,7 +67,7 @@ with $y_1$ being the prey, $y_2$ the predator, and all coefficients positive. Th
 
 \begin{equation}
 \label{eq:lgqp}
-\lambda = \begin{pmatrix}
+s = \begin{pmatrix}
 \rho_1\\
 \rho_2
 \end{pmatrix} \quad 
@@ -80,7 +83,6 @@ B = \begin{pmatrix}
 \end{equation}
 
 ****
-
 
 # From Quasi-Polynomial to Generalized Lotka-Volterra
 \label{sec:qptoglv}
@@ -118,14 +120,14 @@ By chain rule, we have:
 &=\sum_k B_{jk}\, \frac{\dot{y}_k}{y_k} \prod_{l} y_{l}^{B_{jl}}\\
 &=\sum_k B_{jk}\, \frac{\dot{y}_k}{y_k} x_j\\
 &=x_j \sum_k B_{jk}\, \frac{\dot{y}_k}{y_k} \\
-&=x_j \left(\sum_k B_{jk} \lambda_k + \sum_k B_{jk} \sum_l M_{kl} \prod_l y_l^{B_{kl}} \right)\\
-&=x_j \left(\sum_k B_{jk} \lambda_k + \sum_k B_{jk} \sum_l M_{kl} x_l \right)\\
-&=x_j \left((B \lambda)_j + \sum_l (B M)_{jl} x_l \right)\\
+&=x_j \left(\sum_k B_{jk} s_k + \sum_k B_{jk} \sum_l M_{kl} \prod_l y_l^{B_{kl}} \right)\\
+&=x_j \left(\sum_k B_{jk} s_k + \sum_k B_{jk} \sum_l M_{kl} x_l \right)\\
+&=x_j \left((B s)_j + \sum_l (B M)_{jl} x_l \right)\\
 &=x_j \left(r_j + \sum_l A_{jl} x_l \right)
 \end{aligned}
 \end{equation}
 
-where we have defined $A = BM$ and $r = B \lambda$, $(B\lambda)_j$ is the $j^{\text{th}}$ element of the vector $B\lambda$ and $(B M)_{jl}$ is the coefficient in row $j$ and column $l$ of the matrix $BM$. 
+where we have defined $A = BM$ and $r = B s$, $(Bs)_j$ is the $j^{\text{th}}$ element of the vector $Bs$ and $(B M)_{jl}$ is the coefficient in row $j$ and column $l$ of the matrix $BM$. 
 
 Via the quasi-monomial transformation in Eq. \ref{eq:quasimono} we have turned the $n-$dimensional QP-system in Eq. \ref{eq:qp} into an $m-$dimensional GLV system in Eq. \ref{eq:glv}.
 
@@ -136,7 +138,7 @@ Via the quasi-monomial transformation in Eq. \ref{eq:quasimono} we have turned t
 We can represent the Leslie-Gower model in Eq. \ref{eq:lg} as a three-dimensional GLV model defined by the quasi-monomials in Eq. \ref{eq:lgqm} and:
 
 \begin{equation}
-r = B \lambda = \begin{pmatrix}
+r = B s = \begin{pmatrix}
 \rho_1\\
 \rho_2\\
 \rho_2 - \rho_1
@@ -153,94 +155,65 @@ Note that $A$ is rank deficient, given that the third row can be written as the 
 
 ****
 
+# Stability in Generalized Lotka-Volterra
 
-# Examples of citations, figures, tables, references
-\label{sec:others}
+## Lyapunov's direct method
+
+## Candidate Lyapunov function for Generalized-Lotka Volterra
+
+Before proceeding, we note that if Eq. \ref{eq:glv} has a feasible (i.e., positive) coexistence equilibrium, then $r = -A x^\star$, and as such we can rewrite the equations more compactly as $\dot{x}_i = x_i \sum_{j} A_{ij} (x_j - x_j^\star) = x_i \sum_{j} A_{ij} \Delta x_j$, where we have defined the deviation from equilibrium $\Delta x_j = x_j - x_j^\star$.
+
+We now consider the candidate Lyapunov function proposed by Goh:
+
+\begin{equation}
+\label{eq:goh}
+\begin{cases}
+V_{x_i} = x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star}\\
+V = \sum_i w_i V_{x_i}
+\end{cases}
+\end{equation}
+
+where each $V_{x_i} > 0$ for any positive $x_i \neq x_i^\star$ and zero at the equilibrium. The weights $w_1, \ldots w_n$ are non-negative, and at least one is positive. In such cases, $V$ is radially unbounded. If we can find weights such that $\dot{V} = \sum_i w_i \dot{V}_{x_i} \leq 0$, we can prove stability (possibly, through LaSalle's invariance principle). Deriving:
+
+\begin{equation}
+\label{eq:gohstab}
+\begin{aligned}
+\dot{V} =& \sum_i w_i \left(\dot{x}_i - x_i^\star \dot{\log x_i} \right)\\
+ =& \sum_i w_i \left(x_i \sum_{j} A_{ij} \Delta x_j - x_i^\star A_{ij} \Delta x_j \right)\\
+ =& \sum_i w_i \left(\Delta x_i \sum_{j} A_{ij} \Delta x_j \right)\\
+ =& \sum_i \Delta x_i w_i \sum_j A_{ij} \Delta x_j\\
+ =& \sum_i \sum_j w_i A_{ij} \Delta x_i \Delta x_j
+\end{aligned}
+\end{equation}
+
+Note that in the sum over $i$ and $j$, only the symmetric part of the matrix $D(w) A = (w_i A_{ij})$ matters (the skew symmetric part cancels). It is therefore convenient to define a new, symmetric matrix $G =\frac{1}{2} (D(w)A + A^t D(w))$, so that our expression becomes:
+
+\begin{equation}
+\label{eq:stabcond}
+\dot{V} = \sum_i \sum_j G_{ij} \Delta x_i \Delta x_j
+\end{equation}
+
+A symmetric matrix $G$ satisfying $z^T G z = \sum_i \sum_j G_{ij} z_i z_j < 0$ for every $z \neq 0$ is called *negative definite*. If the sum can be zero for some $z \neq 0$, $G$ is called *negative semi-definite*. A symmetric, negative definite matrix has all eigenvalues real and negative; in a negative semi-definite matrix eigenvalues can be zero. As such, if we can identify suitable, positive (nonnegative) weights $w$ such that $G$ is negative (semi-)definite, then $\dot{V} \leq 0$ and we can prove the stability of the equilibrium $x^\star$.
+
+# Examples
+
+```{r child=here::here("paper", "GLV_embedding", "sir.Rmd")}
+
+```
+
+```{r child=here::here("paper", "GLV_embedding", "consumer_resource.Rmd")}
+
+```
+
+```{r child=here::here("paper", "GLV_embedding", "hoi.Rmd")}
+
+```
+
+
+
+
+
+
 
 You can insert references. Here is some text [@kour2014real; @kour2014fast] and see @hadash2018estimate.
 
-The documentation for \verb+natbib+ may be found at
-
-You can use custom blocks with LaTeX support from **rmarkdown** to create environment.
-
-::: {.center latex=true}
-  <http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf}>
-:::
-
-Of note is the command \verb+\citet+, which produces citations
-appropriate for use in inline text.  
-
-You can insert LaTeX environment directly too.
-
-\begin{verbatim}
-   \citet{hasselmo} investigated\dots
-\end{verbatim}
-
-produces
-
-\begin{quote}
-  Hasselmo, et al.\ (1995) investigated\dots
-\end{quote}
-
-\begin{center}
-  \url{https://www.ctan.org/pkg/booktabs}
-\end{center}
-
-
-## Figures
-
-You can insert figure using LaTeX directly. 
-
-See Figure \ref{fig:fig1}. Here is how you add footnotes. [^Sample of the first footnote.]
-
-\begin{figure}
-  \centering
-  \fbox{\rule[-.5cm]{4cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-  \caption{Sample figure caption.}
-  \label{fig:fig1}
-\end{figure}
-
-But you can also do that using R.
-
-```{r fig2, fig.cap = "Another sample figure"}
-plot(mtcars$mpg)
-```
-
-You can use **bookdown** to allow references for Tables and Figures.
-
-
-## Tables
-
-Below we can see how to use tables. 
-
-See awesome Table~\ref{tab:table} which is written directly in LaTeX in source Rmd file.
-
-\begin{table}
- \caption{Sample table title}
-  \centering
-  \begin{tabular}{lll}
-    \toprule
-    \multicolumn{2}{c}{Part}                   \\
-    \cmidrule(r){1-2}
-    Name     & Description     & Size ($\mu$m) \\
-    \midrule
-    Dendrite & Input terminal  & $\sim$100     \\
-    Axon     & Output terminal & $\sim$10      \\
-    Soma     & Cell body       & up to $10^6$  \\
-    \bottomrule
-  \end{tabular}
-  \label{tab:table}
-\end{table}
-
-You can also use R code for that.
-
-```{r}
-knitr::kable(head(mtcars), caption = "Head of mtcars table")
-```
-
-
-## Lists
-
-- Item 1
-- Item 2 
-- Item 3

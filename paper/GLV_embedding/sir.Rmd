@@ -1,0 +1,82 @@
+## A susceptible-infected-recovered model with demography
+\label{sec:sir}
+
+We consider a simple S-I-R model in which mortality in all classes is counterbalanced by the birth of susceptible individuals:
+
+\begin{equation}
+\label{eq:sir}
+\begin{cases}
+\begin{aligned}
+\dot{y}_1 = \delta - \delta y_1 - \beta y_1 y_2 &= y_1 \left(-\delta + \delta \frac{1}{y_1} - \beta y_2 \right)\\
+\dot{y}_2 = - (\delta + \gamma) y_2 + \beta y_1 y_2 &= y_2 \left(-(\delta + \gamma) + \beta y_1 \right)\\
+\dot{y_3} = \gamma y_2 - \delta y_3 &= y_3 \left(-\delta + \gamma \frac{y_2}{y_3} \right)
+\end{aligned}
+\end{cases}
+\end{equation}
+
+where $y_1$ represents the proportion of susceptible individuals in the population, $y_2$ that of the infected/infectious individuals, and $y_3$ the recovered individuals. The parameter $\delta$ serves both as a birth rate for the population, and as the mortality rate in each compartment, $\beta$ is the transmission rate, and $\gamma$ the recovery rate. We have $y_1 + y_2 + y_3 = 1$. It is well known that if the critical threshold $\mathcal R_0 = \frac{\beta}{\gamma + \delta} > 1$, the model has a globally stable endemic equilibrium in which a constant proportion of individuals is infected.
+
+At the endemic equilibrium, we have $y_1^\star = 1 / \mathcal R_0$, $y_2^\star = (\mathcal R_0 - 1) \delta / (\delta + \gamma)$, and $y_2^\star = (\mathcal R_0 - 1) \gamma / (\delta + \gamma)$, such that the equilibrium is feasible only if $\mathcal R_0 >1$. 
+
+We write the model as a four-dimensional GLV system, and probe the stability of the endemic equilibrium assuming that it is positive. First, we identify the quasi-monomials and associated matrices and vectors:
+
+\begin{equation}
+\begin{aligned}
+x = \begin{pmatrix}
+y_1\\
+y_2\\
+\frac{1}{y_1}\\
+\frac{y_2}{y_3}
+\end{pmatrix}
+\quad
+s = \begin{pmatrix}
+-\delta \\
+-\delta - \gamma \\
+-\delta
+\end{pmatrix}
+\quad
+M = \begin{pmatrix}
+0 & -\beta & \delta & 0\\
+\beta & 0 & 0 & 0 \\
+0 & 0 & 0 & \gamma
+\end{pmatrix}
+\quad
+B = \begin{pmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+-1 & 0 & 0\\
+0 & 1 & -1
+\end{pmatrix}
+\\
+r = \begin{pmatrix}
+-\delta \\
+-\delta - \gamma \\
+\delta\\
+-\gamma
+\end{pmatrix}
+\quad 
+A = \begin{pmatrix}
+0 & -\beta & \delta & 0 \\
+\beta & 0 & 0 & 0\\
+0 & \beta & -\delta & 0 \\
+\beta & 0 & 0 & -\gamma
+\end{pmatrix}
+\end{aligned}
+\end{equation}
+
+Now consider the candidate Lyapunov function with weights $w = (1,1,0,0)^T$, and the perturbations $\Delta x = (y_1 - y_1^\star, y_2 - y_2^\star, 1/y_1 - 1 / y_1^\star, y_2 / y_3 - y_2^\star / y_3^\star)^T$. Deriving with respect to time, we obtain:
+
+\begin{equation}
+\dot{V} = \frac{1}{2} \Delta x^T (D(w) A + A^T D(w)) \Delta x =  - \delta \frac{(y_1 - y_1^\star)^2}{y_1 y_1^\star} \leq 0
+\end{equation}
+
+Note that this choice of weights does not result in a negative semi-definite matrix: the nonzero eigenvalues of $(D(w) A + A^T D(w))$ are $\pm \delta / 2$. 
+
+Because $\dot{V} = 0$ whenever $y_1 = y_1^\star$, to prove stability we need to make sure that the equilibrium is the only trajectory contained in the set of points satisfying $\dot{V} = 0$. 
+
+**LaSalle's**
+
+
+
+
+

@@ -33,57 +33,7 @@ representation as Generalized Lotka-Volterra dynamics}
   \texttt{\href{mailto:zachmiller@uchicago.edu}{\nolinkurl{zachmiller@uchicago.edu}}} \\
   }
 
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 
-\usepackage{longtable,booktabs,array}
-\usepackage{calc} % for calculating minipage widths
-% Correct order of tables after \paragraph or \subparagraph
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
 
 % Pandoc citation processing
 \newlength{\csllabelwidth}
@@ -114,6 +64,7 @@ representation as Generalized Lotka-Volterra dynamics}
 
 \usepackage{amsmath}
 \usepackage{xcolor}
+\usepackage{fancybox}
 
 
 \begin{document}
@@ -157,20 +108,24 @@ model}\label{generalized-lotka-volterra-model}}
 
 \label{sec:qp}
 
+We now introduce a generalization of Eq. \ref{eq:glv}, which defines the
+class of quasi-polynomial systems (QP-systems):
+
 \begin{equation}
 \label{eq:qp}
-\dot{y}_i = y_i \left( \lambda_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}} \right)
+\dot{y}_i = y_i \left( s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}} \right)
 \end{equation}
 
-where \(\lambda\) is a vector of length \(n\); \(M\) is a matrix of size
-\(n \times m\) containing real coefficients, and \(B\) a matrix of size
-\(m \times n\), also containing real coefficients. If \(n = m\), and
-thus \(M\) is a square matrix, and \(B=I_n\) the model reduces to the
-Generalized Lotka-Volterra model in Eq. \ref{eq:glv} with
-\(r = \lambda\) and \(A = M\). If \(B\) contains only integers, Eq.
-\ref{eq:qp} defines a \emph{polynomial} system of differential
-equations; relaxing this condition to admit \(B\) composed of real
-numbers, we obtain a \emph{quasi-polynomial} (QP) system.
+where we have \(n\) equations, \(\dot{y}_1, \ldots, \dot{y}_n\), \(s\)
+is a vector of length \(n\); \(M\) is a matrix of size \(n \times m\)
+containing real coefficients, and \(B\) a matrix of size \(m \times n\),
+also containing real coefficients. If \(n = m\), and thus \(M\) is a
+square matrix, and \(B=I_n\) the model reduces to the Generalized
+Lotka-Volterra model in Eq. \ref{eq:glv} with \(r = s\) and \(A = M\).
+If \(B\) contains only integers, Eq. \ref{eq:qp} defines a
+\emph{polynomial} system of differential equations; relaxing this
+condition to admit \(B\) composed of real numbers, we obtain a
+\emph{quasi-polynomial} (QP-) system.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -191,7 +146,7 @@ however in QP form, as seen by defining:
 
 \begin{equation}
 \label{eq:lgqp}
-\lambda = \begin{pmatrix}
+s = \begin{pmatrix}
 \rho_1\\
 \rho_2
 \end{pmatrix} \quad 
@@ -248,17 +203,16 @@ By chain rule, we have:
 &=\sum_k B_{jk}\, \frac{\dot{y}_k}{y_k} \prod_{l} y_{l}^{B_{jl}}\\
 &=\sum_k B_{jk}\, \frac{\dot{y}_k}{y_k} x_j\\
 &=x_j \sum_k B_{jk}\, \frac{\dot{y}_k}{y_k} \\
-&=x_j \left(\sum_k B_{jk} \lambda_k + \sum_k B_{jk} \sum_l M_{kl} \prod_l y_l^{B_{kl}} \right)\\
-&=x_j \left(\sum_k B_{jk} \lambda_k + \sum_k B_{jk} \sum_l M_{kl} x_l \right)\\
-&=x_j \left((B \lambda)_j + \sum_l (B M)_{jl} x_l \right)\\
+&=x_j \left(\sum_k B_{jk} s_k + \sum_k B_{jk} \sum_l M_{kl} \prod_l y_l^{B_{kl}} \right)\\
+&=x_j \left(\sum_k B_{jk} s_k + \sum_k B_{jk} \sum_l M_{kl} x_l \right)\\
+&=x_j \left((B s)_j + \sum_l (B M)_{jl} x_l \right)\\
 &=x_j \left(r_j + \sum_l A_{jl} x_l \right)
 \end{aligned}
 \end{equation}
 
-where we have defined \(A = BM\) and \(r = B \lambda\), \((B\lambda)_j\)
-is the \(j^{\text{th}}\) element of the vector \(B\lambda\) and
-\((B M)_{jl}\) is the coefficient in row \(j\) and column \(l\) of the
-matrix \(BM\).
+where we have defined \(A = BM\) and \(r = B s\), \((Bs)_j\) is the
+\(j^{\text{th}}\) element of the vector \(Bs\) and \((B M)_{jl}\) is the
+coefficient in row \(j\) and column \(l\) of the matrix \(BM\).
 
 Via the quasi-monomial transformation in Eq. \ref{eq:quasimono} we have
 turned the \(n-\)dimensional QP-system in Eq. \ref{eq:qp} into an
@@ -273,7 +227,7 @@ three-dimensional GLV model defined by the quasi-monomials in Eq.
 \ref{eq:lgqm} and:
 
 \begin{equation}
-r = B \lambda = \begin{pmatrix}
+r = B s = \begin{pmatrix}
 \rho_1\\
 \rho_2\\
 \rho_2 - \rho_1
@@ -293,145 +247,364 @@ we went from two to three equations).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\hypertarget{examples-of-citations-figures-tables-references}{%
-\section{Examples of citations, figures, tables,
-references}\label{examples-of-citations-figures-tables-references}}
+\hypertarget{stability-in-generalized-lotka-volterra}{%
+\section{Stability in Generalized
+Lotka-Volterra}\label{stability-in-generalized-lotka-volterra}}
 
-\label{sec:others}
+\hypertarget{lyapunovs-direct-method}{%
+\subsection{Lyapunov's direct method}\label{lyapunovs-direct-method}}
+
+\hypertarget{candidate-lyapunov-function-for-generalized-lotka-volterra}{%
+\subsection{Candidate Lyapunov function for Generalized-Lotka
+Volterra}\label{candidate-lyapunov-function-for-generalized-lotka-volterra}}
+
+Before proceeding, we note that if Eq. \ref{eq:glv} has a feasible
+(i.e., positive) coexistence equilibrium, then \(r = -A x^\star\), and
+as such we can rewrite the equations more compactly as
+\(\dot{x}_i = x_i \sum_{j} A_{ij} (x_j - x_j^\star) = x_i \sum_{j} A_{ij} \Delta x_j\),
+where we have defined the deviation from equilibrium
+\(\Delta x_j = x_j - x_j^\star\).
+
+We now consider the candidate Lyapunov function proposed by Goh:
+
+\begin{equation}
+\label{eq:goh}
+\begin{cases}
+V_{x_i} = x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star}\\
+V = \sum_i w_i V_{x_i}
+\end{cases}
+\end{equation}
+
+where each \(V_{x_i} > 0\) for any positive \(x_i \neq x_i^\star\) and
+zero at the equilibrium. The weights \(w_1, \ldots w_n\) are
+non-negative, and at least one is positive. In such cases, \(V\) is
+radially unbounded. If we can find weights such that
+\(\dot{V} = \sum_i w_i \dot{V}_{x_i} \leq 0\), we can prove stability
+(possibly, through LaSalle's invariance principle). Deriving:
+
+\begin{equation}
+\label{eq:gohstab}
+\begin{aligned}
+\dot{V} =& \sum_i w_i \left(\dot{x}_i - x_i^\star \dot{\log x_i} \right)\\
+ =& \sum_i w_i \left(x_i \sum_{j} A_{ij} \Delta x_j - x_i^\star A_{ij} \Delta x_j \right)\\
+ =& \sum_i w_i \left(\Delta x_i \sum_{j} A_{ij} \Delta x_j \right)\\
+ =& \sum_i \Delta x_i w_i \sum_j A_{ij} \Delta x_j\\
+ =& \sum_i \sum_j w_i A_{ij} \Delta x_i \Delta x_j
+\end{aligned}
+\end{equation}
+
+Note that in the sum over \(i\) and \(j\), only the symmetric part of
+the matrix \(D(w) A = (w_i A_{ij})\) matters (the skew symmetric part
+cancels). It is therefore convenient to define a new, symmetric matrix
+\(G =\frac{1}{2} (D(w)A + A^t D(w))\), so that our expression becomes:
+
+\begin{equation}
+\label{eq:stabcond}
+\dot{V} = \sum_i \sum_j G_{ij} \Delta x_i \Delta x_j
+\end{equation}
+
+A symmetric matrix \(G\) satisfying
+\(z^T G z = \sum_i \sum_j G_{ij} z_i z_j < 0\) for every \(z \neq 0\) is
+called \emph{negative definite}. If the sum can be zero for some
+\(z \neq 0\), \(G\) is called \emph{negative semi-definite}. A
+symmetric, negative definite matrix has all eigenvalues real and
+negative; in a negative semi-definite matrix eigenvalues can be zero. As
+such, if we can identify suitable, positive (nonnegative) weights \(w\)
+such that \(G\) is negative (semi-)definite, then \(\dot{V} \leq 0\) and
+we can prove the stability of the equilibrium \(x^\star\).
+
+\hypertarget{examples}{%
+\section{Examples}\label{examples}}
+
+\hypertarget{a-susceptible-infected-recovered-model-with-demography}{%
+\subsection{A susceptible-infected-recovered model with
+demography}\label{a-susceptible-infected-recovered-model-with-demography}}
+
+\label{sec:sir}
+
+We consider a simple S-I-R model in which mortality in all classes is
+counterbalanced by the birth of susceptible individuals:
+
+\begin{equation}
+\label{eq:sir}
+\begin{cases}
+\begin{aligned}
+\dot{y}_1 = \delta - \delta y_1 - \beta y_1 y_2 &= y_1 \left(-\delta + \delta \frac{1}{y_1} - \beta y_2 \right)\\
+\dot{y}_2 = - (\delta + \gamma) y_2 + \beta y_1 y_2 &= y_2 \left(-(\delta + \gamma) + \beta y_1 \right)\\
+\dot{y_3} = \gamma y_2 - \delta y_3 &= y_3 \left(-\delta + \gamma \frac{y_2}{y_3} \right)
+\end{aligned}
+\end{cases}
+\end{equation}
+
+where \(y_1\) represents the proportion of susceptible individuals in
+the population, \(y_2\) that of the infected/infectious individuals, and
+\(y_3\) the recovered individuals. The parameter \(\delta\) serves both
+as a birth rate for the population, and as the mortality rate in each
+compartment, \(\beta\) is the transmission rate, and \(\gamma\) the
+recovery rate. We have \(y_1 + y_2 + y_3 = 1\). It is well known that if
+the critical threshold
+\(\mathcal R_0 = \frac{\beta}{\gamma + \delta} > 1\), the model has a
+globally stable endemic equilibrium in which a constant proportion of
+individuals is infected.
+
+At the endemic equilibrium, we have \(y_1^\star = 1 / \mathcal R_0\),
+\(y_2^\star = (\mathcal R_0 - 1) \delta / (\delta + \gamma)\), and
+\(y_2^\star = (\mathcal R_0 - 1) \gamma / (\delta + \gamma)\), such that
+the equilibrium is feasible only if \(\mathcal R_0 >1\).
+
+We write the model as a four-dimensional GLV system, and probe the
+stability of the endemic equilibrium assuming that it is positive.
+First, we identify the quasi-monomials and associated matrices and
+vectors:
+
+\begin{equation}
+\begin{aligned}
+x = \begin{pmatrix}
+y_1\\
+y_2\\
+\frac{1}{y_1}\\
+\frac{y_2}{y_3}
+\end{pmatrix}
+\quad
+s = \begin{pmatrix}
+-\delta \\
+-\delta - \gamma \\
+-\delta
+\end{pmatrix}
+\quad
+M = \begin{pmatrix}
+0 & -\beta & \delta & 0\\
+\beta & 0 & 0 & 0 \\
+0 & 0 & 0 & \gamma
+\end{pmatrix}
+\quad
+B = \begin{pmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+-1 & 0 & 0\\
+0 & 1 & -1
+\end{pmatrix}
+\\
+r = \begin{pmatrix}
+-\delta \\
+-\delta - \gamma \\
+\delta\\
+-\gamma
+\end{pmatrix}
+\quad 
+A = \begin{pmatrix}
+0 & -\beta & \delta & 0 \\
+\beta & 0 & 0 & 0\\
+0 & \beta & -\delta & 0 \\
+\beta & 0 & 0 & -\gamma
+\end{pmatrix}
+\end{aligned}
+\end{equation}
+
+Now consider the candidate Lyapunov function with weights
+\(w = (1,1,0,0)^T\), and the perturbations
+\(\Delta x = (y_1 - y_1^\star, y_2 - y_2^\star, 1/y_1 - 1 / y_1^\star, y_2 / y_3 - y_2^\star / y_3^\star)^T\).
+Deriving with respect to time, we obtain:
+
+\begin{equation}
+\dot{V} = \frac{1}{2} \Delta x^T (D(w) A + A^T D(w)) \Delta x =  - \delta \frac{(y_1 - y_1^\star)^2}{y_1 y_1^\star} \leq 0
+\end{equation}
+
+Note that this choice of weights does not result in a negative
+semi-definite matrix: the nonzero eigenvalues of \((D(w) A + A^T D(w))\)
+are \(\pm \delta / 2\).
+
+Because \(\dot{V} = 0\) whenever \(y_1 = y_1^\star\), to prove stability
+we need to make sure that the equilibrium is the only trajectory
+contained in the set of points satisfying \(\dot{V} = 0\).
+
+\textbf{LaSalle's}
+
+\hypertarget{stability-of-a-consumer-resource-model-with-inputs}{%
+\subsection{Stability of a consumer-resource model with
+inputs}\label{stability-of-a-consumer-resource-model-with-inputs}}
+
+We consider a model with \(2n\) equations, equally divided into
+resources (\(z_i\)) and consumers (\(y_i\)). The model can be written
+as:
+
+\begin{equation}
+\label{eq:cr}
+\begin{cases}
+\dot{z}_i = \kappa_i - \delta_i z_i - z_i \sum_j C_{ij} y_j\\
+\dot{y}_i = - \mu_i y_i + y_i \epsilon_i \sum_j C_{ji} z_j
+\end{cases}
+\end{equation}
+
+where \(\kappa_i\) is the input to resource \(i\), \(\delta_i\) its
+degradation rate, \(C_{ij}\) the consumption of \(i\) by consumer \(j\),
+\(\mu_i\) the mortality rate of consumer \(i\), and \(\epsilon_i\) the
+efficiency of transformation of resources into consumers. We want to
+show that, whenever a feasible equilibrium exists, it is globally
+stable.
+
+We identify \(3n\) quasi-monomials: \(x_i = z_i\) for
+\(i \in \{1, \ldots, n\}\), \(x_i = y_i\) for
+\(i \in \{n + 1, \ldots, 2 n\}\), and finally \(x_i = 1 / z_i\) for
+\(i \in \{2 n + 1, \ldots, 3 n\}\). This allows us to rewrite the system
+in Eq. \ref{eq:cr} as a QP-system defined by:
+
+\begin{equation}
+\label{eq:crqp}
+s = \begin{pmatrix}
+-\delta \\
+-\mu \\
+\end{pmatrix} \quad 
+M = \begin{pmatrix}
+0_{n \times n} & -C & D(\kappa)\\
+D(\epsilon)C^T & 0_{n \times n} & 0_{n \times n}
+\end{pmatrix} \quad
+B = \begin{pmatrix}
+I_n & 0_{n \times n}\\
+0_{n \times n} & I_n\\
+-I_n & 0_{n \times n}
+\end{pmatrix}
+\end{equation}
+
+where \(0_{n \times n}\) is a matrix of size \(n \times n\) containing
+zeros, \(I_n\) is the identity matrix of size \(n\) and \(D(\theta)\)
+the diagonal matrix with \(\theta\) on the diagonal. We rewrite the
+system as a \(3n-\)dimensional GLV defined by:
+
+\begin{equation}
+r = B s = \begin{pmatrix}
+-\delta \\
+-\mu \\
+\delta
+\end{pmatrix} \quad
+A = B M = \begin{pmatrix}
+0_{n \times n} & -C & D(\kappa)\\
+D(\epsilon) C^T & 0_{n \times n} & 0_{n \times n}\\
+0_{n \times n} & C & -D(\kappa)
+\end{pmatrix}
+\end{equation}
+
+We now consider the candidate Lyapunov function in Eq. \ref{eq:goh} with
+weights \(w = (1_n, 1 / \epsilon, 0_n)\). Our matrix \(G\) becomes:
+
+\begin{equation}
+G = \frac{1}{2}(D(w) A + A^T D(w)) = \begin{pmatrix}
+0_{n \times n} & 0_{n \times n} & \frac{1}{2} D(\kappa)\\
+0_{n \times n} & 0_{n \times n} & 0_{n \times n}\\
+\frac{1}{2} D(\kappa) & 0_{n \times n} & 0_{n \times n}
+\end{pmatrix}
+\end{equation}
+
+The matrix is clearly non negative semi-definite. And yet, when we
+consider the perturbations:
+\(\Delta x = (z - z^\star, y - y^\star, 1 / z - 1 / z^\star)^T\), the
+derivative with respect to time in Eq. \ref{eq:stabcond} reduces to:
+
+\begin{equation}
+\dot{V} = \sum_i k_i (z_i - z_i^\star) \left( \frac{1}{z_i} - \frac{1}{z_i^\star} \right) = - \sum_i \frac{k_i}{z_i z_i^\star} (z_i - z_i^\star)^2 \leq 0
+\end{equation}
+
+\textbf{TODO LaSalle's}
+
+\hypertarget{reducing-nonlinearities-in-a-model-with-higher-order-interactions}{%
+\subsection{Reducing nonlinearities in a model with higher-order
+interactions}\label{reducing-nonlinearities-in-a-model-with-higher-order-interactions}}
+
+\label{sec:hoi}
+
+The last few years have seen a resurgence in the interest for so-called
+higher-order interactions. When including interactions of more than two
+populations at a time, dynamics can be altered dramatically. For
+example, Grilli \textit{et al.} showed stabilization for the replicator
+equation when three or more players interact. The simplest model is that
+for a replicator equation describing a three-player game of
+rock-paper-scissors:
+
+\begin{equation}
+\label{eq:rpshoi}
+\begin{cases}
+\dot{y}_1 = y_1 (2 y_3^2 + y_1 y_3 - 2 y_1 y_2 - y_2^2)\\
+\dot{y}_2 = y_2 (2 y_1^2 + y_1 y_2 - 2 y_2 y_3 - y_3^2)\\
+\dot{y}_3 = y_3 (2 y_2^2 + y_2 y_3 - 2 y_1 y_3 - y_2^2)
+\end{cases}
+\end{equation}
+
+with dynamics occurring on the simplex \(y_1 + y_2 + y_3 = 1\). The
+system has a single feasible equilibrium
+\(y_i^\star = \frac{1}{3} \quad \forall i\). Note that the system is in
+QP-form as defined by the monomials:
+
+\begin{equation}
+\label{eq:rpshoimon}
+x = 
+\begin{pmatrix}
+y_1^2\\ y_2^2 \\ y_3^2 \\ y_1 y_2 \\ y_1 y_3 \\ y_2 y_3
+\end{pmatrix} 
+\end{equation}
+
+and parameters
+
+\begin{equation}
+\label{eq:rpshoiqp}
+\lambda = \begin{pmatrix}
+0\\
+0\\
+0
+\end{pmatrix} \quad 
+M = \begin{pmatrix}
+0 & -1 & 2 & -2 & 1 & 0\\
+2 & 0 & -1 & 1 & 0 & -2\\
+-1 & 2 & 0 & 0 & -2 & 1
+\end{pmatrix} \quad
+B = \begin{pmatrix}
+2 & 0 & 0 \\
+0 & 2 & 0 \\
+0 & 0 & 2 \\
+1 & 1 & 0 \\
+1 & 0 & 1 \\
+0 & 1 & 1
+\end{pmatrix}
+\end{equation}
+
+As such, the model in Eq. \ref{eq:rpshoi} with three variables
+(equivalent to two equations, given the constrain of dynamics happening
+in the simplex) and higher-order interactions can be recast as a GLV
+model with six variables, and parameters:
+
+\begin{equation}
+r = B \lambda = \vec{0}
+\quad
+A = B M = \begin{pmatrix}
+0 & -2 & 4 & -4 & 2 & 0 \\ 
+4 & 0 & -2 & 2 & 0 & -4 \\ 
+-2 & 4 & 0 & 0 & -4 & 2 \\ 
+2 & -1 & 1 & -1 & 1 & -2 \\ 
+-1 & 1 & 2 & -2 & -1 & 1 \\ 
+1 & 2 & -1 & 1 & -2 & -1
+\end{pmatrix}
+\end{equation}
+
+Note that matrix \(A\) has eigenvalues
+\(-\frac{3}{2}(1 \pm 3 \sqrt{3})\) and an additional four eigenvalues
+equal to zero (i.e., it has rank 2, the number of independent equations
+in the original system).
+
+By choosing the candidate Lyapunov in Eq. \ref{eq:goh} function with
+weights \(\gamma = (1,1,1, 2,2,2)^T\) and considering the perturbations
+\(\Delta x = (y_1^2 - {y_1^\star}^2, y_2^2 - {y_2^\star}^2, y_3^2 - {y_3^\star}^2, y_1 y_2 - y_1^\star y_2^\star, y_1 y_3 - y_1^\star y_3^\star, y_2 y_3 - y_2^\star y_3^\star)^T\),
+we obtain:
+
+\begin{equation}
+\dot{V} = -\frac{2}{3} \left(y_1^2 + y_2^2 + y_3^2 - y_1 y_2 -y_1 y_3 - y_2 y_3 \right) \leq 0
+\end{equation}
+
+\textbf{A good proof of this? It is definitely true}
+
+The derivative is thus negative for any \(0<y_i<1\) but the equilibrium
+point, proving the stability of the equilibrium.
 
 You can insert references. Here is some text (Kour and Saabne 2014b,
 2014a) and see Hadash et al. (2018).
-
-The documentation for \verb+natbib+ may be found at
-
-You can use custom blocks with LaTeX support from \textbf{rmarkdown} to
-create environment.
-
-\begin{center}
-\url{http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf\%7D}
-
-\end{center}
-
-Of note is the command \verb+\citet+, which produces citations
-appropriate for use in inline text.
-
-You can insert LaTeX environment directly too.
-
-\begin{verbatim}
-   \citet{hasselmo} investigated\dots
-\end{verbatim}
-
-produces
-
-\begin{quote}
-  Hasselmo, et al.\ (1995) investigated\dots
-\end{quote}
-
-\begin{center}
-  \url{https://www.ctan.org/pkg/booktabs}
-\end{center}
-
-\hypertarget{figures}{%
-\subsection{Figures}\label{figures}}
-
-You can insert figure using LaTeX directly.
-
-See Figure \ref{fig:fig1}. Here is how you add footnotes. {[}\^{}Sample
-of the first footnote.{]}
-
-\begin{figure}
-  \centering
-  \fbox{\rule[-.5cm]{4cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-  \caption{Sample figure caption.}
-  \label{fig:fig1}
-\end{figure}
-
-But you can also do that using R.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(mtcars}\SpecialCharTok{$}\NormalTok{mpg)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-\centering
-\includegraphics{GLV_embedding_files/figure-latex/fig2-1.pdf}
-\caption{Another sample figure}
-\end{figure}
-
-You can use \textbf{bookdown} to allow references for Tables and
-Figures.
-
-\hypertarget{tables}{%
-\subsection{Tables}\label{tables}}
-
-Below we can see how to use tables.
-
-See awesome Table\textasciitilde{}\ref{tab:table} which is written
-directly in LaTeX in source Rmd file.
-
-\begin{table}
- \caption{Sample table title}
-  \centering
-  \begin{tabular}{lll}
-    \toprule
-    \multicolumn{2}{c}{Part}                   \\
-    \cmidrule(r){1-2}
-    Name     & Description     & Size ($\mu$m) \\
-    \midrule
-    Dendrite & Input terminal  & $\sim$100     \\
-    Axon     & Output terminal & $\sim$10      \\
-    Soma     & Cell body       & up to $10^6$  \\
-    \bottomrule
-  \end{tabular}
-  \label{tab:table}
-\end{table}
-
-You can also use R code for that.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\FunctionTok{head}\NormalTok{(mtcars), }\AttributeTok{caption =} \StringTok{"Head of mtcars table"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{longtable}[]{@{}lrrrrrrrrrrr@{}}
-\caption{Head of mtcars table}\tabularnewline
-\toprule
-& mpg & cyl & disp & hp & drat & wt & qsec & vs & am & gear & carb \\
-\midrule
-\endfirsthead
-\toprule
-& mpg & cyl & disp & hp & drat & wt & qsec & vs & am & gear & carb \\
-\midrule
-\endhead
-Mazda RX4 & 21.0 & 6 & 160 & 110 & 3.90 & 2.620 & 16.46 & 0 & 1 & 4 &
-4 \\
-Mazda RX4 Wag & 21.0 & 6 & 160 & 110 & 3.90 & 2.875 & 17.02 & 0 & 1 & 4
-& 4 \\
-Datsun 710 & 22.8 & 4 & 108 & 93 & 3.85 & 2.320 & 18.61 & 1 & 1 & 4 &
-1 \\
-Hornet 4 Drive & 21.4 & 6 & 258 & 110 & 3.08 & 3.215 & 19.44 & 1 & 0 & 3
-& 1 \\
-Hornet Sportabout & 18.7 & 8 & 360 & 175 & 3.15 & 3.440 & 17.02 & 0 & 0
-& 3 & 2 \\
-Valiant & 18.1 & 6 & 225 & 105 & 2.76 & 3.460 & 20.22 & 1 & 0 & 3 & 1 \\
-\bottomrule
-\end{longtable}
-
-\hypertarget{lists}{%
-\subsection{Lists}\label{lists}}
-
-\begin{itemize}
-\tightlist
-\item
-  Item 1
-\item
-  Item 2
-\item
-  Item 3
-\end{itemize}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}

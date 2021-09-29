@@ -1,0 +1,68 @@
+## Stability of a consumer-resource model with inputs
+
+We consider a model with $2n$ equations, equally divided into resources ($z_i$) and consumers ($y_i$). The model can be written as:
+
+\begin{equation}
+\label{eq:cr}
+\begin{cases}
+\dot{z}_i = \kappa_i - \delta_i z_i - z_i \sum_j C_{ij} y_j\\
+\dot{y}_i = - \mu_i y_i + y_i \epsilon_i \sum_j C_{ji} z_j
+\end{cases}
+\end{equation}
+
+where $\kappa_i$ is the input to resource $i$, $\delta_i$ its degradation rate, $C_{ij}$ the consumption of $i$ by consumer $j$, $\mu_i$ the mortality rate of consumer $i$, and $\epsilon_i$ the efficiency of transformation of resources into consumers. We want to show that, whenever a feasible equilibrium exists, it is globally stable.
+
+We identify $3n$ quasi-monomials: $x_i = z_i$ for $i \in \{1, \ldots, n\}$, $x_i = y_i$ for $i \in  \{n + 1, \ldots, 2 n\}$, and finally $x_i = 1 / z_i$ for $i \in  \{2 n + 1, \ldots, 3 n\}$. This allows us to rewrite the system in Eq. \ref{eq:cr} as a QP-system defined by:
+
+\begin{equation}
+\label{eq:crqp}
+s = \begin{pmatrix}
+-\delta \\
+-\mu \\
+\end{pmatrix} \quad 
+M = \begin{pmatrix}
+0_{n \times n} & -C & D(\kappa)\\
+D(\epsilon)C^T & 0_{n \times n} & 0_{n \times n}
+\end{pmatrix} \quad
+B = \begin{pmatrix}
+I_n & 0_{n \times n}\\
+0_{n \times n} & I_n\\
+-I_n & 0_{n \times n}
+\end{pmatrix}
+\end{equation}
+
+where $0_{n \times n}$ is a matrix of size $n \times n$ containing zeros, $I_n$ is the identity matrix of size $n$ and $D(\theta)$ the diagonal matrix with $\theta$ on the diagonal. We rewrite the system as a $3n-$dimensional GLV defined by:
+
+\begin{equation}
+r = B s = \begin{pmatrix}
+-\delta \\
+-\mu \\
+\delta
+\end{pmatrix} \quad
+A = B M = \begin{pmatrix}
+0_{n \times n} & -C & D(\kappa)\\
+D(\epsilon) C^T & 0_{n \times n} & 0_{n \times n}\\
+0_{n \times n} & C & -D(\kappa)
+\end{pmatrix}
+\end{equation}
+
+We now consider the candidate Lyapunov function in Eq. \ref{eq:goh} with weights $w = (1_n, 1 / \epsilon, 0_n)$. Our matrix $G$ becomes:
+
+\begin{equation}
+G = \frac{1}{2}(D(w) A + A^T D(w)) = \begin{pmatrix}
+0_{n \times n} & 0_{n \times n} & \frac{1}{2} D(\kappa)\\
+0_{n \times n} & 0_{n \times n} & 0_{n \times n}\\
+\frac{1}{2} D(\kappa) & 0_{n \times n} & 0_{n \times n}
+\end{pmatrix}
+\end{equation}
+
+The matrix is clearly non negative semi-definite. And yet, when we consider the perturbations: $\Delta x = (z - z^\star, y - y^\star, 1 / z - 1 / z^\star)^T$, the derivative with respect to time in Eq. \ref{eq:stabcond} reduces to:
+
+\begin{equation}
+\dot{V} = \sum_i k_i (z_i - z_i^\star) \left( \frac{1}{z_i} - \frac{1}{z_i^\star} \right) = - \sum_i \frac{k_i}{z_i z_i^\star} (z_i - z_i^\star)^2 \leq 0
+\end{equation}
+
+**TODO LaSalle's**
+
+
+

@@ -1,0 +1,75 @@
+## Reducing nonlinearities in a model with higher-order interactions
+\label{sec:hoi}
+
+The last few years have seen a resurgence in the interest for so-called higher-order interactions. When including interactions of more than two populations at a time, dynamics can be altered dramatically. For example, Grilli \textit{et al.} showed stabilization for the replicator equation when three or more players interact. The simplest model is that for a replicator equation describing a three-player game of rock-paper-scissors:
+
+\begin{equation}
+\label{eq:rpshoi}
+\begin{cases}
+\dot{y}_1 = y_1 (2 y_3^2 + y_1 y_3 - 2 y_1 y_2 - y_2^2)\\
+\dot{y}_2 = y_2 (2 y_1^2 + y_1 y_2 - 2 y_2 y_3 - y_3^2)\\
+\dot{y}_3 = y_3 (2 y_2^2 + y_2 y_3 - 2 y_1 y_3 - y_2^2)
+\end{cases}
+\end{equation}
+
+with dynamics occurring on the simplex $y_1 + y_2 + y_3 = 1$. The system has a single feasible equilibrium $y_i^\star = \frac{1}{3} \quad \forall i$. Note that the system is in QP-form as defined by the monomials:
+
+\begin{equation}
+\label{eq:rpshoimon}
+x = 
+\begin{pmatrix}
+y_1^2\\ y_2^2 \\ y_3^2 \\ y_1 y_2 \\ y_1 y_3 \\ y_2 y_3
+\end{pmatrix} 
+\end{equation}
+
+and parameters
+
+\begin{equation}
+\label{eq:rpshoiqp}
+\lambda = \begin{pmatrix}
+0\\
+0\\
+0
+\end{pmatrix} \quad 
+M = \begin{pmatrix}
+0 & -1 & 2 & -2 & 1 & 0\\
+2 & 0 & -1 & 1 & 0 & -2\\
+-1 & 2 & 0 & 0 & -2 & 1
+\end{pmatrix} \quad
+B = \begin{pmatrix}
+2 & 0 & 0 \\
+0 & 2 & 0 \\
+0 & 0 & 2 \\
+1 & 1 & 0 \\
+1 & 0 & 1 \\
+0 & 1 & 1
+\end{pmatrix}
+\end{equation}
+
+As such, the model in Eq. \ref{eq:rpshoi} with three variables (equivalent to two equations, given the constrain of dynamics happening in the simplex) and higher-order interactions can be recast as a GLV model with six variables, and parameters:
+
+\begin{equation}
+r = B \lambda = \vec{0}
+\quad
+A = B M = \begin{pmatrix}
+0 & -2 & 4 & -4 & 2 & 0 \\ 
+4 & 0 & -2 & 2 & 0 & -4 \\ 
+-2 & 4 & 0 & 0 & -4 & 2 \\ 
+2 & -1 & 1 & -1 & 1 & -2 \\ 
+-1 & 1 & 2 & -2 & -1 & 1 \\ 
+1 & 2 & -1 & 1 & -2 & -1
+\end{pmatrix}
+\end{equation}
+
+Note that matrix $A$ has eigenvalues $-\frac{3}{2}(1 \pm 3 \sqrt{3})$ and an additional four eigenvalues equal to zero (i.e., it has rank 2, the number of independent equations in the original system).
+
+By choosing the candidate Lyapunov in Eq. \ref{eq:goh} function with weights $\gamma = (1,1,1, 2,2,2)^T$ and considering the perturbations $\Delta x = (y_1^2 - {y_1^\star}^2, y_2^2 - {y_2^\star}^2, y_3^2 - {y_3^\star}^2, y_1 y_2 - y_1^\star y_2^\star, y_1 y_3 - y_1^\star y_3^\star, y_2 y_3 - y_2^\star y_3^\star)^T$, we obtain:
+
+\begin{equation}
+\dot{V} = -\frac{2}{3} \left(y_1^2 + y_2^2 + y_3^2 - y_1 y_2 -y_1 y_3 - y_2 y_3 \right) \leq 0
+\end{equation}
+
+**A good proof of this? It is definitely true**
+
+The derivative is thus negative for any $0<y_i<1$ but the equilibrium point, proving the stability of the equilibrium.
+
