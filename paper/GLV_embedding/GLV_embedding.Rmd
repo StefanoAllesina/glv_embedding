@@ -29,7 +29,7 @@ output: rticles::arxiv_article
 
 # Introduction
 
-Blah, blah
+Several models for ecological, evolutionary, and epidemiological dynamics can be recast as a Generalized Lotka-Volterra model via the so-called *quasi-monomial transformation*. This transformation was discovered in the late 1980s at least three times (as far as we can tell, independently) by different authors  [@peschel1986predator, @brenig1988complete, @gouze1990transformation]. 
 
 # Generalized Lotka-Volterra model
 \label{sec:glv}
@@ -42,18 +42,20 @@ Blah, blah
 # Quasi-Polynomial systems
 \label{sec:qp}
 
-We now introduce a generalization of Eq. \ref{eq:glv}, which defines the class of quasi-polynomial systems (QP-systems):
+We now introduce a generalization of Eq. \ref{eq:glv}, defining the class of quasi-polynomial systems (QP-systems):
 
 \begin{equation}
 \label{eq:qp}
 \dot{y}_i = y_i \left( s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}} \right)
 \end{equation}
 
-where we have $n$ equations, $\dot{y}_1, \ldots, \dot{y}_n$, $s$ is a vector of length $n$; $M$ is a matrix of size $n \times m$ containing real coefficients, and $B$ a matrix of size $m \times n$, also containing real coefficients. If $n = m$, and thus $M$ is a square matrix, and $B=I_n$ the model reduces to the Generalized Lotka-Volterra model in Eq. \ref{eq:glv} with $r = s$ and $A = M$. If $B$ contains only integers, Eq. \ref{eq:qp} defines a *polynomial* system of differential equations; relaxing this condition to admit $B$ composed of real numbers, we obtain a *quasi-polynomial* (QP-) system.
+where we have $n$ equations, $\dot{y}_1, \ldots, \dot{y}_n$. The vector $s$ is of length $n$, $M$ is a matrix of size $n \times m$ containing real coefficients, and $B$ a matrix of size $m \times n$, also containing real coefficients. If $n = m$, and thus both $M$ and $B$ are square matrices, and further that $B=I_n$ (the identity matrix of size $n$), the model reduces to the Generalized Lotka-Volterra model in Eq. \ref{eq:glv} with $r = s$ and $A = M$. If $B$ contains only integers, Eq. \ref{eq:qp} defines a *polynomial* system of differential equations; relaxing this condition to admit $B$ composed of real numbers, we obtain a *quasi-polynomial* (QP-) system.
 
 ****
 
 **QP-representation of Leslie-Gower predator-prey model**
+
+The Leslie-Gower model is simple variation on the classic Lotka-Volterra predator-prey model. We have two equations:
 
 \begin{equation}
 \label{eq:lg}
@@ -63,7 +65,7 @@ where we have $n$ equations, $\dot{y}_1, \ldots, \dot{y}_n$, $s$ is a vector of 
 \end{cases}
 \end{equation}
 
-with $y_1$ being the prey, $y_2$ the predator, and all coefficients positive. The system differs from GLV in that we have a ratio between the predator and prey in the equation for the predator. The system is however in QP form, as seen by defining:
+with $y_1$ representing the prey, $y_2$ the predator, and all coefficients are assumed to be positive. The system differs from GLV in that we have a ratio between the predator and prey in the equation for the predator. The system is however in QP form, as seen by defining:
 
 \begin{equation}
 \label{eq:lgqp}
@@ -94,6 +96,14 @@ We define a set of $m$ *quasi-monomials*:
 x_j = \prod_{k=1}^n y_k^{B_{jk}}
 \end{equation}
 
+A simple way to identify quasi-monomials for any system that can be written in QP form is to consider the per capita dynamics:
+
+\begin{equation}
+\dot{\log y}_i = \frac{\dot{y}_i}{y_i} = s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}}
+\end{equation}
+
+As such, the set of variables, or product of powers of variables, appearing in the equations for the equations $\dot{\log y}_i$  defines the quasi-monomials $x$.
+
 ****
 
 **Quasi-monomials for the Leslie-Gower model**
@@ -111,7 +121,7 @@ x_3 = y_1^{-1} \, y_2^1 = \frac{y_2}{y_1}
 
 ****
 
-By chain rule, we have:
+Now we show how the $n-$dimensional QP-system of differential equations in Eq. \ref{eq:qp} can be recast as an $m-$dimensional GLV system in Eq. \ref{eq:glv}. By chain rule, we have:
 
 \begin{equation}
 \label{eq:quasimonodt}
@@ -127,7 +137,7 @@ By chain rule, we have:
 \end{aligned}
 \end{equation}
 
-where we have defined $A = BM$ and $r = B s$, $(Bs)_j$ is the $j^{\text{th}}$ element of the vector $Bs$ and $(B M)_{jl}$ is the coefficient in row $j$ and column $l$ of the matrix $BM$. 
+where we have defined $A = BM$ and $r = B s$; $(Bs)_j$ is the $j^{\text{th}}$ element of the vector $Bs$ and $(B M)_{jl}$ is the coefficient in row $j$ and column $l$ of the matrix $BM$. 
 
 Via the quasi-monomial transformation in Eq. \ref{eq:quasimono} we have turned the $n-$dimensional QP-system in Eq. \ref{eq:qp} into an $m-$dimensional GLV system in Eq. \ref{eq:glv}.
 
@@ -153,11 +163,24 @@ A = B M = \begin{pmatrix}
 
 Note that $A$ is rank deficient, given that the third row can be written as the difference between the second and first row. Rank-deficiency of $A$ is expected whenever $m > n$ (as here, where we went from two to three equations).
 
+The GLV representation of the model becomes:
+
+\begin{equation}
+\label{eq:lgglv}
+\begin{cases}
+\dot{x}_1 = x_1 (\rho_1 - x_1 - \alpha_1 x_2)\\
+\dot{x}_2 = x_2 (\rho_2 - \alpha_2 x_3)\\
+\dot{x}_3 = x_3 (\rho_2 - \rho_1 + \alpha_1 x_1 - \alpha_2 x_3)
+\end{cases}
+\end{equation}
+
 ****
 
 # Stability in Generalized Lotka-Volterra
 
 ## Lyapunov's direct method
+
+Provided with a dynamical system $\dot{y}_i$ 
 
 ## Candidate Lyapunov function for Generalized-Lotka Volterra
 
@@ -179,21 +202,47 @@ where each $V_{x_i} > 0$ for any positive $x_i \neq x_i^\star$ and zero at the e
 \label{eq:gohstab}
 \begin{aligned}
 \dot{V} =& \sum_i w_i \left(\dot{x}_i - x_i^\star \dot{\log x_i} \right)\\
- =& \sum_i w_i \left(x_i \sum_{j} A_{ij} \Delta x_j - x_i^\star A_{ij} \Delta x_j \right)\\
+ =& \sum_i w_i \left(x_i \sum_{j} A_{ij} \Delta x_j - x_i^\star \sum_j A_{ij} \Delta x_j \right)\\
  =& \sum_i w_i \left(\Delta x_i \sum_{j} A_{ij} \Delta x_j \right)\\
  =& \sum_i \Delta x_i w_i \sum_j A_{ij} \Delta x_j\\
  =& \sum_i \sum_j w_i A_{ij} \Delta x_i \Delta x_j
 \end{aligned}
 \end{equation}
 
-Note that in the sum over $i$ and $j$, only the symmetric part of the matrix $D(w) A = (w_i A_{ij})$ matters (the skew symmetric part cancels). It is therefore convenient to define a new, symmetric matrix $G =\frac{1}{2} (D(w)A + A^t D(w))$, so that our expression becomes:
+Note that in the sum over $i$ and $j$, only the symmetric part of the matrix $D(w) A = (w_i A_{ij})$ matters (the skew symmetric part cancels). It is therefore convenient to define a new, symmetric matrix $G =\frac{1}{2} (D(w)A + A^T D(w))$, so that our expression becomes:
 
 \begin{equation}
 \label{eq:stabcond}
-\dot{V} = \sum_i \sum_j G_{ij} \Delta x_i \Delta x_j
+\dot{V} = \frac{1}{2}\sum_i \sum_j (w_i A_{ij} + A_{ji} w_j) \Delta x_i \Delta x_j = \sum_i \sum_j G_{ij} \Delta x_i \Delta x_j
 \end{equation}
 
 A symmetric matrix $G$ satisfying $z^T G z = \sum_i \sum_j G_{ij} z_i z_j < 0$ for every $z \neq 0$ is called *negative definite*. If the sum can be zero for some $z \neq 0$, $G$ is called *negative semi-definite*. A symmetric, negative definite matrix has all eigenvalues real and negative; in a negative semi-definite matrix eigenvalues can be zero. As such, if we can identify suitable, positive (nonnegative) weights $w$ such that $G$ is negative (semi-)definite, then $\dot{V} \leq 0$ and we can prove the stability of the equilibrium $x^\star$.
+
+## Stability in QP-systems
+
+In the Generalized Lotka-Volterra model in Eq. \ref{eq:glv}, the variables $x_i$ can in principle take any positive value (at least as an initial condition), and therefore each $\Delta x_i$ is radially unbounded: $\Delta x_i \in [-x_i^\star, \infty)$; moreover, we can set (again, at least initially) each $x_i$ to any arbitrary value, irrespective of the value of the rest of the $x_j$. In such a setting, it is therefore difficult to prove stability via Eq. \ref{eq:stabcond} if the matrix $G$ is not negative (semi-)definite. 
+
+Note however that, when we represent an $n-$dimensional QP-system using an $m-$dimensional GLV system, the quasi monomials $x_i$ are function of the original variables $y_i$. This in turn means that the perturbations in the GLV system are a function of the perturbations in the original system: in particular $\Delta x_i  = \prod_{k=1}^n y_k^{B_{ik}} - \prod_{k=1}^n (y_k^\star)^{B_{ik}}$.
+
+In practice, this means that not all perturbations $\Delta x$ are allowed---rather, only those compatible with the definition of the quasi-monomials. In turn, this means that we could (and often will) find nonnegative weights in Eq. \ref{eq:stabcond} such that $\dot{V} \leq 0$ and yet the matrix $G$ *is not negative semi-definite*. In such cases, $G$ *acts* like a negative semi-definite matrix on the *admissible* perturbations, i.e., those abiding by the form specified by the quasi-monomials. 
+
+****
+
+**Stability of the Leslie-Gower model**
+
+We consider the candidate Lyapunov function in Eq. \ref{eq:goh} for the QP-representation of the Leslie-Gower model (Eq. \ref{eq:lgglv}). A convenient choice of weights is $w = (0, \rho_1 \alpha_1 + \alpha_2, \rho_2 \alpha_2 )^T$, yielding:
+
+\begin{equation}
+G =\frac{1}{2} (D(w)A + A^T D(w)) =
+\begin{pmatrix}
+0 & 0 & \frac{\rho_2 \alpha_2}{2} \\
+0 & 0 & -\frac{\alpha_2^2}{2} \\
+\frac{\rho_2 \alpha_2}{2} & -\frac{\alpha_2^2}{2} & -\rho_2 \alpha_2^2
+\end{pmatrix}
+\end{equation}
+
+****
+
 
 # Examples
 
@@ -210,6 +259,10 @@ A symmetric matrix $G$ satisfying $z^T G z = \sum_i \sum_j G_{ij} z_i z_j < 0$ f
 ```
 
 
+
+## Commented bibliography
+
+Thesis @szederkenyi2012computational and book @szederkenyi2018analysis
 
 
 
