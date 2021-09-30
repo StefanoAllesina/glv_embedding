@@ -91,10 +91,56 @@ Enter the text of your abstract here.
 \section{Introduction}\label{introduction}}
 
 Several models for ecological, evolutionary, and epidemiological
-dynamics can be recast as a Generalized Lotka-Volterra model via the
-so-called \emph{quasi-monomial transformation}. This fact was discovered
-at least three times (as far as we can tell, independently) by different
-authors in the late '80s (Peschel and Mende 1986).
+dynamics can be recast as a Generalized Lotka-Volterra (GLV) model via
+the so-called \emph{quasi-monomial transformation}. This transformation
+was discovered in the late 1980s at least three times (as far as we can
+tell, independently) by different authors (Peschel and Mende 1986;
+Brenig 1988; Gouzé 1990). A large class of dynamical models, called
+\emph{quasi-polynomial} (QP) systems can be recast as a (typically
+larger-dimensional) GLV in a straightforward, mechanical manner. Other
+systems that do not belong to this class can be first transformed into
+QP systems, and then in turn into GLV. This shows that the Generalized
+Lotka-Volterra model is not only one of the oldest models in ecology--it
+was originally proposed by in 1920 by Lotka (Lotka 1920a, 1920b), and
+rediscovered by Volterra in 1926 (Volterra 1926a, 1926b)--, but a
+somewhat \emph{universal} model, arising in a variety of fields and
+problems.
+
+The transformation was studied, extended and applied in numerous
+articles, and summarized in reviews (Rocha Filho et al. 2005; Brenig
+2018) and books (Szederkényi 2012; Szederkenyi, Magyar, and Hangos
+2018). Despite the wealth of literature on the subject, applications in
+theoretical ecology have been so far quite limited (but see Miller and
+Allesina (2021)).
+
+The goal of this work is to provide a concise, self-contained
+introduction to the transformation, illustrated with a number of
+examples taken from the ecological, evolutionary and epidemiological
+theory, with the hope of popularizing what is a powerful,
+straightforward approach. The material requires some basic familiarity
+with differential equations and linear algebra; any advanced concept is
+explained in detail--though not to the level of formalism encountered in
+the mathematical literature. Throughout, we emphasize applications to
+the problem of determining stability of a biological system via
+Lyapunov's direct method.
+
+While most of the material is a review or re-elaboration of published
+results, we provide two original contributions: first, we show that
+stability can often be proven in a straightforward way by considering
+that the perturbations of the transformed system are constrained by the
+perturbations of the original system--and have therefore a particular
+form; second, we discuss at length the (and provide code for) numerical
+approaches that can be implemented to facilitate proving stability via
+this transformation.
+
+We start by deriving the transformation of QP systems into GLV, using
+the Leslie-Gower predator-prey model as an example; next, we analyze
+FIVE? models taken from the ecological, evolutionary and epidemiological
+literature, using the transformation to prove global asymptotic
+stability; we then show how non-QP systems can be turned into GLV via
+auxiliary variables; we conclude by briefly discussing more advanced
+techniques. The Appendix discusses numerical approaches meant to
+facilitate the application of this methods to the system of interest.
 
 \hypertarget{generalized-lotka-volterra-model}{%
 \section{Generalized Lotka-Volterra
@@ -102,10 +148,31 @@ model}\label{generalized-lotka-volterra-model}}
 
 \label{sec:glv}
 
+The Generalized Lotka-Volterra model for \(m\) interacting populations
+can be written as:
+
 \begin{equation}
 \label{eq:glv}
 \dot{x}_i = x_i \left(r_i + \sum_{j=1}^m A_{ij} x_j \right)
 \end{equation}
+
+where \(\dot{x}_i\) is the derivative with respect to time of the size
+(or density) of population \(i\), \(r\) is a vector of length \(m\)
+containing the intrinsic growth rates (for producers) or mortality rates
+(for consumers), and \(A\) is an \(m \times m\) matrix whose
+coefficients \(A_{ij}\) measure the effect of population \(j\) on the
+growth of population \(i\).
+
+This set of equations admits up to \(2^m\) equilibria (i.e., choices of
+\(x\) such that \(\dot{x}_i = 0\) for all \(i\)), in which some of the
+populations are present at positive density (called \emph{feasible}),
+and others are absent. If there is a feasible equilibrium encompassing
+all populations, it is called the coexistence equilibrium, which we
+indicate as \(x^\star\). If the matrix \(A\) is of full rank, the
+coexistence equilibrium is unique and can be computed as
+\(x^\star = -A^{-1}r\). The existence of an equilibrium is necessary,
+but not sufficient for coexistence in the model. For a review of the GLV
+system, and closely related models, see Hofbauer and Sigmund (1998).
 
 \hypertarget{quasi-polynomial-systems}{%
 \section{Quasi-Polynomial systems}\label{quasi-polynomial-systems}}
@@ -124,20 +191,18 @@ where we have \(n\) equations, \(\dot{y}_1, \ldots, \dot{y}_n\). The
 vector \(s\) is of length \(n\), \(M\) is a matrix of size
 \(n \times m\) containing real coefficients, and \(B\) a matrix of size
 \(m \times n\), also containing real coefficients. If \(n = m\), and
-thus both \(M\) and \(B\) are square matrices, and further that
-\(B=I_n\) (the identity matrix of size \(n\)), the model reduces to the
+thus both \(M\) and \(B\) are square matrices, and further \(B=I_n\)
+(the identity matrix of size \(n\)), the model reduces to the
 Generalized Lotka-Volterra model in Eq. \ref{eq:glv} with \(r = s\) and
 \(A = M\). If \(B\) contains only integers, Eq. \ref{eq:qp} defines a
 \emph{polynomial} system of differential equations; relaxing this
-condition to admit \(B\) composed of real numbers, we obtain a
+condition to allow any \(B\) composed of real numbers, we obtain a
 \emph{quasi-polynomial} (QP-) system.
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
+\begin{cb}
 \textbf{QP-representation of Leslie-Gower predator-prey model}
 
-The Leslie-Gower model is simple variation on the classic Lotka-Volterra
-predator-prey model. We have two equations:
+The Leslie-Gower model is simple variation on the classic Lotka-Volterra predator-prey model. We have two equations:
 
 \begin{equation}
 \label{eq:lg}
@@ -147,10 +212,7 @@ predator-prey model. We have two equations:
 \end{cases}
 \end{equation}
 
-with \(y_1\) representing the prey, \(y_2\) the predator, and all
-coefficients are assumed to be positive. The system differs from GLV in
-that we have a ratio between the predator and prey in the equation for
-the predator. The system is however in QP form, as seen by defining:
+with $y_1$ representing the prey, $y_2$ the predator, and all coefficients are assumed to be positive. The system differs from GLV in that we have a ratio between the predator and prey in the equation for the predator. The system is however in QP form, as seen by defining:
 
 \begin{equation}
 \label{eq:lgqp}
@@ -169,7 +231,7 @@ B = \begin{pmatrix}
 \end{pmatrix}
 \end{equation}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\end{cb}
 
 \hypertarget{from-quasi-polynomial-to-generalized-lotka-volterra}{%
 \section{From Quasi-Polynomial to Generalized
@@ -191,16 +253,14 @@ written in QP form is to consider the per capita dynamics:
 \dot{\log y}_i = \frac{\dot{y}_i}{y_i} = s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}}
 \end{equation}
 
-As such, the set of variables, or product of powers of variables,
-appearing in the equations for the equations \(\dot{\log y}_i\) defines
-the quasi-monomials \(x\).
+As such, the set of variables, or product of powers of variables
+appearing in the equations for \(\dot{\log y}_i\) defines a
+quasi-monomials in \(x\).
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
+\begin{cb}
 \textbf{Quasi-monomials for the Leslie-Gower model}
 
-For the Leslie-Gower model in Eq. \ref{eq:lg} we identify three
-quasi-monomials:
+For the Leslie-Gower model in Eq. \ref{eq:lg} we identify three quasi-monomials:
 
 \begin{equation}
 \label{eq:lgqm}
@@ -211,7 +271,7 @@ x_3 = y_1^{-1} \, y_2^1 = \frac{y_2}{y_1}
 \end{cases}
 \end{equation}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\end{cb}
 
 Now we show how the \(n-\)dimensional QP-system of differential
 equations in Eq. \ref{eq:qp} can be recast as an \(m-\)dimensional GLV
@@ -235,17 +295,10 @@ where we have defined \(A = BM\) and \(r = B s\); \((Bs)_j\) is the
 \(j^{\text{th}}\) element of the vector \(Bs\) and \((B M)_{jl}\) is the
 coefficient in row \(j\) and column \(l\) of the matrix \(BM\).
 
-Via the quasi-monomial transformation in Eq. \ref{eq:quasimono} we have
-turned the \(n-\)dimensional QP-system in Eq. \ref{eq:qp} into an
-\(m-\)dimensional GLV system in Eq. \ref{eq:glv}.
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
+\begin{cb}
 \textbf{GLV representation of the Leslie-Gower model}
 
-We can represent the Leslie-Gower model in Eq. \ref{eq:lg} as a
-three-dimensional GLV model defined by the quasi-monomials in Eq.
-\ref{eq:lgqm} and:
+We can represent the Leslie-Gower model in Eq. \ref{eq:lg} as a three-dimensional GLV model defined by the quasi-monomials in Eq. \ref{eq:lgqm} and:
 
 \begin{equation}
 r = B s = \begin{pmatrix}
@@ -261,10 +314,7 @@ A = B M = \begin{pmatrix}
 \end{pmatrix}
 \end{equation}
 
-Note that \(A\) is rank deficient, given that the third row can be
-written as the difference between the second and first row.
-Rank-deficiency of \(A\) is expected whenever \(m > n\) (as here, where
-we went from two to three equations).
+Note that $A$ is rank deficient, given that the third row can be written as the difference between the second and first row. Rank-deficiency of $A$ is expected whenever $m > n$ (as here, where we went from two to three equations).
 
 The GLV representation of the model becomes:
 
@@ -277,7 +327,7 @@ The GLV representation of the model becomes:
 \end{cases}
 \end{equation}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\end{cb}
 
 \hypertarget{stability-in-generalized-lotka-volterra}{%
 \section{Stability in Generalized
@@ -375,14 +425,10 @@ semi-definite}. In such cases, \(G\) \emph{acts} like a negative
 semi-definite matrix on the \emph{admissible} perturbations, i.e., those
 abiding by the form specified by the quasi-monomials.
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
+\begin{cb}
 \textbf{Stability of the Leslie-Gower model}
 
-We consider the candidate Lyapunov function in Eq. \ref{eq:goh} for the
-QP-representation of the Leslie-Gower model (Eq. \ref{eq:lgglv}). A
-convenient choice of weights is
-\(w = (0, \rho_1 \alpha_1 + \alpha_2, \rho_2 \alpha_2 )^T\), yielding:
+We consider the candidate Lyapunov function in Eq. \ref{eq:goh} for the QP-representation of the Leslie-Gower model (Eq. \ref{eq:lgglv}). A convenient choice of weights is $w = (0, \rho_1 \alpha_1 + \alpha_2, \rho_2 \alpha_2 )^T$, yielding:
 
 \begin{equation}
 G =\frac{1}{2} (D(w)A + A^T D(w)) =
@@ -393,7 +439,7 @@ G =\frac{1}{2} (D(w)A + A^T D(w)) =
 \end{pmatrix}
 \end{equation}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\end{cb}
 
 \hypertarget{examples}{%
 \section{Examples}\label{examples}}
@@ -685,35 +731,70 @@ we obtain:
 The derivative is thus negative for any \(0<y_i<1\) but the equilibrium
 point, proving the stability of the equilibrium.
 
-You can insert references. Here is some text (Kour and Saabne 2014b,
-2014a) and see Hadash et al. (2018).
-
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
-\leavevmode\hypertarget{ref-hadash2018estimate}{}%
-Hadash, Guy, Einat Kermany, Boaz Carmeli, Ofer Lavi, George Kour, and
-Alon Jacovi. 2018. {``Estimate and Replace: A Novel Approach to
-Integrating Deep Neural Networks with Existing Applications.''}
-\emph{arXiv Preprint arXiv:1804.09028}.
+\leavevmode\hypertarget{ref-brenig1988complete}{}%
+Brenig, Léon. 1988. {``Complete Factorisation and Analytic Solutions of
+Generalized Lotka-Volterra Equations.''} \emph{Physics Letters A} 133
+(7-8): 378--82.
 
-\leavevmode\hypertarget{ref-kour2014fast}{}%
-Kour, George, and Raid Saabne. 2014a. {``Fast Classification of
-Handwritten on-Line Arabic Characters.''} In \emph{Soft Computing and
-Pattern Recognition (SoCPaR), 2014 6th International Conference of},
-312--18. IEEE.
+\leavevmode\hypertarget{ref-brenig2018reducing}{}%
+---------. 2018. {``Reducing Nonlinear Dynamical Systems to Canonical
+Forms.''} \emph{Philosophical Transactions of the Royal Society A:
+Mathematical, Physical and Engineering Sciences} 376 (2124): 20170384.
 
-\leavevmode\hypertarget{ref-kour2014real}{}%
----------. 2014b. {``Real-Time Segmentation of on-Line Handwritten
-Arabic Script.''} In \emph{Frontiers in Handwriting Recognition (ICFHR),
-2014 14th International Conference on}, 417--22. IEEE.
+\leavevmode\hypertarget{ref-gouze1990transformation}{}%
+Gouzé, Jean-Luc. 1990. {``Transformation of Polynomial Differential
+Systems in the Positive Orthant.''} PhD thesis, INRIA.
+
+\leavevmode\hypertarget{ref-hofbauer1998evolutionary}{}%
+Hofbauer, Josef, and Karl Sigmund. 1998. \emph{Evolutionary Games and
+Population Dynamics}. Cambridge university press.
+
+\leavevmode\hypertarget{ref-lotka1920analytical}{}%
+Lotka, Alfred J. 1920a. {``Analytical Note on Certain Rhythmic Relations
+in Organic Systems.''} \emph{Proceedings of the National Academy of
+Sciences} 6 (7): 410--15.
+
+\leavevmode\hypertarget{ref-lotka1920undamped}{}%
+---------. 1920b. {``Undamped Oscillations Derived from the Law of Mass
+Action.''} \emph{Journal of the American Chemical Society} 42 (8):
+1595--99.
+
+\leavevmode\hypertarget{ref-miller2021metapopulations}{}%
+Miller, Zachary R, and Stefano Allesina. 2021. {``Metapopulations with
+Habitat Modification.''} \emph{bioRxiv}.
 
 \leavevmode\hypertarget{ref-peschel1986predator}{}%
 Peschel, Manfred, and Werner Mende. 1986. \emph{The Predator-Prey Model:
 Do We Live in a Volterra World?} Springer.
 
+\leavevmode\hypertarget{ref-rocha2005lotka}{}%
+Rocha Filho, Tarcísio M, Iram M Gléria, Annibal Figueiredo, and Léon
+Brenig. 2005. {``The Lotka--Volterra Canonical Format.''}
+\emph{Ecological Modelling} 183 (1): 95--106.
+
+\leavevmode\hypertarget{ref-szederkenyi2018analysis}{}%
+Szederkenyi, Gabor, Attila Magyar, and Katalin M Hangos. 2018.
+\emph{Analysis and Control of Polynomial Dynamic Models with Biological
+Applications}. Academic Press.
+
+\leavevmode\hypertarget{ref-szederkenyi2012computational}{}%
+Szederkényi, Gábor. 2012. {``Computational Methods for the Analysis of
+Nonnegative Polynomial Systems.''} PhD thesis, MTA SZTAKI.
+
+\leavevmode\hypertarget{ref-volterra1926fluctuations}{}%
+Volterra, Vito. 1926a. {``Fluctuations in the Abundance of a Species
+Considered Mathematically.''} \emph{Nature} 118 (2972): 558--60.
+
+\leavevmode\hypertarget{ref-volterra1926variazioni}{}%
+---------. 1926b. {``Variazioni e Fluttuazioni Del Numero d'individui in
+Specie Animali Conviventi.''} \emph{Memorie Della Regia Accademia
+Nazionale Dei Lincei} 2: 31--113.
+
 \end{CSLReferences}
 
-\bibliographystyle{unsrt}
+\bibliographystyle{abbrv}
 \bibliography{references.bib}
 
 

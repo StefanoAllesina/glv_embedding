@@ -19,25 +19,41 @@ keywords:
   - Quasi-polynomial 
   - Lyapunov function
 bibliography: references.bib
-biblio-style: unsrt
+biblio-style: abbrv
 header-includes: 
   - \usepackage{amsmath}
   - \usepackage{xcolor}
   - \usepackage{fancybox}
 output: rticles::arxiv_article
+mainfont: Calibri Light
 ---
 
 # Introduction
 
-Several models for ecological, evolutionary, and epidemiological dynamics can be recast as a Generalized Lotka-Volterra model via the so-called *quasi-monomial transformation*. This transformation was discovered in the late 1980s at least three times (as far as we can tell, independently) by different authors  [@peschel1986predator, @brenig1988complete, @gouze1990transformation]. 
+Several models for ecological, evolutionary, and epidemiological dynamics can be recast as a Generalized Lotka-Volterra (GLV) model via the so-called *quasi-monomial transformation*. This transformation was discovered in the late 1980s at least three times (as far as we can tell, independently) by different authors  [@peschel1986predator; @brenig1988complete; @gouze1990transformation]. A large class of dynamical models, called *quasi-polynomial* (QP) systems can be recast as a (typically larger-dimensional) GLV in a straightforward, mechanical manner. Other systems that do not belong to this class can be first transformed into QP systems, and then in turn into GLV. This shows that the Generalized Lotka-Volterra model is not only one of the oldest models in ecology--it was originally proposed by in 1920 by Lotka [@lotka1920analytical; @lotka1920undamped], and rediscovered by Volterra in 1926 [@volterra1926fluctuations; @volterra1926variazioni]--, but a somewhat *universal* model, arising in a variety of fields and problems.
+
+
+The transformation was studied, extended and applied in numerous articles, and summarized in reviews [@rocha2005lotka; @brenig2018reducing] and books [@szederkenyi2012computational; @szederkenyi2018analysis]. Despite the wealth of literature on the subject, applications in theoretical ecology have been so far quite limited (but see @miller2021metapopulations). 
+
+The goal of this work is to provide a concise, self-contained introduction to the transformation, illustrated with a number of examples taken from the ecological, evolutionary and epidemiological theory, with the hope of popularizing what is a powerful, straightforward approach. The material requires some basic familiarity with differential equations and linear algebra; any advanced concept is explained in detail--though not to the level of formalism encountered in the mathematical literature. Throughout, we emphasize applications to the problem of determining stability of a biological system via Lyapunov's direct method.
+
+While most of the material is a review or re-elaboration of published results, we provide two original contributions: first, we show that stability can often be proven in a straightforward way by considering that the perturbations of the transformed system are constrained by the perturbations of the original system--and have therefore a particular form; second, we discuss at length the (and provide code for) numerical approaches that can be implemented to facilitate proving stability via this transformation.
+
+We start by deriving the transformation of QP systems into GLV, using the Leslie-Gower predator-prey model as an example; next, we analyze FIVE? models taken from the ecological, evolutionary and epidemiological literature, using the transformation to prove global asymptotic stability; we then show how non-QP systems can be turned into GLV via auxiliary variables; we conclude by briefly discussing more advanced techniques. The Appendix discusses numerical approaches meant to facilitate the application of this methods to the system of interest.
 
 # Generalized Lotka-Volterra model
 \label{sec:glv}
+
+The Generalized Lotka-Volterra model for $m$ interacting populations can be written as:
 
 \begin{equation}
 \label{eq:glv}
 \dot{x}_i = x_i \left(r_i + \sum_{j=1}^m A_{ij} x_j \right)
 \end{equation}
+
+where $\dot{x}_i$ is the derivative with respect to time of the size (or density) of population $i$, $r$ is a vector of length $m$ containing the intrinsic growth rates (for producers) or mortality rates (for consumers), and $A$ is an $m \times m$ matrix whose coefficients $A_{ij}$ measure the effect of population $j$ on the growth of population $i$. 
+
+This set of equations admits up to $2^m$ equilibria (i.e., choices of $x$ such that $\dot{x}_i = 0$ for all $i$), in which some of the populations are present at positive density (called *feasible*), and others are absent. If there is a feasible equilibrium encompassing all populations, it is called the coexistence equilibrium, which we indicate as $x^\star$. If the matrix $A$ is of full rank, the coexistence equilibrium is unique and can be computed as $x^\star = -A^{-1}r$. The existence of an equilibrium is necessary, but not sufficient for coexistence in the model. For a review of the GLV system, and closely related models, see @hofbauer1998evolutionary.
 
 # Quasi-Polynomial systems
 \label{sec:qp}
@@ -49,11 +65,10 @@ We now introduce a generalization of Eq. \ref{eq:glv}, defining the class of qua
 \dot{y}_i = y_i \left( s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}} \right)
 \end{equation}
 
-where we have $n$ equations, $\dot{y}_1, \ldots, \dot{y}_n$. The vector $s$ is of length $n$, $M$ is a matrix of size $n \times m$ containing real coefficients, and $B$ a matrix of size $m \times n$, also containing real coefficients. If $n = m$, and thus both $M$ and $B$ are square matrices, and further that $B=I_n$ (the identity matrix of size $n$), the model reduces to the Generalized Lotka-Volterra model in Eq. \ref{eq:glv} with $r = s$ and $A = M$. If $B$ contains only integers, Eq. \ref{eq:qp} defines a *polynomial* system of differential equations; relaxing this condition to admit $B$ composed of real numbers, we obtain a *quasi-polynomial* (QP-) system.
+where we have $n$ equations, $\dot{y}_1, \ldots, \dot{y}_n$. The vector $s$ is of length $n$, $M$ is a matrix of size $n \times m$ containing real coefficients, and $B$ a matrix of size $m \times n$, also containing real coefficients. If $n = m$, and thus both $M$ and $B$ are square matrices, and further $B=I_n$ (the identity matrix of size $n$), the model reduces to the Generalized Lotka-Volterra model in Eq. \ref{eq:glv} with $r = s$ and $A = M$. If $B$ contains only integers, Eq. \ref{eq:qp} defines a *polynomial* system of differential equations; relaxing this condition to allow any $B$ composed of real numbers, we obtain a *quasi-polynomial* (QP-) system.
 
-****
-
-**QP-representation of Leslie-Gower predator-prey model**
+\begin{cb}
+\textbf{QP-representation of Leslie-Gower predator-prey model}
 
 The Leslie-Gower model is simple variation on the classic Lotka-Volterra predator-prey model. We have two equations:
 
@@ -84,7 +99,7 @@ B = \begin{pmatrix}
 \end{pmatrix}
 \end{equation}
 
-****
+\end{cb}
 
 # From Quasi-Polynomial to Generalized Lotka-Volterra
 \label{sec:qptoglv}
@@ -102,11 +117,10 @@ A simple way to identify quasi-monomials for any system that can be written in Q
 \dot{\log y}_i = \frac{\dot{y}_i}{y_i} = s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}}
 \end{equation}
 
-As such, the set of variables, or product of powers of variables, appearing in the equations for the equations $\dot{\log y}_i$  defines the quasi-monomials $x$.
+As such, the set of variables, or product of powers of variables appearing in the equations for $\dot{\log y}_i$  defines a quasi-monomials in $x$.
 
-****
-
-**Quasi-monomials for the Leslie-Gower model**
+\begin{cb}
+\textbf{Quasi-monomials for the Leslie-Gower model}
 
 For the Leslie-Gower model in Eq. \ref{eq:lg} we identify three quasi-monomials:
 
@@ -119,7 +133,7 @@ x_3 = y_1^{-1} \, y_2^1 = \frac{y_2}{y_1}
 \end{cases}
 \end{equation}
 
-****
+\end{cb}
 
 Now we show how the $n-$dimensional QP-system of differential equations in Eq. \ref{eq:qp} can be recast as an $m-$dimensional GLV system in Eq. \ref{eq:glv}. By chain rule, we have:
 
@@ -139,11 +153,8 @@ Now we show how the $n-$dimensional QP-system of differential equations in Eq. \
 
 where we have defined $A = BM$ and $r = B s$; $(Bs)_j$ is the $j^{\text{th}}$ element of the vector $Bs$ and $(B M)_{jl}$ is the coefficient in row $j$ and column $l$ of the matrix $BM$. 
 
-Via the quasi-monomial transformation in Eq. \ref{eq:quasimono} we have turned the $n-$dimensional QP-system in Eq. \ref{eq:qp} into an $m-$dimensional GLV system in Eq. \ref{eq:glv}.
-
-****
-
-**GLV representation of the Leslie-Gower model**
+\begin{cb}
+\textbf{GLV representation of the Leslie-Gower model}
 
 We can represent the Leslie-Gower model in Eq. \ref{eq:lg} as a three-dimensional GLV model defined by the quasi-monomials in Eq. \ref{eq:lgqm} and:
 
@@ -174,7 +185,7 @@ The GLV representation of the model becomes:
 \end{cases}
 \end{equation}
 
-****
+\end{cb}
 
 # Stability in Generalized Lotka-Volterra
 
@@ -226,9 +237,9 @@ Note however that, when we represent an $n-$dimensional QP-system using an $m-$d
 
 In practice, this means that not all perturbations $\Delta x$ are allowed---rather, only those compatible with the definition of the quasi-monomials. In turn, this means that we could (and often will) find nonnegative weights in Eq. \ref{eq:stabcond} such that $\dot{V} \leq 0$ and yet the matrix $G$ *is not negative semi-definite*. In such cases, $G$ *acts* like a negative semi-definite matrix on the *admissible* perturbations, i.e., those abiding by the form specified by the quasi-monomials. 
 
-****
 
-**Stability of the Leslie-Gower model**
+\begin{cb}
+\textbf{Stability of the Leslie-Gower model}
 
 We consider the candidate Lyapunov function in Eq. \ref{eq:goh} for the QP-representation of the Leslie-Gower model (Eq. \ref{eq:lgglv}). A convenient choice of weights is $w = (0, \rho_1 \alpha_1 + \alpha_2, \rho_2 \alpha_2 )^T$, yielding:
 
@@ -241,7 +252,7 @@ G =\frac{1}{2} (D(w)A + A^T D(w)) =
 \end{pmatrix}
 \end{equation}
 
-****
+\end{cb}
 
 
 # Examples
@@ -257,16 +268,4 @@ G =\frac{1}{2} (D(w)A + A^T D(w)) =
 ```{r child=here::here("paper", "GLV_embedding", "hoi.Rmd")}
 
 ```
-
-
-
-## Commented bibliography
-
-Thesis @szederkenyi2012computational and book @szederkenyi2018analysis
-
-
-
-
-
-You can insert references. Here is some text [@kour2014real; @kour2014fast] and see @hadash2018estimate.
 

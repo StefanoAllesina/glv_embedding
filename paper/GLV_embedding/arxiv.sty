@@ -6,6 +6,18 @@
 \renewcommand{\rmdefault}{ptm}
 \renewcommand{\sfdefault}{phv}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newsavebox{\riddlebox}
+\newenvironment{cb}
+{\newcommand\colboxcolor{D5DBDB}%
+\begin{lrbox}{\riddlebox}%
+\begin{minipage}{\dimexpr\columnwidth-20\fboxsep\relax}}
+{\end{minipage}\end{lrbox}%
+\begin{center}
+  \colorbox[HTML]{\colboxcolor}{\usebox{\riddlebox}}
+\end{center}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % set page geometry
 \usepackage[verbose=true,letterpaper]{geometry}
 \AtBeginDocument{
