@@ -24,22 +24,23 @@ header-includes:
   - \usepackage{amsmath}
   - \usepackage{xcolor}
   - \usepackage{fancybox}
+  - \usepackage{graphicx}
 output: rticles::arxiv_article
 mainfont: Calibri Light
+graphics: yes
 ---
 
 # Introduction
 
-Several models for ecological, evolutionary, and epidemiological dynamics can be recast as a Generalized Lotka-Volterra (GLV) model via the so-called *quasi-monomial transformation*. This transformation was discovered in the late 1980s at least three times (as far as we can tell, independently) by different authors  [@peschel1986predator; @brenig1988complete; @gouze1990transformation]. A large class of dynamical models, called *quasi-polynomial* (QP) systems can be recast as a (typically larger-dimensional) GLV in a straightforward, mechanical manner. Other systems that do not belong to this class can be first transformed into QP systems, and then in turn into GLV. This shows that the Generalized Lotka-Volterra model is not only one of the oldest models in ecology--it was originally proposed by in 1920 by Lotka [@lotka1920analytical; @lotka1920undamped], and rediscovered by Volterra in 1926 [@volterra1926fluctuations; @volterra1926variazioni]--, but a somewhat *universal* model, arising in a variety of fields and problems.
-
+Several models for ecological, evolutionary, and epidemiological dynamics can be recast as a Generalized Lotka-Volterra (GLV) model via the so-called *quasi-monomial transformation*. This transformation was discovered in the late 1980s at least three times (as far as we can tell, independently) by different authors  [@peschel1986predator; @brenig1988complete; @gouze1990transformation]. *Quasi-polynomial* (QP) systems can be recast as a (typically, larger-dimensional) GLV in a straightforward, mechanical manner; several other systems that do not belong to this class can be first transformed into QP systems, and then in turn into GLV. This shows that the Generalized Lotka-Volterra model is not only one of the oldest models in ecology---it was originally proposed in 1920 by Lotka [@lotka1920analytical; @lotka1920undamped], and rediscovered by Volterra in 1926 [@volterra1926fluctuations; @volterra1926variazioni]---, but a somewhat *universal*, *canonical* model, arising in a variety of fields and problems.
 
 The transformation was studied, extended and applied in numerous articles, and summarized in reviews [@rocha2005lotka; @brenig2018reducing] and books [@szederkenyi2012computational; @szederkenyi2018analysis]. Despite the wealth of literature on the subject, applications in theoretical ecology have been so far quite limited (but see @miller2021metapopulations). 
 
-The goal of this work is to provide a concise, self-contained introduction to the transformation, illustrated with a number of examples taken from the ecological, evolutionary and epidemiological theory, with the hope of popularizing what is a powerful, straightforward approach. The material requires some basic familiarity with differential equations and linear algebra; any advanced concept is explained in detail--though not to the level of formalism encountered in the mathematical literature. Throughout, we emphasize applications to the problem of determining stability of a biological system via Lyapunov's direct method.
+The goal of this work is to provide a concise, self-contained introduction to the transformation, illustrated by a number of examples taken from the ecological, evolutionary and epidemiological theory, with the hope of popularizing what is a powerful, straightforward approach. The material requires some basic familiarity with differential equations and linear algebra; any advanced concept is explained in detail---though the exposition is not as formal as typical for the mathematical literature. Throughout, we emphasize applications to the problem of determining stability of a biological system via Lyapunov's direct method.
 
-While most of the material is a review or re-elaboration of published results, we provide two original contributions: first, we show that stability can often be proven in a straightforward way by considering that the perturbations of the transformed system are constrained by the perturbations of the original system--and have therefore a particular form; second, we discuss at length the (and provide code for) numerical approaches that can be implemented to facilitate proving stability via this transformation.
+While most of the material is a review or a re-elaboration of published results, we highlight two aspects that are rarely discussed: first, we show that stability can often be proven in a straightforward way by considering that the perturbations of the transformed system are constrained by the perturbations of the original system---and have therefore a characteristic form; second, we discuss at length the (and provide code for) numerical approaches that can be implemented to facilitate the task of proving stability via this transformation.
 
-We start by deriving the transformation of QP systems into GLV, using the Leslie-Gower predator-prey model as an example; next, we analyze FIVE? models taken from the ecological, evolutionary and epidemiological literature, using the transformation to prove global asymptotic stability; we then show how non-QP systems can be turned into GLV via auxiliary variables; we conclude by briefly discussing more advanced techniques. The Appendix discusses numerical approaches meant to facilitate the application of this methods to the system of interest.
+We start by deriving the transformation of QP systems into GLV, using the Leslie-Gower predator-prey model as an example; next, we analyze FIVE? models taken from the ecological, evolutionary and epidemiological literature, and use the transformation to prove global asymptotic stability; we then show how non-QP systems can be turned into GLV via auxiliary variables; we conclude by briefly presenting more advanced techniques. The Appendix discusses numerical approaches meant to facilitate the application of this methods to systems of interest.
 
 # Generalized Lotka-Volterra model
 \label{sec:glv}
@@ -53,19 +54,19 @@ The Generalized Lotka-Volterra model for $m$ interacting populations can be writ
 
 where $\dot{x}_i$ is the derivative with respect to time of the size (or density) of population $i$, $r$ is a vector of length $m$ containing the intrinsic growth rates (for producers) or mortality rates (for consumers), and $A$ is an $m \times m$ matrix whose coefficients $A_{ij}$ measure the effect of population $j$ on the growth of population $i$. 
 
-This set of equations admits up to $2^m$ equilibria (i.e., choices of $x$ such that $\dot{x}_i = 0$ for all $i$), in which some of the populations are present at positive density (called *feasible*), and others are absent. If there is a feasible equilibrium encompassing all populations, it is called the coexistence equilibrium, which we indicate as $x^\star$. If the matrix $A$ is of full rank, the coexistence equilibrium is unique and can be computed as $x^\star = -A^{-1}r$. The existence of an equilibrium is necessary, but not sufficient for coexistence in the model. For a review of the GLV system, and closely related models, see @hofbauer1998evolutionary.
+This set of equations admits up to $2^m$ equilibria (i.e., choices of $x$ such that $\dot{x}_i = 0$ for all $i$), in which some of the populations are present at positive density (called *feasible*), and others are absent. If there is a feasible equilibrium encompassing all populations, it is called the coexistence equilibrium, which we indicate as $x^\star$. If the matrix $A$ has full rank, the coexistence equilibrium is unique and can be computed as $x^\star = -A^{-1}r$. The existence of an equilibrium is necessary, but not sufficient for coexistence in the model. For a review of the GLV system, and closely related models, see @hofbauer1998evolutionary.
 
 # Quasi-Polynomial systems
 \label{sec:qp}
 
-We now introduce a generalization of Eq. \ref{eq:glv}, defining the class of quasi-polynomial systems (QP-systems):
+We now introduce a generalization of Eq. \ref{eq:glv}, defining the class of quasi-polynomial (QP) systems:
 
 \begin{equation}
 \label{eq:qp}
 \dot{y}_i = y_i \left( s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}} \right)
 \end{equation}
 
-where we have $n$ equations, $\dot{y}_1, \ldots, \dot{y}_n$. The vector $s$ is of length $n$, $M$ is a matrix of size $n \times m$ containing real coefficients, and $B$ a matrix of size $m \times n$, also containing real coefficients. If $n = m$, and thus both $M$ and $B$ are square matrices, and further $B=I_n$ (the identity matrix of size $n$), the model reduces to the Generalized Lotka-Volterra model in Eq. \ref{eq:glv} with $r = s$ and $A = M$. If $B$ contains only integers, Eq. \ref{eq:qp} defines a *polynomial* system of differential equations; relaxing this condition to allow any $B$ composed of real numbers, we obtain a *quasi-polynomial* (QP-) system.
+where we have $n$ equations, $\dot{y}_1, \ldots, \dot{y}_n$. The vector $s$ is of length $n$, $M$ is a matrix of size $n \times m$ containing real coefficients, and $B$ a matrix of size $m \times n$, also containing real coefficients. If $n = m$, and thus both $M$ and $B$ are square matrices, and further $B=I_n$ (the identity matrix of size $n$), the model reduces to the Generalized Lotka-Volterra model in Eq. \ref{eq:glv} with $r = s$ and $A = M$. If $B$ contains only integers, Eq. \ref{eq:qp} defines a *polynomial* system of differential equations; relaxing this condition to allow any $B$ composed of real numbers, we obtain a *quasi-polynomial* (QP) system.
 
 \begin{cb}
 \textbf{QP-representation of Leslie-Gower predator-prey model}
@@ -80,7 +81,9 @@ The Leslie-Gower model is simple variation on the classic Lotka-Volterra predato
 \end{cases}
 \end{equation}
 
-with $y_1$ representing the prey, $y_2$ the predator, and all coefficients are assumed to be positive. The system differs from GLV in that we have a ratio between the predator and prey in the equation for the predator. The system is however in QP form, as seen by defining:
+with $y_1$ representing the prey, $y_2$ the predator, and all coefficients are assumed to be positive. The coexistence equilibrium for the model is given by $y_1^\star = \frac{\rho_1 \alpha_2}{\rho_2 \alpha_1 + \alpha_2}$ and $y_2^\star = \frac{\rho_1 \rho_2}{\rho_2 \alpha_1 + \alpha_2}$. As we demonstrate below, the equilibrium is globally asymptotically stable---all trajectories starting at positive densities will eventually reach it.
+
+The system differs from GLV in that we have a ratio between the predator and prey in the equation for the predator. The system is however in QP form, as seen by defining:
 
 \begin{equation}
 \label{eq:lgqp}
@@ -95,7 +98,7 @@ M = \begin{pmatrix}
 B = \begin{pmatrix}
 1 & 0 \\
 0 & 1 \\
-1 & -1
+-1 & 1
 \end{pmatrix}
 \end{equation}
 
@@ -117,7 +120,7 @@ A simple way to identify quasi-monomials for any system that can be written in Q
 \dot{\log y}_i = \frac{\dot{y}_i}{y_i} = s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}}
 \end{equation}
 
-As such, the set of variables, or product of powers of variables appearing in the equations for $\dot{\log y}_i$  defines a quasi-monomials in $x$.
+As such, the set of variables, or product of powers of variables appearing in the equations for $\dot{\log y}_i$ defines the quasi-monomials in $x$.
 
 \begin{cb}
 \textbf{Quasi-monomials for the Leslie-Gower model}
@@ -134,6 +137,8 @@ x_3 = y_1^{-1} \, y_2^1 = \frac{y_2}{y_1}
 \end{equation}
 
 \end{cb}
+
+**Do we need to discuss the case $n < m$?**
 
 Now we show how the $n-$dimensional QP-system of differential equations in Eq. \ref{eq:qp} can be recast as an $m-$dimensional GLV system in Eq. \ref{eq:glv}. By chain rule, we have:
 
@@ -187,6 +192,86 @@ The GLV representation of the model becomes:
 
 \end{cb}
 
+# Equivalence between representations
+
+The original QP system and its GLV counterpart are equivalent, in the sense that if $y^\star$ is the coexistence equilibrium of the original system, then there is a coexistence equilibrium for the transformed system, calculated as $x_i^\star = \prod_{k} (y_k^\star)^{B_{ik}}$. Moreover, the stability of the coexistence equilibrium is unchanged. 
+
+Take the original system, with initial conditions $y(0)$; we want to simulate the dynamics of the original and transformed systems. Clearly, the initial conditions of the original system are related to those of the transformed system. We can calculate the initial conditions for the transformed system as:
+
+\begin{equation}
+\begin{aligned}
+x_i(0) &= \prod_{k} {y_k(0)}^{B_{ik}}\\
+\log x_i(0) &= \sum_k B_{ik} \log y_k(0)\\
+\log x_i(0) &= (B \log y_k(0))_i\\
+x_i(0) &= \exp(B \log y_k(0))_i
+\end{aligned}
+\end{equation}
+
+where the functions $\log$ and $\exp$ are applied element by element when the argument is a vector. As such, we can compute the initial conditions in matrix form as $x(0) = \exp(B \log y(0))$, making sure that the initial conditions of the transformed system are consistent with those of the original system. Take the Leslie-Gower model: in Fig. 1 we show the dynamics of the original and transformed model, showing that the equilibrium, trajectories and stability are consistent between the two representations of the same dynamics.
+
+```{r fig1, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = "Dynamics for the Leslie-Gower model in its original (QP) formulation and once transformed into a 3-dimensional GLV system. Note that $x_1 = y_1$ and $x_2 = y_2$, and hence the respective trajectories are identical. The relationship $x_3 = y_2 / y_1 = x_2 / x_1$ is maintained through the dynamics.",fig.width=7, fig.height=2.5, fig.fullwidth=TRUE}
+library(deSolve)
+library(tidyverse)
+
+set.seed(1)
+# random parameters
+s <- runif(2) # rho_1, rho_2
+alpha <- runif(2)
+
+# matrices and vectors
+M <- matrix(c(
+  -1, -alpha[1], 0,
+  0, 0, -alpha[2]
+), 2, 3, byrow = TRUE)
+
+B <- matrix(c(
+  1,0,
+  0,1,
+  -1,1
+),3, 2, byrow = TRUE)
+
+r <- as.vector(B %*% s)
+A <- B %*% M
+
+# functions for integrating dynamics
+THRESH <- 10^(-30) # consider extinct below this threshold
+GLV <- function(t, x, pars = NULL){
+  x[x < THRESH] <- 0
+  dxdt <- as.vector(diag(x) %*% (r + A %*% x))
+  return(list(dxdt))
+}
+QP <- function(t, y, pars = NULL){
+  y[y < THRESH] <- 0
+  # compute quasi-monomials
+  x <- as.vector(exp(B %*% log(y)))
+  dydt <- as.vector(diag(y) %*% (s + M %*% x))
+  return(list(dydt))
+}
+
+equilibrium <- c(alpha[2] * s[1] / (alpha[2] + alpha[1] * s[2]), s[2] * s[1] / (alpha[2] + alpha[1] * s[2]))
+
+# initial conditions
+# start far from eq to show cycles
+y0 <- c(equilibrium[1] * 1.5, 1/2 * equilibrium[2])
+x0 <- as.vector(exp(B %*% log(y0)))
+out_qp <- ode(y = y0, times = seq(0, 40, by = 0.01), func = QP, parms = NULL, method = "ode45")
+out_glv <- ode(y = x0, times = seq(0, 40, by = 0.01), func = GLV, parms = NULL, method = "ode45")
+
+# code for plotting
+colnames(out_qp) <- c("time", paste("y", 1:nrow(M), sep = ""))
+colnames(out_glv) <- c("time", paste("x", 1:ncol(M), sep = ""))
+out_qp <- out_qp %>% as.data.frame() %>% as_tibble() %>%
+  gather(population, density, -time) %>% 
+  add_column(model = "a) QP system")
+out_glv <- out_glv %>% as.data.frame() %>% as_tibble() %>% 
+  gather(population, density, -time) %>% 
+  add_column(model = "b) GLV system")
+out <- rbind(out_qp, out_glv)
+out %>% ggplot() + aes(x = time, y = density, colour = population) + 
+  geom_line() + theme_bw() + facet_wrap(~model) #+ theme(legend.position = "bottom")
+```
+
+
 # Stability in Generalized Lotka-Volterra
 
 ## Lyapunov's direct method
@@ -207,7 +292,7 @@ V = \sum_i w_i V_{x_i}
 \end{cases}
 \end{equation}
 
-where each $V_{x_i} > 0$ for any positive $x_i \neq x_i^\star$ and zero at the equilibrium. The weights $w_1, \ldots w_n$ are non-negative, and at least one is positive. In such cases, $V$ is radially unbounded. If we can find weights such that $\dot{V} = \sum_i w_i \dot{V}_{x_i} \leq 0$, we can prove stability (possibly, through LaSalle's invariance principle). Deriving:
+where each $V_{x_i} > 0$ for any positive $x_i \neq x_i^\star$ and zero at the equilibrium. The weights $w_1, \ldots w_n$ are positive. **DISCUSS: CAN SOME WEIGHTS BE ZERO? WHAT ABOUT $V$ unbounded**. If we can find weights such that $\dot{V} = \sum_i w_i \dot{V}_{x_i} \leq 0$, we can attempt proving stability (possibly, by invoking LaSalle's invariance principle). Deriving:
 
 \begin{equation}
 \label{eq:gohstab}
@@ -229,33 +314,52 @@ Note that in the sum over $i$ and $j$, only the symmetric part of the matrix $D(
 
 A symmetric matrix $G$ satisfying $z^T G z = \sum_i \sum_j G_{ij} z_i z_j < 0$ for every $z \neq 0$ is called *negative definite*. If the sum can be zero for some $z \neq 0$, $G$ is called *negative semi-definite*. A symmetric, negative definite matrix has all eigenvalues real and negative; in a negative semi-definite matrix eigenvalues can be zero. As such, if we can identify suitable, positive (nonnegative) weights $w$ such that $G$ is negative (semi-)definite, then $\dot{V} \leq 0$ and we can prove the stability of the equilibrium $x^\star$.
 
+Note that these are sufficient, but not necessary conditions for stability---while weights that make $G$ negative definite might not exist, the system could still be stable, and a Lyapunov function of a different form could prove the result.
+
 ## Stability in QP-systems
 
-In the Generalized Lotka-Volterra model in Eq. \ref{eq:glv}, the variables $x_i$ can in principle take any positive value (at least as an initial condition), and therefore each $\Delta x_i$ is radially unbounded: $\Delta x_i \in [-x_i^\star, \infty)$; moreover, we can set (again, at least initially) each $x_i$ to any arbitrary value, irrespective of the value of the rest of the $x_j$. In such a setting, it is therefore difficult to prove stability via Eq. \ref{eq:stabcond} if the matrix $G$ is not negative (semi-)definite. 
+In the Generalized Lotka-Volterra model in Eq. \ref{eq:glv}, the variables $x_i$ can in principle take any positive value (at least as an initial condition), and therefore each $\Delta x_i$ is radially unbounded: $\Delta x_i \in [-x_i^\star, \infty)$; moreover, we can set (again, at least initially) each $x_i$ to any arbitrary positive value, irrespective of the value of the rest of the $x_j$. In such a setting, it is therefore difficult to prove stability via Eq. \ref{eq:stabcond} if the matrix $G$ is not negative (semi-)definite.
 
-Note however that, when we represent an $n-$dimensional QP-system using an $m-$dimensional GLV system, the quasi monomials $x_i$ are function of the original variables $y_i$. This in turn means that the perturbations in the GLV system are a function of the perturbations in the original system: in particular $\Delta x_i  = \prod_{k=1}^n y_k^{B_{ik}} - \prod_{k=1}^n (y_k^\star)^{B_{ik}}$.
+The search for weights that make $G$ negative semi-definite (called *admissibility*) has been a focus of the literature on QP systems as well [@figueiredo2000boundedness; @gleria2003numerical]. Note however that, when we represent an $n-$dimensional QP-system using an $m-$dimensional GLV system, the quasi-monomials $x_i$ are functions of the original variables $y_i$. This in turn means that the perturbations in the GLV system are a function of the perturbations in the original system: in particular $\Delta x_i  = \prod_{k} y_k^{B_{ik}} - \prod_{k} (y_k^\star)^{B_{ik}}$.
 
 In practice, this means that not all perturbations $\Delta x$ are allowed---rather, only those compatible with the definition of the quasi-monomials. In turn, this means that we could (and often will) find nonnegative weights in Eq. \ref{eq:stabcond} such that $\dot{V} \leq 0$ and yet the matrix $G$ *is not negative semi-definite*. In such cases, $G$ *acts* like a negative semi-definite matrix on the *admissible* perturbations, i.e., those abiding by the form specified by the quasi-monomials. 
-
 
 \begin{cb}
 \textbf{Stability of the Leslie-Gower model}
 
-We consider the candidate Lyapunov function in Eq. \ref{eq:goh} for the QP-representation of the Leslie-Gower model (Eq. \ref{eq:lgglv}). A convenient choice of weights is $w = (0, \rho_1 \alpha_1 + \alpha_2, \rho_2 \alpha_2 )^T$, yielding:
+We consider the candidate Lyapunov function in Eq. \ref{eq:goh} for the QP-representation of the Leslie-Gower model (Eq. \ref{eq:lgglv}). A convenient choice of weights is $w = (0, \rho_1 \alpha_1 / \alpha_2 + 1, \rho_2)^T$, yielding:
 
 \begin{equation}
 G =\frac{1}{2} (D(w)A + A^T D(w)) =
 \begin{pmatrix}
-0 & 0 & \frac{\rho_2 \alpha_2}{2} \\
-0 & 0 & -\frac{\alpha_2^2}{2} \\
-\frac{\rho_2 \alpha_2}{2} & -\frac{\alpha_2^2}{2} & -\rho_2 \alpha_2^2
+0 & 0 & \frac{\rho_2}{2} \\
+0 & 0 & -\frac{\alpha_2}{2} \\
+\frac{\rho_2}{2} & -\frac{\alpha_2}{2} & -\rho_2 \alpha_2
 \end{pmatrix}
 \end{equation}
 
+We can calculate $\dot{V}$ as:
+
+\begin{equation}
+\begin{aligned}
+\dot{V} &= \sum_i \sum_j G_{ij} \Delta x_i \Delta x_j\\
+&= \Delta x_3 (\rho_2 \Delta x_1 - \alpha_2 \Delta x_2 - \rho_2 \alpha_2 \Delta x_3)
+\end{aligned}
+\end{equation}
+
+Substituting $\Delta x_1 = y_1 - y_1^\star$, $\Delta x_2 = y_2 - y_2^\star$ and $\Delta x_3 = y_2/y_1 - y_2^\star / y_1^\star$ shows that the function $V$ does not grow in time:
+
+\begin{equation}
+\dot{V} = -\frac{(\rho_2 + y_1) (\rho_2 y_1 - \alpha_2 y_2)^2}{\alpha_2 y_1^2} \leq 0
+\end{equation}
+
+To prove stability, we need to show that the equilibrium is the only trajectory contained in the manifold (i.e., space) defined by $\dot{V} = 0$. In such case, $\rho_2 y_1 = \alpha_2 y_2$; substituting in the equation for the predator we find $\dot{y_2}|_{\dot{V} = 0} = 0$, meaning that only trajectories for which $y_2$ is constant are contained in the space defined by $\dot{V} = 0$. This in turn means that $y_1$ must also be constant, proving that the equilibrium $y^\star$ is the only trajectory contained in $\dot{V} = 0$ and therefore the global asymptotic stability of the equilibrium.
 \end{cb}
 
 
 # Examples
+
+In this section we present XXXX simple examples in which we prove stability using the quasi-monomial transformation in conjunction with the candidate Lyapunov function in Eq. \ref{eq:goh}. See @rocha2005lotka for other relevant examples.
 
 ```{r child=here::here("paper", "GLV_embedding", "sir.Rmd")}
 

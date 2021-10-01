@@ -1,0 +1,61 @@
+```{r fig1, message = FALSE, warning = FALSE, run = FALSE}
+library(deSolve)
+library(tidyverse)
+
+set.seed(1)
+# random parameters
+s <- runif(2) # rho_1, rho_2
+alpha <- runif(2)
+
+# matrices and vectors
+M <- matrix(c(
+  -1, -alpha[1], 0,
+  0, 0, -alpha[2]
+), 2, 3, byrow = TRUE)
+
+B <- matrix(c(
+  1,0,
+  0,1,
+  -1,1
+),3, 2, byrow = TRUE)
+
+r <- as.vector(B %*% s)
+A <- B %*% M
+
+# functions for integrating dynamics
+THRESH <- 10^(-30) # consider extinct below this threshold
+GLV <- function(t, x, pars = NULL){
+  x[x < THRESH] <- 0
+  dxdt <- as.vector(diag(x) %*% (r + A %*% x))
+  return(list(dxdt))
+}
+QP <- function(t, y, pars = NULL){
+  y[y < THRESH] <- 0
+  # compute quasi-monomials
+  x <- as.vector(exp(B %*% log(y)))
+  dydt <- as.vector(diag(y) %*% (s + M %*% x))
+  return(list(dydt))
+}
+
+equilibrium <- c(alpha[2] * s[1] / (alpha[2] + alpha[1] * s[2]), s[2] * s[1] / (alpha[2] + alpha[1] * s[2]))
+
+# initial conditions
+# start far from eq to show cycles
+y0 <- c(equilibrium[1] * 1.5, 1/2 * equilibrium[2])
+x0 <- as.vector(exp(B %*% log(y0)))
+out_qp <- ode(y = y0, times = seq(0, 40, by = 0.01), func = QP, parms = NULL, method = "ode45")
+out_glv <- ode(y = x0, times = seq(0, 40, by = 0.01), func = GLV, parms = NULL, method = "ode45")
+
+# code for plotting
+colnames(out_qp) <- c("time", paste("y", 1:nrow(M), sep = ""))
+colnames(out_glv) <- c("time", paste("x", 1:ncol(M), sep = ""))
+out_qp <- out_qp %>% as.data.frame() %>% as_tibble() %>%
+  gather(population, density, -time) %>% 
+  add_column(model = "a) QP system")
+out_glv <- out_glv %>% as.data.frame() %>% as_tibble() %>% 
+  gather(population, density, -time) %>% 
+  add_column(model = "b) GLV system")
+out <- rbind(out_qp, out_glv)
+out %>% ggplot() + aes(x = time, y = density, colour = population) + 
+  geom_line() + theme_bw() + facet_wrap(~model) + theme(legend.position = "bottom")
+```
