@@ -36,7 +36,7 @@ Several models for ecological, evolutionary, and epidemiological dynamics can be
 
 The transformation was studied, extended and applied in numerous articles, and summarized in reviews [@rocha2005lotka; @brenig2018reducing] and books [@szederkenyi2012computational; @szederkenyi2018analysis]. Despite the wealth of literature on the subject, applications in theoretical ecology have been so far quite limited (but see @miller2021metapopulations). 
 
-The goal of this work is to provide a concise, self-contained introduction to the transformation, illustrated by a number of examples taken from the ecological, evolutionary and epidemiological theory, with the hope of popularizing what is a powerful, straightforward approach. The material requires some basic familiarity with differential equations and linear algebra; any advanced concept is explained in detail---though the exposition is not as formal as typical for the mathematical literature. Throughout, we emphasize applications to the problem of determining stability of a biological system via Lyapunov's direct method.
+The goal of this work is to provide a concise, self-contained introduction to the transformation, illustrated by a number of examples taken from the ecological, evolutionary and epidemiological theory, with the hope of popularizing what is a powerful, straightforward approach. The material requires some basic familiarity with differential equations and linear algebra; any advanced concept is explained in detail---though the exposition is not as formal as what found in the mathematical literature. Throughout, we emphasize applications to the problem of determining stability of a biological system via Lyapunov's direct method.
 
 While most of the material is a review or a re-elaboration of published results, we highlight two aspects that are rarely discussed: first, we show that stability can often be proven in a straightforward way by considering that the perturbations of the transformed system are constrained by the perturbations of the original system---and have therefore a characteristic form; second, we discuss at length the (and provide code for) numerical approaches that can be implemented to facilitate the task of proving stability via this transformation.
 
@@ -357,7 +357,7 @@ To prove stability, we need to show that the equilibrium is the only trajectory 
 \end{cb}
 
 
-# Examples
+# Examples: quasi-polynomial systems
 
 In this section we present XXXX simple examples in which we prove stability using the quasi-monomial transformation in conjunction with the candidate Lyapunov function in Eq. \ref{eq:goh}. See @rocha2005lotka for other relevant examples.
 
@@ -372,4 +372,14 @@ In this section we present XXXX simple examples in which we prove stability usin
 ```{r child=here::here("paper", "GLV_embedding", "hoi.Rmd")}
 
 ```
+
+# Examples: non quasi-polynomial systems
+
+# Further transformations
+
+# Other approaches to stability for Lotka-Volterra
+
+# Conclusions
+
+
 

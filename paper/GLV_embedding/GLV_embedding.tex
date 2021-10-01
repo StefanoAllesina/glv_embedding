@@ -119,7 +119,7 @@ taken from the ecological, evolutionary and epidemiological theory, with
 the hope of popularizing what is a powerful, straightforward approach.
 The material requires some basic familiarity with differential equations
 and linear algebra; any advanced concept is explained in detail---though
-the exposition is not as formal as typical for the mathematical
+the exposition is not as formal as what found in the mathematical
 literature. Throughout, we emphasize applications to the problem of
 determining stability of a biological system via Lyapunov's direct
 method.
@@ -514,8 +514,9 @@ Substituting $\Delta x_1 = y_1 - y_1^\star$, $\Delta x_2 = y_2 - y_2^\star$ and 
 To prove stability, we need to show that the equilibrium is the only trajectory contained in the manifold (i.e., space) defined by $\dot{V} = 0$. In such case, $\rho_2 y_1 = \alpha_2 y_2$; substituting in the equation for the predator we find $\dot{y_2}|_{\dot{V} = 0} = 0$, meaning that only trajectories for which $y_2$ is constant are contained in the space defined by $\dot{V} = 0$. This in turn means that $y_1$ must also be constant, proving that the equilibrium $y^\star$ is the only trajectory contained in $\dot{V} = 0$ and therefore the global asymptotic stability of the equilibrium.
 \end{cb}
 
-\hypertarget{examples}{%
-\section{Examples}\label{examples}}
+\hypertarget{examples-quasi-polynomial-systems}{%
+\section{Examples: quasi-polynomial
+systems}\label{examples-quasi-polynomial-systems}}
 
 In this section we present XXXX simple examples in which we prove
 stability using the quasi-monomial transformation in conjunction with
@@ -535,9 +536,9 @@ counterbalanced by the birth of susceptible individuals:
 \label{eq:sir}
 \begin{cases}
 \begin{aligned}
-\dot{y}_1 = \delta - \delta y_1 - \beta y_1 y_2 &= y_1 \left(-\delta + \delta \frac{1}{y_1} - \beta y_2 \right)\\
-\dot{y}_2 = - (\delta + \gamma) y_2 + \beta y_1 y_2 &= y_2 \left(-(\delta + \gamma) + \beta y_1 \right)\\
-\dot{y_3} = \gamma y_2 - \delta y_3 &= y_3 \left(-\delta + \gamma \frac{y_2}{y_3} \right)
+\dot{y}_1 &= \delta - \delta y_1 - \beta y_1 y_2 = y_1 \left(-\delta + \delta \frac{1}{y_1} - \beta y_2 \right)\\
+\dot{y}_2 &= - (\delta + \gamma) y_2 + \beta y_1 y_2 = y_2 \left(-(\delta + \gamma) + \beta y_1 \right)\\
+\dot{y_3} &= \gamma y_2 - \delta y_3 = y_3 \left(-\delta + \gamma \frac{y_2}{y_3} \right)
 \end{aligned}
 \end{cases}
 \end{equation}
@@ -622,9 +623,11 @@ are \(\pm \delta / 2\).
 
 Because \(\dot{V} = 0\) whenever \(y_1 = y_1^\star\), to prove stability
 we need to make sure that the equilibrium is the only trajectory
-contained in the set of points satisfying \(\dot{V} = 0\).
-
-\textbf{LaSalle's}
+contained in the set of points satisfying \(\dot{V} = 0\). When we
+evaluate \(\dot{y_2}|_{\dot{V} = 0} = 0\), meaning that \(y_2\) must be
+constant for a trajectory to be contained in the space defined by
+\(\dot{V} = 0\); but then inspecting the equation for \(\dot{y}_3\) is
+sufficient to determine that
 
 \hypertarget{stability-of-a-consumer-resource-model-with-inputs}{%
 \subsection{Stability of a consumer-resource model with
@@ -710,7 +713,9 @@ derivative with respect to time in Eq. \ref{eq:stabcond} reduces to:
 \dot{V} = \sum_i k_i (z_i - z_i^\star) \left( \frac{1}{z_i} - \frac{1}{z_i^\star} \right) = - \sum_i \frac{k_i}{z_i z_i^\star} (z_i - z_i^\star)^2 \leq 0
 \end{equation}
 
-\textbf{TODO LaSalle's}
+Note that when \(\dot{V} = 0\) the resources are all at equilibrium; but
+this implies that the consumers must also be at equilibrium, because all
+\(\dot{y}_i|_{\dot{V} = 0} = \dot{y}_i|_{z = z^\star} = 0\).
 
 \hypertarget{reducing-nonlinearities-in-a-model-with-higher-order-interactions}{%
 \subsection{Reducing nonlinearities in a model with higher-order
@@ -801,13 +806,29 @@ weights \(\gamma = (1,1,1, 2,2,2)^T\) and considering the perturbations
 we obtain:
 
 \begin{equation}
-\dot{V} = -\frac{2}{3} \left(y_1^2 + y_2^2 + y_3^2 - y_1 y_2 -y_1 y_3 - y_2 y_3 \right) \leq 0
+\begin{aligned}
+\dot{V} &= -\frac{2}{3} \left(y_1^2 + y_2^2 + y_3^2 - y_1 y_2 -y_1 y_3 - y_2 y_3 \right) \\
+&=-\frac{1}{3} \left((y_1 - y_2)^2 + (y_1 - y_3)^2 + (y_2 - y_3)^2\right) \leq 0
+\end{aligned}
 \end{equation}
 
-\textbf{A good proof of this? It is definitely true}
+The derivative is thus negative for any \(y\) but the equilibrium point,
+proving the stability of the equilibrium.
 
-The derivative is thus negative for any \(0<y_i<1\) but the equilibrium
-point, proving the stability of the equilibrium.
+\hypertarget{examples-non-quasi-polynomial-systems}{%
+\section{Examples: non quasi-polynomial
+systems}\label{examples-non-quasi-polynomial-systems}}
+
+\hypertarget{further-transformations}{%
+\section{Further transformations}\label{further-transformations}}
+
+\hypertarget{other-approaches-to-stability-for-lotka-volterra}{%
+\section{Other approaches to stability for
+Lotka-Volterra}\label{other-approaches-to-stability-for-lotka-volterra}}
+
+\hypertarget{conclusions}{%
+\section*{Conclusions}\label{conclusions}}
+\addcontentsline{toc}{section}{Conclusions}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}

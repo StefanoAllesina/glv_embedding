@@ -62,7 +62,7 @@ The matrix is clearly non negative semi-definite. And yet, when we consider the 
 \dot{V} = \sum_i k_i (z_i - z_i^\star) \left( \frac{1}{z_i} - \frac{1}{z_i^\star} \right) = - \sum_i \frac{k_i}{z_i z_i^\star} (z_i - z_i^\star)^2 \leq 0
 \end{equation}
 
-**TODO LaSalle's**
+Note that when $\dot{V} = 0$ the resources are all at equilibrium; but this implies that the consumers must also be at equilibrium, because all $\dot{y}_i|_{\dot{V} = 0} = \dot{y}_i|_{z = z^\star} = 0$.
 
 
 
