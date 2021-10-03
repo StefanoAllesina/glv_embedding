@@ -34,7 +34,7 @@ graphics: yes
 
 Several models for ecological, evolutionary, and epidemiological dynamics can be recast as a Generalized Lotka-Volterra (GLV) model via the so-called *quasi-monomial transformation*. This transformation was discovered in the late 1980s at least three times (as far as we can tell, independently) by different authors  [@peschel1986predator; @brenig1988complete; @gouze1990transformation]. *Quasi-polynomial* (QP) systems can be recast as a (typically, larger-dimensional) GLV in a straightforward, mechanical manner; several other systems that do not belong to this class can be first transformed into QP systems, and then in turn into GLV. This shows that the Generalized Lotka-Volterra model is not only one of the oldest models in ecology---it was originally proposed in 1920 by Lotka [@lotka1920analytical; @lotka1920undamped], and rediscovered by Volterra in 1926 [@volterra1926fluctuations; @volterra1926variazioni]---, but a somewhat *universal*, *canonical* model, arising in a variety of fields and problems.
 
-The transformation was studied, extended and applied in numerous articles, and summarized in reviews [@rocha2005lotka; @brenig2018reducing] and books [@szederkenyi2012computational; @szederkenyi2018analysis]. Despite the wealth of literature on the subject, applications in theoretical ecology have been so far quite limited (but see @miller2021metapopulations). 
+The transformation was studied, extended and applied in numerous articles, and summarized in reviews [@hernandez1997lotka; @rocha2005lotka; @brenig2018reducing] and books [@szederkenyi2012computational; @szederkenyi2018analysis]. Despite the wealth of literature on the subject, applications in theoretical ecology have been so far quite limited (but see @miller2021metapopulations). 
 
 The goal of this work is to provide a concise, self-contained introduction to the transformation, illustrated by a number of examples taken from the ecological, evolutionary and epidemiological theory, with the hope of popularizing what is a powerful, straightforward approach. The material requires some basic familiarity with differential equations and linear algebra; any advanced concept is explained in detail---though the exposition is not as formal as what found in the mathematical literature. Throughout, we emphasize applications to the problem of determining stability of a biological system via Lyapunov's direct method.
 
@@ -120,7 +120,7 @@ A simple way to identify quasi-monomials for any system that can be written in Q
 \dot{\log y}_i = \frac{\dot{y}_i}{y_i} = s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}}
 \end{equation}
 
-As such, the set of variables, or product of powers of variables appearing in the equations for $\dot{\log y}_i$ defines the quasi-monomials in $x$.
+As such, the set of variables, or product of powers of variables appearing in the equations for $\dot{\log y}_i$ defines the quasi-monomials in $x$. Here we concentrate on the most common case in which the number of *quasi-monomials*, $m$, is larger or equal than the number of equations in the QP system, $n$, and the matrix $B$ has rank $m$. In such cases, the GLV embedding will result in a system that is of the same dimension of the original system, or larger. A similar approach can be employed when this is not the case [@hernandez1997lotka].
 
 \begin{cb}
 \textbf{Quasi-monomials for the Leslie-Gower model}
@@ -137,8 +137,6 @@ x_3 = y_1^{-1} \, y_2^1 = \frac{y_2}{y_1}
 \end{equation}
 
 \end{cb}
-
-**Do we need to discuss the case $n < m$?**
 
 Now we show how the $n-$dimensional QP-system of differential equations in Eq. \ref{eq:qp} can be recast as an $m-$dimensional GLV system in Eq. \ref{eq:glv}. By chain rule, we have:
 
@@ -194,7 +192,7 @@ The GLV representation of the model becomes:
 
 # Equivalence between representations
 
-The original QP system and its GLV counterpart are equivalent, in the sense that if $y^\star$ is the coexistence equilibrium of the original system, then there is a coexistence equilibrium for the transformed system, calculated as $x_i^\star = \prod_{k} (y_k^\star)^{B_{ik}}$. Moreover, the stability of the coexistence equilibrium is unchanged. 
+The original QP system and its GLV counterpart are equivalent, in the sense that if $y^\star$ is the coexistence equilibrium of the original system, then there is a coexistence equilibrium for the transformed system, calculated as $x_i^\star = \prod_{k} (y_k^\star)^{B_{ik}}$. Moreover, the stability of the coexistence equilibrium is unchanged. Mathematically, the two representations are said to be *topologically equivalent*: there is a transformation (technically, a *diffeomorphism* defined by Eq. \ref{eq:quasimono}) mapping the phase space of one representation into that for the other [@hernandez1997lotka].
 
 Take the original system, with initial conditions $y(0)$; we want to simulate the dynamics of the original and transformed systems. Clearly, the initial conditions of the original system are related to those of the transformed system. We can calculate the initial conditions for the transformed system as:
 
@@ -276,7 +274,18 @@ out %>% ggplot() + aes(x = time, y = density, colour = population) +
 
 ## Lyapunov's direct method
 
-Provided with a dynamical system $\dot{y}_i$ 
+Provided with an $n-$dimensional, autonomous system of differential equations $\dot{y}_i$ having an equilibrium $y^\star = 0$ at the origin $\dot{y_i}|_{y = 0} = 0 \, \forall i$, we want to establish the stability of the equilibrium. We use Lyapunov's direct method (also called "second method"), which employs a function (called a *Lyapunov function*) to determine stability or instability in a region of interest [@lyapunov1992general]. 
+
+**Stability.** An equilibrium $y^\star$ is stable if for every choice of $\epsilon > 0$, there is a choice of $\delta > 0$ such that if $\lVert y(0) - y^\star \rVert < \delta$, then $\lVert y(t) - y^\star \rVert < \epsilon$ for every $t \geq 0$ (i.e., we can always identify a "ball" around the equilibrium such that trajectories starting in the ball cannot escape the volume defined by another ball).
+
+**Asymptotic stability.** If an equilibrium is stable and further $y(t) \to y^\star$ as $t \to \infty$, the equlibrium is asymptotically stable (i.e., trajectories starting from a defined region will eventually reach the equilibrium). The set of initial conditions leading to the equilibrium are called the *region of attraction* of the equilibrium. If the region of attraction is the entire space, then the equilibrium is globally asymptotically stable.
+
+**Lyapunov's direct method.** Take a subset of $\mathbb R^n$, $\mathcal D$, containing the origin. If one can identify a suitable function $V$ such that a) $V(y^\star) = 0$, b) $V(y) > 0$ for all $y \in D - y^\star$ and c) $\dot{V}(y) <0$ for all $y \in D - y^\star$, then $y^\star$ is asymptotically stable. If moreover the trajectories started in $\mathcal D$ remain in $\mathcal D$ (i.e., $\mathcal D$ is an invariant manifold for the dynamics), and $V(y)$ is unbounded in $\mathcal D$ (i.e., $\lvert V(y) \rvert \to \infty$ when $y \to \partial D$), then $y^\star$ is globally asymptotically stable.
+
+**LaSalle's invariance principle.** The condition $\dot{V}(y) < 0$ can be often relaxed to $\dot{V} \leq 0$. In such cases, one can apply LaSalle's invariance principle and conclude that any trajectory starting in $\mathcal D$ will converge to the *largest invariant set* included in set of points for which $\dot{V}(y) = 0$. In practice, we can prove stability of the equilibrium whenever we can identify a function $V(y)$ such that $\dot{V} \leq 0$, and the equilibrium is the only trajectory contained in the sub-space of $\mathcal D$ defined by $\dot{V}(y) = 0$.
+
+For a detailed introduction to Lyapunov's second method, as well as algorithms to build Lyapunov functions, see @nikravesh2018nonlinear.
+
 
 ## Candidate Lyapunov function for Generalized-Lotka Volterra
 
@@ -292,7 +301,7 @@ V = \sum_i w_i V_{x_i}
 \end{cases}
 \end{equation}
 
-where each $V_{x_i} > 0$ for any positive $x_i \neq x_i^\star$ and zero at the equilibrium. The weights $w_1, \ldots w_n$ are positive. **DISCUSS: CAN SOME WEIGHTS BE ZERO? WHAT ABOUT $V$ unbounded**. If we can find weights such that $\dot{V} = \sum_i w_i \dot{V}_{x_i} \leq 0$, we can attempt proving stability (possibly, by invoking LaSalle's invariance principle). Deriving:
+where the weights $w_1, \ldots w_n$ are positive. Note that each function $V_{x_i}$ is clearly positive whenever $x_i > 0$ and $x_i \neq x_i^\star$; moreover $V_{x_i} \to \infty$ whenever $x_i \to \infty$ or $x_i \to 0$ (i.e., the function increases to infinity at the boundaries of the *positive orthant*, $\mathbb R^n_+$). As such, if we can find weights such that $\dot{V} = \sum_i w_i \dot{V}_{x_i} \leq 0$, we can attempt proving stability (possibly, by invoking LaSalle's invariance principle). Deriving:
 
 \begin{equation}
 \label{eq:gohstab}
@@ -305,7 +314,7 @@ where each $V_{x_i} > 0$ for any positive $x_i \neq x_i^\star$ and zero at the e
 \end{aligned}
 \end{equation}
 
-Note that in the sum over $i$ and $j$, only the symmetric part of the matrix $D(w) A = (w_i A_{ij})$ matters (the skew symmetric part cancels). It is therefore convenient to define a new, symmetric matrix $G =\frac{1}{2} (D(w)A + A^T D(w))$, so that our expression becomes:
+In the sum over $i$ and $j$, only the symmetric part of the matrix $D(w) A = (w_i A_{ij})$ matters (the skew symmetric part cancels). It is therefore convenient to define a new, symmetric matrix $G =\frac{1}{2} (D(w)A + A^T D(w))$, so that our expression becomes:
 
 \begin{equation}
 \label{eq:stabcond}
@@ -314,7 +323,7 @@ Note that in the sum over $i$ and $j$, only the symmetric part of the matrix $D(
 
 A symmetric matrix $G$ satisfying $z^T G z = \sum_i \sum_j G_{ij} z_i z_j < 0$ for every $z \neq 0$ is called *negative definite*. If the sum can be zero for some $z \neq 0$, $G$ is called *negative semi-definite*. A symmetric, negative definite matrix has all eigenvalues real and negative; in a negative semi-definite matrix eigenvalues can be zero. As such, if we can identify suitable, positive (nonnegative) weights $w$ such that $G$ is negative (semi-)definite, then $\dot{V} \leq 0$ and we can prove the stability of the equilibrium $x^\star$.
 
-Note that these are sufficient, but not necessary conditions for stability---while weights that make $G$ negative definite might not exist, the system could still be stable, and a Lyapunov function of a different form could prove the result.
+Importantly, these are sufficient, but not necessary conditions for stability---while weights that make $G$ negative definite might not exist, the system could still be stable, and a Lyapunov function of a different form could prove the result.
 
 ## Stability in QP-systems
 
@@ -374,6 +383,12 @@ In this section we present XXXX simple examples in which we prove stability usin
 ```
 
 # Examples: non quasi-polynomial systems
+
+```{r child=here::here("paper", "GLV_embedding", "mutualism.Rmd")}
+
+```
+
+
 
 # Further transformations
 
