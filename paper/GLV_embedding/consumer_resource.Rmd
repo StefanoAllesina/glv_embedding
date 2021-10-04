@@ -56,7 +56,7 @@ G = \frac{1}{2}(D(w) A + A^T D(w)) = \begin{pmatrix}
 \end{pmatrix}
 \end{equation}
 
-The matrix is clearly non negative semi-definite. And yet, when we consider the perturbations: $\Delta x = (z - z^\star, y - y^\star, 1 / z - 1 / z^\star)^T$, the derivative with respect to time in Eq. \ref{eq:stabcond} reduces to:
+The matrix is clearly not negative semi-definite (just take $n = 1$). And yet, when we consider the perturbations: $\Delta x = (z - z^\star, y - y^\star, 1 / z - 1 / z^\star)^T$, the derivative with respect to time in Eq. \ref{eq:stabcond} reduces to:
 
 \begin{equation}
 \dot{V} = \sum_i k_i (z_i - z_i^\star) \left( \frac{1}{z_i} - \frac{1}{z_i^\star} \right) = - \sum_i \frac{k_i}{z_i z_i^\star} (z_i - z_i^\star)^2 \leq 0

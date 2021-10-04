@@ -26,7 +26,7 @@ and parameters
 
 \begin{equation}
 \label{eq:rpshoiqp}
-\lambda = \begin{pmatrix}
+s = \begin{pmatrix}
 0\\
 0\\
 0
@@ -49,7 +49,7 @@ B = \begin{pmatrix}
 As such, the model in Eq. \ref{eq:rpshoi} with three variables (equivalent to two equations, given the constrain of dynamics happening in the simplex) and higher-order interactions can be recast as a GLV model with six variables, and parameters:
 
 \begin{equation}
-r = B \lambda = \vec{0}
+r = B s = 0_n
 \quad
 A = B M = \begin{pmatrix}
 0 & -2 & 4 & -4 & 2 & 0 \\ 
@@ -63,7 +63,7 @@ A = B M = \begin{pmatrix}
 
 Note that matrix $A$ has eigenvalues $-\frac{3}{2}(1 \pm 3 \sqrt{3})$ and an additional four eigenvalues equal to zero (i.e., it has rank 2, the number of independent equations in the original system).
 
-By choosing the candidate Lyapunov in Eq. \ref{eq:goh} function with weights $\gamma = (1,1,1, 2,2,2)^T$ and considering the perturbations $\Delta x = (y_1^2 - {y_1^\star}^2, y_2^2 - {y_2^\star}^2, y_3^2 - {y_3^\star}^2, y_1 y_2 - y_1^\star y_2^\star, y_1 y_3 - y_1^\star y_3^\star, y_2 y_3 - y_2^\star y_3^\star)^T$, we obtain:
+By choosing the candidate Lyapunov in Eq. \ref{eq:goh} function with weights $w = (1,1,1, 2,2,2)^T$ and considering the perturbations $\Delta x = (y_1^2 - {y_1^\star}^2, y_2^2 - {y_2^\star}^2, y_3^2 - {y_3^\star}^2, y_1 y_2 - y_1^\star y_2^\star, y_1 y_3 - y_1^\star y_3^\star, y_2 y_3 - y_2^\star y_3^\star)^T$, we obtain:
 
 \begin{equation}
 \begin{aligned}

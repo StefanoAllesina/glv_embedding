@@ -72,9 +72,4 @@ Now consider the candidate Lyapunov function with weights $w = (1,1,0,0)^T$, and
 
 Note that this choice of weights does not result in a negative semi-definite matrix: the nonzero eigenvalues of $(D(w) A + A^T D(w))$ are $\pm \delta / 2$. 
 
-Because $\dot{V} = 0$ whenever $y_1 = y_1^\star$, to prove stability we need to make sure that the equilibrium is the only trajectory contained in the set of points satisfying $\dot{V} = 0$. When we evaluate $\dot{y_2}|_{\dot{V} = 0} = 0$, meaning that $y_2$ must be constant for a trajectory to be contained in the space defined by $\dot{V} = 0$; but then inspecting the equation for $\dot{y}_3$ is sufficient to determine that 
-
-
-
-
-
+Because $\dot{V} = 0$ whenever $y_1 = y_1^\star$, to prove stability we need to make sure that the equilibrium is the only trajectory contained in the set of points satisfying $\dot{V} = 0$. We find that $\dot{y_2}|_{\dot{V} = 0} = 0$, meaning that $y_2$ must be constant for a trajectory to be contained in the space defined by $\dot{V} = 0$; but if both $y_1$ and $y_2$ are constants, then $y_3$ must be constant as well given that $y_1 + y_2 + y_3 = 1$, concluding the proof.

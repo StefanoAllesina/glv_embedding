@@ -280,9 +280,9 @@ Provided with an $n-$dimensional, autonomous system of differential equations $\
 
 **Asymptotic stability.** If an equilibrium is stable and further $y(t) \to y^\star$ as $t \to \infty$, the equlibrium is asymptotically stable (i.e., trajectories starting from a defined region will eventually reach the equilibrium). The set of initial conditions leading to the equilibrium are called the *region of attraction* of the equilibrium. If the region of attraction is the entire space, then the equilibrium is globally asymptotically stable.
 
-**Lyapunov's direct method.** Take a subset of $\mathbb R^n$, $\mathcal D$, containing the origin. If one can identify a suitable function $V$ such that a) $V(y^\star) = 0$, b) $V(y) > 0$ for all $y \in D - y^\star$ and c) $\dot{V}(y) <0$ for all $y \in D - y^\star$, then $y^\star$ is asymptotically stable. If moreover the trajectories started in $\mathcal D$ remain in $\mathcal D$ (i.e., $\mathcal D$ is an invariant manifold for the dynamics), and $V(y)$ is unbounded in $\mathcal D$ (i.e., $\lvert V(y) \rvert \to \infty$ when $y \to \partial D$), then $y^\star$ is globally asymptotically stable.
+**Lyapunov's direct method.** Take a subset of $\mathbb R^n$, $\mathcal D$, containing the origin. If one can identify a suitable function $V$ such that a) $V(y^\star) = 0$, b) $V(y) > 0$ for all $y \in D - y^\star$ and c) $\dot{V}(y) <0$ for all $y \in D - y^\star$, then $y^\star$ is asymptotically stable. If moreover the trajectories started in $\mathcal D$ remain in $\mathcal D$ (i.e., $\mathcal D$ is an invariant manifold for the dynamics), and $V(y)$ is unbounded in $\mathcal D$ (i.e., $\lVert V(y) \rVert \to \infty$ when $y \to \partial D$), then $y^\star$ is globally asymptotically stable.
 
-**LaSalle's invariance principle.** The condition $\dot{V}(y) < 0$ can be often relaxed to $\dot{V} \leq 0$. In such cases, one can apply LaSalle's invariance principle and conclude that any trajectory starting in $\mathcal D$ will converge to the *largest invariant set* included in set of points for which $\dot{V}(y) = 0$. In practice, we can prove stability of the equilibrium whenever we can identify a function $V(y)$ such that $\dot{V} \leq 0$, and the equilibrium is the only trajectory contained in the sub-space of $\mathcal D$ defined by $\dot{V}(y) = 0$.
+**LaSalle's invariance principle.** The condition $\dot{V}(y) < 0$ can be often relaxed to $\dot{V}(y) \leq 0$. In such cases, one can apply LaSalle's invariance principle and conclude that any trajectory starting in $\mathcal D$ will converge to the *largest invariant set* included in set of points for which $\dot{V}(y) = 0$. In practice, we can prove stability of the equilibrium whenever we can identify a function $V(y)$ such that $\dot{V}(y) \leq 0$, and the equilibrium is the only trajectory contained in the sub-space of $\mathcal D$ defined by $\dot{V}(y) = 0$.
 
 For a detailed introduction to Lyapunov's second method, as well as algorithms to build Lyapunov functions, see @nikravesh2018nonlinear.
 
@@ -356,7 +356,7 @@ We can calculate $\dot{V}$ as:
 \end{aligned}
 \end{equation}
 
-Substituting $\Delta x_1 = y_1 - y_1^\star$, $\Delta x_2 = y_2 - y_2^\star$ and $\Delta x_3 = y_2/y_1 - y_2^\star / y_1^\star$ shows that the function $V$ does not grow in time:
+Note that the function above can assume positive values when we are free to choose the $\Delta x_i$ however we wish. For example, take all parameters to be equal to one and $\Delta x_3 = 1$, $\Delta x_2 = 1$ and $\Delta x_1 = 3$; then $\dot{V} = 1$. However, we are not free to choose the perturbations arbitrarily, because they need to be consistent with our definition of the quasi-monomials. Substituting $\Delta x_1 = y_1 - y_1^\star$, $\Delta x_2 = y_2 - y_2^\star$ and $\Delta x_3 = y_2/y_1 - y_2^\star / y_1^\star$ shows that the function $V$ does not grow in time when perturbations are admissible:
 
 \begin{equation}
 \dot{V} = -\frac{(\rho_2 + y_1) (\rho_2 y_1 - \alpha_2 y_2)^2}{\alpha_2 y_1^2} \leq 0

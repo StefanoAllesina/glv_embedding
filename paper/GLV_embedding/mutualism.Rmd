@@ -71,7 +71,7 @@ r = \begin{pmatrix}
 \rho_1+\rho_2
 \end{pmatrix}
 \quad
-M = \begin{pmatrix}
+A = \begin{pmatrix}
 -\alpha_1 & 0 & 0 & \beta_1 & 0 & 0 & 0 \\
  0 & -\alpha_2 & \beta_2 & 0 & 0 & 0 & 0 \\
  -\alpha_1 & 0 & -\rho_1 & \beta_1 & \alpha_1 & 0 & -\beta_1 \\
@@ -100,5 +100,5 @@ Despite the complicated appearance, it is possible to prove the stability of the
 And therefore we have:
 
 \begin{equation}
-\dot{V} = \Delta x^T G \Delta x = -\frac{\alpha_1}{\beta_1} \Delta x_1^2 -\frac{\alpha_2}{\beta_2} \Delta x_2^2 + 
+\dot{V} = \Delta x^T G \Delta x = -\frac{\alpha_1}{\beta_1} \Delta x_1^2 -\frac{\alpha_2}{\beta_2} \Delta x_2^2 + \Delta x_1 \Delta x_4 + \Delta x_2 \Delta x_3
 \end{equation}

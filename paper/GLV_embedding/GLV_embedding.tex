@@ -425,18 +425,19 @@ function \(V\) such that a) \(V(y^\star) = 0\), b) \(V(y) > 0\) for all
 moreover the trajectories started in \(\mathcal D\) remain in
 \(\mathcal D\) (i.e., \(\mathcal D\) is an invariant manifold for the
 dynamics), and \(V(y)\) is unbounded in \(\mathcal D\) (i.e.,
-\(\lvert V(y) \rvert \to \infty\) when \(y \to \partial D\)), then
+\(\lVert V(y) \rVert \to \infty\) when \(y \to \partial D\)), then
 \(y^\star\) is globally asymptotically stable.
 
 \textbf{LaSalle's invariance principle.} The condition
-\(\dot{V}(y) < 0\) can be often relaxed to \(\dot{V} \leq 0\). In such
-cases, one can apply LaSalle's invariance principle and conclude that
-any trajectory starting in \(\mathcal D\) will converge to the
+\(\dot{V}(y) < 0\) can be often relaxed to \(\dot{V}(y) \leq 0\). In
+such cases, one can apply LaSalle's invariance principle and conclude
+that any trajectory starting in \(\mathcal D\) will converge to the
 \emph{largest invariant set} included in set of points for which
 \(\dot{V}(y) = 0\). In practice, we can prove stability of the
 equilibrium whenever we can identify a function \(V(y)\) such that
-\(\dot{V} \leq 0\), and the equilibrium is the only trajectory contained
-in the sub-space of \(\mathcal D\) defined by \(\dot{V}(y) = 0\).
+\(\dot{V}(y) \leq 0\), and the equilibrium is the only trajectory
+contained in the sub-space of \(\mathcal D\) defined by
+\(\dot{V}(y) = 0\).
 
 For a detailed introduction to Lyapunov's second method, as well as
 algorithms to build Lyapunov functions, see Nikravesh (2018).
@@ -562,7 +563,7 @@ We can calculate $\dot{V}$ as:
 \end{aligned}
 \end{equation}
 
-Substituting $\Delta x_1 = y_1 - y_1^\star$, $\Delta x_2 = y_2 - y_2^\star$ and $\Delta x_3 = y_2/y_1 - y_2^\star / y_1^\star$ shows that the function $V$ does not grow in time:
+Note that the function above can assume positive values when we are free to choose the $\Delta x_i$ however we wish. For example, take all parameters to be equal to one and $\Delta x_3 = 1$, $\Delta x_2 = 1$ and $\Delta x_1 = 3$; then $\dot{V} = 1$. However, we are not free to choose the perturbations arbitrarily, because they need to be consistent with our definition of the quasi-monomials. Substituting $\Delta x_1 = y_1 - y_1^\star$, $\Delta x_2 = y_2 - y_2^\star$ and $\Delta x_3 = y_2/y_1 - y_2^\star / y_1^\star$ shows that the function $V$ does not grow in time when perturbations are admissible:
 
 \begin{equation}
 \dot{V} = -\frac{(\rho_2 + y_1) (\rho_2 y_1 - \alpha_2 y_2)^2}{\alpha_2 y_1^2} \leq 0
@@ -680,11 +681,12 @@ are \(\pm \delta / 2\).
 
 Because \(\dot{V} = 0\) whenever \(y_1 = y_1^\star\), to prove stability
 we need to make sure that the equilibrium is the only trajectory
-contained in the set of points satisfying \(\dot{V} = 0\). When we
-evaluate \(\dot{y_2}|_{\dot{V} = 0} = 0\), meaning that \(y_2\) must be
-constant for a trajectory to be contained in the space defined by
-\(\dot{V} = 0\); but then inspecting the equation for \(\dot{y}_3\) is
-sufficient to determine that
+contained in the set of points satisfying \(\dot{V} = 0\). We find that
+\(\dot{y_2}|_{\dot{V} = 0} = 0\), meaning that \(y_2\) must be constant
+for a trajectory to be contained in the space defined by
+\(\dot{V} = 0\); but if both \(y_1\) and \(y_2\) are constants, then
+\(y_3\) must be constant as well given that \(y_1 + y_2 + y_3 = 1\),
+concluding the proof.
 
 \hypertarget{stability-of-a-consumer-resource-model-with-inputs}{%
 \subsection{Stability of a consumer-resource model with
@@ -761,8 +763,8 @@ G = \frac{1}{2}(D(w) A + A^T D(w)) = \begin{pmatrix}
 \end{pmatrix}
 \end{equation}
 
-The matrix is clearly non negative semi-definite. And yet, when we
-consider the perturbations:
+The matrix is clearly not negative semi-definite (just take \(n = 1\)).
+And yet, when we consider the perturbations:
 \(\Delta x = (z - z^\star, y - y^\star, 1 / z - 1 / z^\star)^T\), the
 derivative with respect to time in Eq. \ref{eq:stabcond} reduces to:
 
@@ -814,7 +816,7 @@ and parameters
 
 \begin{equation}
 \label{eq:rpshoiqp}
-\lambda = \begin{pmatrix}
+s = \begin{pmatrix}
 0\\
 0\\
 0
@@ -840,7 +842,7 @@ in the simplex) and higher-order interactions can be recast as a GLV
 model with six variables, and parameters:
 
 \begin{equation}
-r = B \lambda = \vec{0}
+r = B s = 0_n
 \quad
 A = B M = \begin{pmatrix}
 0 & -2 & 4 & -4 & 2 & 0 \\ 
@@ -858,7 +860,7 @@ equal to zero (i.e., it has rank 2, the number of independent equations
 in the original system).
 
 By choosing the candidate Lyapunov in Eq. \ref{eq:goh} function with
-weights \(\gamma = (1,1,1, 2,2,2)^T\) and considering the perturbations
+weights \(w = (1,1,1, 2,2,2)^T\) and considering the perturbations
 \(\Delta x = (y_1^2 - {y_1^\star}^2, y_2^2 - {y_2^\star}^2, y_3^2 - {y_3^\star}^2, y_1 y_2 - y_1^\star y_2^\star, y_1 y_3 - y_1^\star y_3^\star, y_2 y_3 - y_2^\star y_3^\star)^T\),
 we obtain:
 
@@ -960,7 +962,7 @@ r = \begin{pmatrix}
 \rho_1+\rho_2
 \end{pmatrix}
 \quad
-M = \begin{pmatrix}
+A = \begin{pmatrix}
 -\alpha_1 & 0 & 0 & \beta_1 & 0 & 0 & 0 \\
  0 & -\alpha_2 & \beta_2 & 0 & 0 & 0 & 0 \\
  -\alpha_1 & 0 & -\rho_1 & \beta_1 & \alpha_1 & 0 & -\beta_1 \\
@@ -993,7 +995,7 @@ weights to be positive, \(w_1 = \frac{1}{\beta_1}\) and
 And therefore we have:
 
 \begin{equation}
-\dot{V} = \Delta x^T G \Delta x = -\frac{\alpha_1}{\beta_1} \Delta x_1^2 -\frac{\alpha_2}{\beta_2} \Delta x_2^2 + 
+\dot{V} = \Delta x^T G \Delta x = -\frac{\alpha_1}{\beta_1} \Delta x_1^2 -\frac{\alpha_2}{\beta_2} \Delta x_2^2 + \Delta x_1 \Delta x_4 + \Delta x_2 \Delta x_3
 \end{equation}
 
 \hypertarget{further-transformations}{%
