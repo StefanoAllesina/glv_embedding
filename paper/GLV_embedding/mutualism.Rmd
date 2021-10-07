@@ -4,8 +4,8 @@ We consider a very simple model of facultative mutualism:
 
 \begin{equation}
 \begin{cases}
-\dot{z}_1 = z_1 \left(\rho_1 - \alpha_1 z_1 + \beta_1 \frac{z_2} / (\gamma_1 + z_2) \right)\\
-\dot{z}_2 = z_2 \left(\rho_2 - \alpha_2 z_2 + \beta_2 \frac{z_1} / (\gamma_2 + z_1) \right)
+\dot{z}_1 = z_1 \left(\rho_1 - \alpha_1 z_1 + \beta_1 \frac{z_2}{(\gamma_1 + z_2)} \right)\\
+\dot{z}_2 = z_2 \left(\rho_2 - \alpha_2 z_2 + \beta_2 \frac{z_1}{(\gamma_2 + z_1)} \right)
 \end{cases}
 \end{equation}
 
@@ -83,22 +83,21 @@ A = \begin{pmatrix}
 \end{aligned}
 \end{equation}
 
-Despite the complicated appearance, it is possible to prove the stability of the model in a straightforward way: choose the first two weights to be positive, $w_1 = \frac{1}{\beta_1}$ and $w_2 = \frac{1}{\beta_2}$ and all other weights to be zero. The matrix $G = \frac{1}{2}(D(w)A + A^T D(w))$ becomes very sparse:
+Despite the complicated appearance, it is possible to prove the stability of the model in a straightforward way: choose the first two weights ($w_1, w_2$) to be positive, and all other weights to be zero. The matrix $G = \frac{1}{2}(D(w)A + A^T D(w))$ becomes very sparse, yielding:
 
 \begin{equation}
-\begin{pmatrix}
- -\frac{\alpha_1}{\beta_1} & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 \\
- 0 & -\frac{\alpha_2}{\beta_2} & \frac{1}{2} & 0 & 0 & 0 & 0 \\
- 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 \\
- \frac{1}{2} & 0 & 0 & 0 & 0 & 0 & 0 \\
- 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
- 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
- 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
- \end{pmatrix}
+\dot{V} = \Delta x^T G \Delta x = w_1 \Delta x_1 (\beta_1 \Delta x_4 - \alpha_1 \Delta x_1) + w_2 \Delta x_2 (\beta_2 \Delta x_3 - \alpha_2 \Delta x_2)
 \end{equation}
 
-And therefore we have:
+Substituting the perturbations measured in the QP, and then the original coordinates, $\Delta x_1 = \Delta y_1 = \Delta z_1$, $\Delta x_2 = \Delta y_2 = \Delta z_2$, $\Delta x_3 = y_1 y_3 - y_1^\star y_3^\star = z_1 / (\gamma_1 + z_1) - z_1^\star / (\gamma_1 + z_1^\star) = \gamma_1 \Delta z_1 / ((\gamma_1 + z_1) (\gamma_1 + z_1^\star))$, $\Delta x_4 = \gamma_2 \Delta z_2 / ((\gamma_2 + z_2) (\gamma_2 + z_2^\star))$, the expression reduces to:
 
 \begin{equation}
-\dot{V} = \Delta x^T G \Delta x = -\frac{\alpha_1}{\beta_1} \Delta x_1^2 -\frac{\alpha_2}{\beta_2} \Delta x_2^2 + \Delta x_1 \Delta x_4 + \Delta x_2 \Delta x_3
+\dot{V} = - \alpha_1 w_1 \Delta z_1^2 - \alpha_2 w_2 \Delta z_2^2 + \Delta z_1 \Delta z_2 \left(\frac{\gamma_2 \beta_1 w_1}{(\gamma_2 +z_2)(\gamma_2 +z_2^\star)} + \frac{\gamma_1 \beta_2 w_2}{(\gamma_1 +z_1)(\gamma_1 +z_1^\star)} \right)
 \end{equation}
+
+Naturally, the first two terms are negative (as long as the two weights are positive), and the coefficients in parenthesis are positive. As such whenever $\Delta z_1 \Delta z_2 \leq 0$, $\dot{V} \leq 0$. When this is not the case, we can bound the function from above:
+
+\begin{equation}
+\dot{V} \leq - \alpha_1 w_1 \Delta z_1^2 - \alpha_2 w_2 \Delta z_2^2 + \Delta z_1 \Delta z_2 \left(\frac{\beta_1 w_1}{(\gamma_2 +z_2^\star)} + \frac{\beta_2 w_2}{(\gamma_1 +z_1^\star)} \right)
+\end{equation}
+

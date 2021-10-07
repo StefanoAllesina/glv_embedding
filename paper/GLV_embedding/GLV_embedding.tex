@@ -214,7 +214,7 @@ The Leslie-Gower model is simple variation on the classic Lotka-Volterra predato
 
 with $y_1$ representing the prey, $y_2$ the predator, and all coefficients are assumed to be positive. The coexistence equilibrium for the model is given by $y_1^\star = \frac{\rho_1 \alpha_2}{\rho_2 \alpha_1 + \alpha_2}$ and $y_2^\star = \frac{\rho_1 \rho_2}{\rho_2 \alpha_1 + \alpha_2}$. As we demonstrate below, the equilibrium is globally asymptotically stable---all trajectories starting at positive densities will eventually reach it.
 
-The system differs from GLV in that we have a ratio between the predator and prey in the equation for the predator. The system is however in QP form, as seen by defining:
+The system differs from GLV in that we have a ratio between the predator and prey in the equation for the predator; it is however a QP system, as seen by defining:
 
 \begin{equation}
 \label{eq:lgqp}
@@ -241,7 +241,8 @@ Lotka-Volterra}\label{from-quasi-polynomial-to-generalized-lotka-volterra}}
 
 \label{sec:qptoglv}
 
-We define a set of \(m\) \emph{quasi-monomials}:
+For a system in QP form (Eq. \ref{eq:qp}), we define the set of \(m\)
+\emph{quasi-monomials} as:
 
 \begin{equation}
 \label{eq:quasimono}
@@ -335,6 +336,8 @@ The GLV representation of the model becomes:
 \end{cases}
 \end{equation}
 
+along with the initial conditions $x(0) = (x_1(0), x_2(0), x_3(0))^T = (y_1(0), y_2(0), y_2(0) / y_1(0))^T$.
+
 \end{cb}
 
 \hypertarget{equivalence-between-representations}{%
@@ -405,15 +408,15 @@ region of interest (Lyapunov 1992).
 choice of \(\epsilon > 0\), there is a choice of \(\delta > 0\) such
 that if \(\lVert y(0) - y^\star \rVert < \delta\), then
 \(\lVert y(t) - y^\star \rVert < \epsilon\) for every \(t \geq 0\)
-(i.e., we can always identify a ``ball'' around the equilibrium such
-that trajectories starting in the ball cannot escape the volume defined
-by another ball).
+(i.e., we can always identify an \(n-\)dimensional ``ball'' around the
+equilibrium such that trajectories starting in the ball cannot escape
+the volume defined by another ball).
 
 \textbf{Asymptotic stability.} If an equilibrium is stable and further
 \(y(t) \to y^\star\) as \(t \to \infty\), the equlibrium is
 asymptotically stable (i.e., trajectories starting from a defined region
 will eventually reach the equilibrium). The set of initial conditions
-leading to the equilibrium are called the \emph{region of attraction} of
+leading to the equilibrium is called the \emph{region of attraction} of
 the equilibrium. If the region of attraction is the entire space, then
 the equilibrium is globally asymptotically stable.
 
@@ -836,13 +839,13 @@ B = \begin{pmatrix}
 \end{pmatrix}
 \end{equation}
 
-As such, the model in Eq. \ref{eq:rpshoi} with three variables
-(equivalent to two equations, given the constrain of dynamics happening
+As such, the model in Eq. \ref{eq:rpshoi} with three variables (\(n=3\),
+equivalent to two equations, given the constrain of dynamics happening
 in the simplex) and higher-order interactions can be recast as a GLV
-model with six variables, and parameters:
+model with six variables (\(m = 6\)), and parameters:
 
 \begin{equation}
-r = B s = 0_n
+r = B s = 0_m
 \quad
 A = B M = \begin{pmatrix}
 0 & -2 & 4 & -4 & 2 & 0 \\ 
@@ -886,8 +889,8 @@ We consider a very simple model of facultative mutualism:
 
 \begin{equation}
 \begin{cases}
-\dot{z}_1 = z_1 \left(\rho_1 - \alpha_1 z_1 + \beta_1 \frac{z_2} / (\gamma_1 + z_2) \right)\\
-\dot{z}_2 = z_2 \left(\rho_2 - \alpha_2 z_2 + \beta_2 \frac{z_1} / (\gamma_2 + z_1) \right)
+\dot{z}_1 = z_1 \left(\rho_1 - \alpha_1 z_1 + \beta_1 \frac{z_2}{(\gamma_1 + z_2)} \right)\\
+\dot{z}_2 = z_2 \left(\rho_2 - \alpha_2 z_2 + \beta_2 \frac{z_1}{(\gamma_2 + z_1)} \right)
 \end{cases}
 \end{equation}
 
@@ -976,26 +979,32 @@ A = \begin{pmatrix}
 
 Despite the complicated appearance, it is possible to prove the
 stability of the model in a straightforward way: choose the first two
-weights to be positive, \(w_1 = \frac{1}{\beta_1}\) and
-\(w_2 = \frac{1}{\beta_2}\) and all other weights to be zero. The matrix
-\(G = \frac{1}{2}(D(w)A + A^T D(w))\) becomes very sparse:
+weights (\(w_1, w_2\)) to be positive, and all other weights to be zero.
+The matrix \(G = \frac{1}{2}(D(w)A + A^T D(w))\) becomes very sparse,
+yielding:
 
 \begin{equation}
-\begin{pmatrix}
- -\frac{\alpha_1}{\beta_1} & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 \\
- 0 & -\frac{\alpha_2}{\beta_2} & \frac{1}{2} & 0 & 0 & 0 & 0 \\
- 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 \\
- \frac{1}{2} & 0 & 0 & 0 & 0 & 0 & 0 \\
- 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
- 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
- 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
- \end{pmatrix}
+\dot{V} = \Delta x^T G \Delta x = w_1 \Delta x_1 (\beta_1 \Delta x_4 - \alpha_1 \Delta x_1) + w_2 \Delta x_2 (\beta_2 \Delta x_3 - \alpha_2 \Delta x_2)
 \end{equation}
 
-And therefore we have:
+Substituting the perturbations measured in the QP, and then the original
+coordinates, \(\Delta x_1 = \Delta y_1 = \Delta z_1\),
+\(\Delta x_2 = \Delta y_2 = \Delta z_2\),
+\(\Delta x_3 = y_1 y_3 - y_1^\star y_3^\star = z_1 / (\gamma_1 + z_1) - z_1^\star / (\gamma_1 + z_1^\star) = \gamma_1 \Delta z_1 / ((\gamma_1 + z_1) (\gamma_1 + z_1^\star))\),
+\(\Delta x_4 = \gamma_2 \Delta z_2 / ((\gamma_2 + z_2) (\gamma_2 + z_2^\star))\),
+the expression reduces to:
 
 \begin{equation}
-\dot{V} = \Delta x^T G \Delta x = -\frac{\alpha_1}{\beta_1} \Delta x_1^2 -\frac{\alpha_2}{\beta_2} \Delta x_2^2 + \Delta x_1 \Delta x_4 + \Delta x_2 \Delta x_3
+\dot{V} = - \alpha_1 w_1 \Delta z_1^2 - \alpha_2 w_2 \Delta z_2^2 + \Delta z_1 \Delta z_2 \left(\frac{\gamma_2 \beta_1 w_1}{(\gamma_2 +z_2)(\gamma_2 +z_2^\star)} + \frac{\gamma_1 \beta_2 w_2}{(\gamma_1 +z_1)(\gamma_1 +z_1^\star)} \right)
+\end{equation}
+
+Naturally, the first two terms are negative (as long as the two weights
+are positive), and the coefficients in parenthesis are positive. As such
+whenever \(\Delta z_1 \Delta z_2 \leq 0\), \(\dot{V} \leq 0\). When this
+is not the case, we can bound the function from above:
+
+\begin{equation}
+\dot{V} \leq - \alpha_1 w_1 \Delta z_1^2 - \alpha_2 w_2 \Delta z_2^2 + \Delta z_1 \Delta z_2 \left(\frac{\beta_1 w_1}{(\gamma_2 +z_2^\star)} + \frac{\beta_2 w_2}{(\gamma_1 +z_1^\star)} \right)
 \end{equation}
 
 \hypertarget{further-transformations}{%

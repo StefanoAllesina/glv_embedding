@@ -26,7 +26,8 @@ find_constants_GLV_embedding <- function(
   n_rounds = 3, # number of iterations for numerical search
   num_steps = 5000, # number of iterations for each optim algorithm
   show_progress = TRUE, # show trace of numerical search
-  function_constants_name = "default_constants" # choose from above
+  function_constants_name = "default_constants", # choose from above
+  weight_pattern = NULL # weights for the constants (use to set some to zero)
 ){
   function_constants <- match.fun(function_constants_name)
   
@@ -34,6 +35,7 @@ find_constants_GLV_embedding <- function(
   n <- length(lambda)
   m <- ncol(M)
 
+  if (is.null(weight_pattern)) weight_pattern <- rep(1,m)
   # if we are not provided with an equilibrium, find it numerically
   # (assuming there's only one and is globally stable)
   if(is.null(ystar)){
@@ -72,7 +74,7 @@ find_constants_GLV_embedding <- function(
     Y <- diag(ystar) %*% matrix(runif(n * n_points, 0, k), n, n_points)
   }
   # build a matrix of equil values
-  Ystar <- matrix(ystar, n, n_points)
+  Ystar <- matrix(ystar, n, ncol(Y))
   # Transform variables
   Z <- exp(B %*% log(Y))
   Zstar <- exp(B %*% log(Ystar))
@@ -81,7 +83,7 @@ find_constants_GLV_embedding <- function(
 
   # Now search for constants for candidate Lyapunov function
   find_constants <- function(alpha, DZ, A){
-    alpha <- abs(alpha) # nonnegative constants
+    alpha <- abs(alpha) * weight_pattern # nonnegative constants
     alpha <- alpha / mean(alpha) # set mean to 1 to avoid a = rep(0, m)
     G <- diag(alpha) %*% A
     G <- (G + t(G)) / 2
@@ -95,7 +97,7 @@ find_constants_GLV_embedding <- function(
 
   cat("Searching numerically for constants of Lyapunov function... ")
   tmp <- list(par = runif(m))
-  for (i in n_rounds){
+  for (i in 1:n_rounds){
     tmp <- optim(par = tmp$par, fn = find_constants, method = "Nelder-Mead", 
                  A = A, DZ = DZ, control = list(maxit = num_steps, trace = show_progress))
     tmp <- optim(par = tmp$par, fn = find_constants, method = "BFGS", 
@@ -106,7 +108,7 @@ find_constants_GLV_embedding <- function(
   if (tmp$value < 0){
     cat("Success!\n")
     alpha <- tmp$par
-    alpha <- abs(alpha) 
+    alpha <- abs(alpha) * weight_pattern
     alpha <- alpha / mean(alpha)
     print(alpha)
     return(list(lambda = lambda, M = M, B = B, 

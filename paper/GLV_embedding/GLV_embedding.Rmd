@@ -83,7 +83,7 @@ The Leslie-Gower model is simple variation on the classic Lotka-Volterra predato
 
 with $y_1$ representing the prey, $y_2$ the predator, and all coefficients are assumed to be positive. The coexistence equilibrium for the model is given by $y_1^\star = \frac{\rho_1 \alpha_2}{\rho_2 \alpha_1 + \alpha_2}$ and $y_2^\star = \frac{\rho_1 \rho_2}{\rho_2 \alpha_1 + \alpha_2}$. As we demonstrate below, the equilibrium is globally asymptotically stable---all trajectories starting at positive densities will eventually reach it.
 
-The system differs from GLV in that we have a ratio between the predator and prey in the equation for the predator. The system is however in QP form, as seen by defining:
+The system differs from GLV in that we have a ratio between the predator and prey in the equation for the predator; it is however a QP system, as seen by defining:
 
 \begin{equation}
 \label{eq:lgqp}
@@ -107,7 +107,7 @@ B = \begin{pmatrix}
 # From Quasi-Polynomial to Generalized Lotka-Volterra
 \label{sec:qptoglv}
 
-We define a set of $m$ *quasi-monomials*:
+For a system in QP form (Eq. \ref{eq:qp}), we define the set of $m$ *quasi-monomials* as:
 
 \begin{equation}
 \label{eq:quasimono}
@@ -187,6 +187,8 @@ The GLV representation of the model becomes:
 \dot{x}_3 = x_3 (\rho_2 - \rho_1 + \alpha_1 x_1 - \alpha_2 x_3)
 \end{cases}
 \end{equation}
+
+along with the initial conditions $x(0) = (x_1(0), x_2(0), x_3(0))^T = (y_1(0), y_2(0), y_2(0) / y_1(0))^T$.
 
 \end{cb}
 
@@ -276,9 +278,9 @@ out %>% ggplot() + aes(x = time, y = density, colour = population) +
 
 Provided with an $n-$dimensional, autonomous system of differential equations $\dot{y}_i$ having an equilibrium $y^\star = 0$ at the origin $\dot{y_i}|_{y = 0} = 0 \, \forall i$, we want to establish the stability of the equilibrium. We use Lyapunov's direct method (also called "second method"), which employs a function (called a *Lyapunov function*) to determine stability or instability in a region of interest [@lyapunov1992general]. 
 
-**Stability.** An equilibrium $y^\star$ is stable if for every choice of $\epsilon > 0$, there is a choice of $\delta > 0$ such that if $\lVert y(0) - y^\star \rVert < \delta$, then $\lVert y(t) - y^\star \rVert < \epsilon$ for every $t \geq 0$ (i.e., we can always identify a "ball" around the equilibrium such that trajectories starting in the ball cannot escape the volume defined by another ball).
+**Stability.** An equilibrium $y^\star$ is stable if for every choice of $\epsilon > 0$, there is a choice of $\delta > 0$ such that if $\lVert y(0) - y^\star \rVert < \delta$, then $\lVert y(t) - y^\star \rVert < \epsilon$ for every $t \geq 0$ (i.e., we can always identify an $n-$dimensional "ball" around the equilibrium such that trajectories starting in the ball cannot escape the volume defined by another ball).
 
-**Asymptotic stability.** If an equilibrium is stable and further $y(t) \to y^\star$ as $t \to \infty$, the equlibrium is asymptotically stable (i.e., trajectories starting from a defined region will eventually reach the equilibrium). The set of initial conditions leading to the equilibrium are called the *region of attraction* of the equilibrium. If the region of attraction is the entire space, then the equilibrium is globally asymptotically stable.
+**Asymptotic stability.** If an equilibrium is stable and further $y(t) \to y^\star$ as $t \to \infty$, the equlibrium is asymptotically stable (i.e., trajectories starting from a defined region will eventually reach the equilibrium). The set of initial conditions leading to the equilibrium is called the *region of attraction* of the equilibrium. If the region of attraction is the entire space, then the equilibrium is globally asymptotically stable.
 
 **Lyapunov's direct method.** Take a subset of $\mathbb R^n$, $\mathcal D$, containing the origin. If one can identify a suitable function $V$ such that a) $V(y^\star) = 0$, b) $V(y) > 0$ for all $y \in D - y^\star$ and c) $\dot{V}(y) <0$ for all $y \in D - y^\star$, then $y^\star$ is asymptotically stable. If moreover the trajectories started in $\mathcal D$ remain in $\mathcal D$ (i.e., $\mathcal D$ is an invariant manifold for the dynamics), and $V(y)$ is unbounded in $\mathcal D$ (i.e., $\lVert V(y) \rVert \to \infty$ when $y \to \partial D$), then $y^\star$ is globally asymptotically stable.
 

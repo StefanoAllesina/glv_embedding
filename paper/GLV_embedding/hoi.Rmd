@@ -46,10 +46,10 @@ B = \begin{pmatrix}
 \end{pmatrix}
 \end{equation}
 
-As such, the model in Eq. \ref{eq:rpshoi} with three variables (equivalent to two equations, given the constrain of dynamics happening in the simplex) and higher-order interactions can be recast as a GLV model with six variables, and parameters:
+As such, the model in Eq. \ref{eq:rpshoi} with three variables ($n=3$, equivalent to two equations, given the constrain of dynamics happening in the simplex) and higher-order interactions can be recast as a GLV model with six variables ($m = 6$), and parameters:
 
 \begin{equation}
-r = B s = 0_n
+r = B s = 0_m
 \quad
 A = B M = \begin{pmatrix}
 0 & -2 & 4 & -4 & 2 & 0 \\ 
