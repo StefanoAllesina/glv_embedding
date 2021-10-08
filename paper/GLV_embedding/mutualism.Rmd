@@ -4,8 +4,8 @@ We consider a very simple model of facultative mutualism:
 
 \begin{equation}
 \begin{cases}
-\dot{z}_1 = z_1 \left(\rho_1 - \alpha_1 z_1 + \beta_1 \frac{z_2}{(\gamma_1 + z_2)} \right)\\
-\dot{z}_2 = z_2 \left(\rho_2 - \alpha_2 z_2 + \beta_2 \frac{z_1}{(\gamma_2 + z_1)} \right)
+\dot{z}_1 = z_1 \left(\rho_1 - \alpha_1 z_1 + \beta_1 \frac{z_2}{(\gamma_2 + z_2)} \right)\\
+\dot{z}_2 = z_2 \left(\rho_2 - \alpha_2 z_2 + \beta_2 \frac{z_1}{(\gamma_1 + z_1)} \right)
 \end{cases}
 \end{equation}
 
@@ -98,6 +98,21 @@ Substituting the perturbations measured in the QP, and then the original coordin
 Naturally, the first two terms are negative (as long as the two weights are positive), and the coefficients in parenthesis are positive. As such whenever $\Delta z_1 \Delta z_2 \leq 0$, $\dot{V} \leq 0$. When this is not the case, we can bound the function from above:
 
 \begin{equation}
-\dot{V} \leq - \alpha_1 w_1 \Delta z_1^2 - \alpha_2 w_2 \Delta z_2^2 + \Delta z_1 \Delta z_2 \left(\frac{\beta_1 w_1}{(\gamma_2 +z_2^\star)} + \frac{\beta_2 w_2}{(\gamma_1 +z_1^\star)} \right)
+\begin{aligned}
+\dot{V} &\leq - \alpha_1 w_1 \Delta z_1^2 - \alpha_2 w_2 \Delta z_2^2 + \Delta z_1 \Delta z_2 \left(\frac{\beta_1 w_1}{(\gamma_2 +z_2^\star)} + \frac{\beta_2 w_2}{(\gamma_1 +z_1^\star)} \right)\\
+&\leq - \alpha_1 w_1 \Delta z_1^2 - \alpha_2 w_2 \Delta z_2^2 + \Delta z_1 \Delta z_2 \left(w_1 \frac{\alpha_1 z_1^\star - \rho_1}{z_2^\star} + w_2 \frac{\alpha_2 z_2^\star- \rho_2}{z_1^\star} \right)\\
+&\leq - \alpha_1 w_1 \Delta z_1^2 - \alpha_2 w_2 \Delta z_2^2 + \Delta z_1 \Delta z_2 \left(w_1 \frac{\alpha_1 z_1^\star}{z_2^\star} + w_2\frac{\alpha_2 z_2^\star}{z_1^\star} \right)
+\end{aligned}
 \end{equation}
+
+Finally, choosing $w_1 = 1 / (\alpha_1 z_1^2)$ and $w_2 = 1 / (\alpha_2 z_2^2)$, we obtain:
+
+\begin{equation}
+\begin{aligned}
+\dot{V} &\leq -\frac{1}{(z_1^\star)^2} \Delta z_1^2 + 2 \Delta z_1 \Delta z_2 \frac{1}{z_1^\star z_2^\star} - -\frac{1}{(z_2^\star)^2} \Delta z_2^2 \\
+&\leq - \left(\frac{\Delta z_1}{z_1^\star} - \frac{\Delta z_2}{z_2^\star}\right)^2 \\
+&\leq 0
+\end{aligned}
+\end{equation}
+
 

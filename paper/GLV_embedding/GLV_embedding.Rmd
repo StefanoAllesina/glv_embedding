@@ -390,8 +390,6 @@ In this section we present XXXX simple examples in which we prove stability usin
 
 ```
 
-
-
 # Further transformations
 
 # Other approaches to stability for Lotka-Volterra
