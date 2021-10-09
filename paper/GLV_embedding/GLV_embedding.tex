@@ -13,8 +13,8 @@
 \usepackage{microtype}      % microtypography
 \usepackage{graphicx}
 
-\title{Stability of ecological and epidemiological models via
-representation as Generalized Lotka-Volterra dynamics}
+\title{Stability of ecological and epidemiological models via representation as
+Generalized Lotka-Volterra dynamics}
 
 \author{
     Stefano Allesina
@@ -36,31 +36,6 @@ representation as Generalized Lotka-Volterra dynamics}
 
 
 % Pandoc citation processing
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-% for Pandoc 2.8 to 2.10.1
-\newenvironment{cslreferences}%
-  {}%
-  {\par}
-% For Pandoc 2.11+
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
-  % set entry spacing
-  \ifnum #2 > 0
-  \setlength{\parskip}{#2\baselineskip}
-  \fi
- }%
- {}
-\usepackage{calc} % for calculating minipage widths
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \usepackage{amsmath}
 \usepackage{xcolor}
@@ -584,6 +559,81 @@ stability using the quasi-monomial transformation in conjunction with
 the candidate Lyapunov function in Eq. \ref{eq:goh}. See Rocha Filho et
 al. (2005) for other relevant examples.
 
+\hypertarget{leslie-gower-without-intraspecific-competition}{%
+\subsection{Leslie-Gower without intraspecific
+competition}\label{leslie-gower-without-intraspecific-competition}}
+
+\label{sec:lgnosr}
+
+Take the Leslie-Gower model above and set the coefficient modeling
+intraspecific competition to zero. The model simplifies to:
+
+\begin{equation}
+\label{eq:lgnosr}
+\begin{cases}
+\dot{y}_1 = y_1 (\rho_1 - \alpha_1 y_2)\\
+\dot{y}_2 = y_2 \left(\rho_2 - \alpha_2 \frac{y_2}{y_1} \right)
+\end{cases}
+\end{equation}
+
+The model has a feasible equilibrium
+\(y_1^\star = \alpha_2 \rho_1 / (\alpha_1 \rho_2)\),
+\(y_2^\star = \rho_1 / \alpha_1\), and we want to prove that the
+equilibrium is globally attractive. We can identify two quasi-monomials
+(i.e., in this case \(n = m\)). As such, we can recast the model as a
+GLV with two equations. We define:
+
+\begin{equation}
+\begin{aligned}
+x = \begin{pmatrix}
+y_2\\
+\frac{y_2}{y_1}
+\end{pmatrix}
+\quad
+s = \begin{pmatrix}
+\rho_1 \\
+\rho_2
+\end{pmatrix}
+\quad
+M = \begin{pmatrix}
+-\alpha_1 & 0\\
+0 & -\alpha_2
+\end{pmatrix}
+\quad
+B = \begin{pmatrix}
+0 & 1\\
+-1 & 1
+\end{pmatrix}
+\\
+r = Bs= \begin{pmatrix}
+\rho_2\\
+\rho_2 - \rho_1
+\end{pmatrix}
+\quad 
+A = BM = \begin{pmatrix}
+0 & -\alpha_2\\
+\alpha_1 & -\alpha_2
+\end{pmatrix}
+\end{aligned}
+\end{equation}
+
+These parameters define a predator-prey GLV model in which the predator
+experiences intraspecific competition. The coexistence equilibrium is
+stable, as shown by considering the candidate Lyapunov function with
+weights \(w = (1/\alpha_2,1/\alpha_1)^T\), and the perturbations
+\(\Delta x = (\Delta x_1, \Delta x_2)^T = (y_2 - y_2^\star, y_2/y_1 - y_2^\star / y_1^\star)^T = (\Delta y_2, (y_2 y_1^\star - y_1 y_2^\star)/(y_1 y_1^\star))^T\).
+Deriving with respect to time, we obtain:
+
+\begin{equation}
+\dot{V} = \frac{1}{2} \Delta x^T (D(w) A + A^T D(w)) \Delta x =  - \frac{\alpha_2}{\alpha_1} \Delta x_2^2 = -\frac{\alpha_2}{\alpha_1} \left( \frac{y_2 y_1^\star - y_1 y_2^\star}{y_1 y_1^\star}\right)^2\leq 0
+\end{equation}
+
+Thus, \(\dot{V} \leq 0\), with equality attained when
+\(y_2 y_1^\star - y_1 y_2^\star\); when this is the case, the equation
+\(\dot{y}_2 = 0\), and therefore the equilibrium is the only trajectory
+contained in the space defining \(\dot{V} = 0\) and thus is globally
+stable.
+
 \hypertarget{a-susceptible-infected-recovered-model-with-demography}{%
 \subsection{A susceptible-infected-recovered model with
 demography}\label{a-susceptible-infected-recovered-model-with-demography}}
@@ -1034,61 +1084,62 @@ Lotka-Volterra}\label{other-approaches-to-stability-for-lotka-volterra}}
 \addcontentsline{toc}{section}{Conclusions}
 
 \hypertarget{refs}{}
-\begin{CSLReferences}{1}{0}
 \leavevmode\hypertarget{ref-brenig1988complete}{}%
-Brenig, Léon. 1988. {``Complete Factorisation and Analytic Solutions of
-Generalized Lotka-Volterra Equations.''} \emph{Physics Letters A} 133
-(7-8): 378--82.
+Brenig, Léon. 1988. ``Complete Factorisation and Analytic Solutions of
+Generalized Lotka-Volterra Equations.'' \emph{Physics Letters A} 133
+(7-8). Elsevier: 378--82.
 
 \leavevmode\hypertarget{ref-brenig2018reducing}{}%
----------. 2018. {``Reducing Nonlinear Dynamical Systems to Canonical
-Forms.''} \emph{Philosophical Transactions of the Royal Society A:
-Mathematical, Physical and Engineering Sciences} 376 (2124): 20170384.
+---------. 2018. ``Reducing Nonlinear Dynamical Systems to Canonical
+Forms.'' \emph{Philosophical Transactions of the Royal Society A:
+Mathematical, Physical and Engineering Sciences} 376 (2124). The Royal
+Society Publishing: 20170384.
 
 \leavevmode\hypertarget{ref-figueiredo2000boundedness}{}%
-Figueiredo, A, IM Gleria, and TM Rocha Filho. 2000. {``Boundedness of
-Solutions and Lyapunov Functions in Quasi-Polynomial Systems.''}
-\emph{Physics Letters A} 268 (4-6): 335--41.
+Figueiredo, A, IM Gleria, and TM Rocha Filho. 2000. ``Boundedness of
+Solutions and Lyapunov Functions in Quasi-Polynomial Systems.''
+\emph{Physics Letters A} 268 (4-6). Elsevier: 335--41.
 
 \leavevmode\hypertarget{ref-gleria2003numerical}{}%
-Gléria, IM, A Figueiredo, and TM Rocha Filho. 2003. {``A Numerical
-Method for the Stability Analysis of Quasi-Polynomial Vector Fields.''}
-\emph{Nonlinear Analysis: Theory, Methods \& Applications} 52 (1):
-329--42.
+Gléria, IM, A Figueiredo, and TM Rocha Filho. 2003. ``A Numerical Method
+for the Stability Analysis of Quasi-Polynomial Vector Fields.''
+\emph{Nonlinear Analysis: Theory, Methods \& Applications} 52 (1).
+Elsevier: 329--42.
 
 \leavevmode\hypertarget{ref-gouze1990transformation}{}%
-Gouzé, Jean-Luc. 1990. {``Transformation of Polynomial Differential
-Systems in the Positive Orthant.''} PhD thesis, INRIA.
+Gouzé, Jean-Luc. 1990. ``Transformation of Polynomial Differential
+Systems in the Positive Orthant.'' PhD thesis, INRIA.
 
 \leavevmode\hypertarget{ref-hernandez1997lotka}{}%
-Hernández-Bermejo, Benito, and Víctor Fairén. 1997. {``Lotka-Volterra
-Representation of General Nonlinear Systems.''} \emph{Mathematical
-Biosciences} 140 (1): 1--32.
+Hernández-Bermejo, Benito, and Víctor Fairén. 1997. ``Lotka-Volterra
+Representation of General Nonlinear Systems.'' \emph{Mathematical
+Biosciences} 140 (1). Elsevier: 1--32.
 
 \leavevmode\hypertarget{ref-hofbauer1998evolutionary}{}%
 Hofbauer, Josef, and Karl Sigmund. 1998. \emph{Evolutionary Games and
 Population Dynamics}. Cambridge university press.
 
 \leavevmode\hypertarget{ref-lotka1920analytical}{}%
-Lotka, Alfred J. 1920a. {``Analytical Note on Certain Rhythmic Relations
-in Organic Systems.''} \emph{Proceedings of the National Academy of
-Sciences} 6 (7): 410--15.
+Lotka, Alfred J. 1920a. ``Analytical Note on Certain Rhythmic Relations
+in Organic Systems.'' \emph{Proceedings of the National Academy of
+Sciences} 6 (7). National Acad Sciences: 410--15.
 
 \leavevmode\hypertarget{ref-lotka1920undamped}{}%
----------. 1920b. {``Undamped Oscillations Derived from the Law of Mass
-Action.''} \emph{Journal of the American Chemical Society} 42 (8):
-1595--99.
+---------. 1920b. ``Undamped Oscillations Derived from the Law of Mass
+Action.'' \emph{Journal of the American Chemical Society} 42 (8). ACS
+Publications: 1595--9.
 
 \leavevmode\hypertarget{ref-lyapunov1992general}{}%
-Lyapunov, Aleksandr M. 1992. {``The General Problem of the Stability of
-Motion.''} \emph{International Journal of Control} 55 (3): 531--34.
+Lyapunov, Aleksandr M. 1992. ``The General Problem of the Stability of
+Motion.'' \emph{International Journal of Control} 55 (3). Taylor \&
+Francis: 531--34.
 
 \leavevmode\hypertarget{ref-miller2021metapopulations}{}%
-Miller, Zachary R, and Stefano Allesina. 2021. {``Metapopulations with
-Habitat Modification.''} \emph{bioRxiv}.
+Miller, Zachary R, and Stefano Allesina. 2021. ``Metapopulations with
+Habitat Modification.'' \emph{bioRxiv}. Cold Spring Harbor Laboratory.
 
 \leavevmode\hypertarget{ref-nikravesh2018nonlinear}{}%
-Nikravesh, Seyed K. Y. 2018. \emph{Nonlinear Systems Stability Analysis:
+Nikravesh, Seyed K.Y. 2018. \emph{Nonlinear Systems Stability Analysis:
 Lyapunov-Based Approach}. CRC Press.
 
 \leavevmode\hypertarget{ref-peschel1986predator}{}%
@@ -1097,8 +1148,8 @@ Do We Live in a Volterra World?} Springer.
 
 \leavevmode\hypertarget{ref-rocha2005lotka}{}%
 Rocha Filho, Tarcísio M, Iram M Gléria, Annibal Figueiredo, and Léon
-Brenig. 2005. {``The Lotka--Volterra Canonical Format.''}
-\emph{Ecological Modelling} 183 (1): 95--106.
+Brenig. 2005. ``The Lotka--Volterra Canonical Format.'' \emph{Ecological
+Modelling} 183 (1). Elsevier: 95--106.
 
 \leavevmode\hypertarget{ref-szederkenyi2018analysis}{}%
 Szederkenyi, Gabor, Attila Magyar, and Katalin M Hangos. 2018.
@@ -1106,19 +1157,17 @@ Szederkenyi, Gabor, Attila Magyar, and Katalin M Hangos. 2018.
 Applications}. Academic Press.
 
 \leavevmode\hypertarget{ref-szederkenyi2012computational}{}%
-Szederkényi, Gábor. 2012. {``Computational Methods for the Analysis of
-Nonnegative Polynomial Systems.''} PhD thesis, MTA SZTAKI.
+Szederkényi, Gábor. 2012. ``Computational Methods for the Analysis of
+Nonnegative Polynomial Systems.'' PhD thesis, MTA SZTAKI.
 
 \leavevmode\hypertarget{ref-volterra1926fluctuations}{}%
-Volterra, Vito. 1926a. {``Fluctuations in the Abundance of a Species
-Considered Mathematically.''} \emph{Nature} 118 (2972): 558--60.
+Volterra, Vito. 1926a. ``Fluctuations in the Abundance of a Species
+Considered Mathematically.'' \emph{Nature} 118 (2972): 558--60.
 
 \leavevmode\hypertarget{ref-volterra1926variazioni}{}%
----------. 1926b. {``Variazioni e Fluttuazioni Del Numero d'individui in
-Specie Animali Conviventi.''} \emph{Memorie Della Regia Accademia
+---------. 1926b. ``Variazioni E Fluttuazioni Del Numero d'individui in
+Specie Animali Conviventi.'' \emph{Memorie Della Regia Accademia
 Nazionale Dei Lincei} 2: 31--113.
-
-\end{CSLReferences}
 
 \bibliographystyle{abbrv}
 \bibliography{references.bib}

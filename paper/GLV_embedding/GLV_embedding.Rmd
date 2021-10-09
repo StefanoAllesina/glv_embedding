@@ -372,6 +372,10 @@ To prove stability, we need to show that the equilibrium is the only trajectory 
 
 In this section we present XXXX simple examples in which we prove stability using the quasi-monomial transformation in conjunction with the candidate Lyapunov function in Eq. \ref{eq:goh}. See @rocha2005lotka for other relevant examples.
 
+```{r child=here::here("paper", "GLV_embedding", "lg_no_self.Rmd")}
+
+```
+
 ```{r child=here::here("paper", "GLV_embedding", "sir.Rmd")}
 
 ```
