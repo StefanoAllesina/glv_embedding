@@ -1,0 +1,81 @@
+In the example above, we have rescaled time to obtain a QP system. When we start from a QP system, we can always rescale time by a quasi-monomial of choice, and this rescaling maps a QP system into another QP system. Equilibria and stability are unchanged. Suppose that for the original system there is no choice of positive weights that can be used to prove stability via the candidate Lyapunov function proposed by Goh; an appropriate time rescale could yield a system for which the candidate Lyapunov function is applicable. As such, rescaling time extends the applicability of the candidate Lyapunov function. 
+
+To proceed with a quasi-monomial rescaling of time, it is convenient to rewrite the QP system by introducing a new equation for $y_{n+1}$ such that $y_{n+1}(0) = 1$ and $\dot{y}_{n+1} = 0$. This extra equation can be thought as representing the "external environment", which does not change through the dynamics. Having defined this extra equation, we can rewrite the dynamics in Eq. \ref{eq:qp} in a more compact form:
+
+\begin{equation}
+\label{eq:qpextra}
+\begin{aligned}
+\dot{y}_i = y_i \left( s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}} \right)\\
+\dot{y}_i = y_i \left( s_i y_{n+1} + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}} \right)\\
+\dot{y}_i = y_i \left(\sum_{j = 1}^{m+1} \tilde{M}_{ij} \prod_{k = 1}^{n+1} y_k^{\tilde{B}_{jk}} \right)
+\end{aligned}
+\end{equation}
+
+\noindent where $\tilde{M}$ is the matrix $M$ with the addition of another column containing the vector $s$; $\tilde{B}$ is the matrix $B$ with the addition of a row of zeros:
+
+\begin{equation}
+\tilde{M} = \left(\begin{array}{c|c} 
+M & s
+\end{array}
+\right) \quad B = \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right)
+\end{equation}
+
+with this notation at hand, we want to rescale time such that $t = \tau \prod_{k} y_k^{\theta_k}$, and as such $\frac{d y}{d\tau} = \frac{d y}{d t} \prod_{k} y_k^{\theta_k}$. Because we are multiplying all equations by a quasi monomial ($\prod_{k} y_k^{\theta_k}$), if the original system was quasi-polynomial, the system with rescaled time is also QP. In fact, we can compactly define the new QP system as:
+
+\begin{equation}
+\tilde{s} = 0_{n} \quad \tilde{M} = \left(\begin{array}{c|c} 
+M & s
+\end{array} \right) \quad 
+\tilde{B} =  \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right) + 1_{(m+1 \times n)} D(\theta)
+\end{equation}
+
+I.e., we have added a constant $\theta_k$ to each column in $\tilde{B}$. To show that this transformation can extend the applicability of the candidate Lyapunov function by Goh, we consider the competitive GLV system defined as:
+
+\begin{equation}
+s = \begin{pmatrix}
+\nicefrac{13}{10}\\
+\nicefrac{2}{5}\\
+2
+\end{pmatrix} \quad
+M = \begin{pmatrix}
+-\nicefrac{1}{2} & -\nicefrac{1}{3} & 0\\
+0 &  -\nicefrac{1}{3} &  -\nicefrac{51}{50}\\
+-1 & 0 & -\nicefrac{1}{4}
+\end{pmatrix} 
+\end{equation}
+
+The system has a feasible equilibrium, and a simple calculation shows that it is locally stable. However, one can prove that there is no suitable choice of weights such that the candidate Lyapunov function proposed by Goh is guaranteed to decrease in time: for example, compute the characteristic polynomial of $G = \frac{1}{2}(D(w) M + M^T D(w))$ and notice that the coefficients cannot be of the same sign. 
+
+We therefore compute $\tilde{M}$ and $\tilde{B}$ as:
+
+\begin{equation}
+\tilde{M} = \begin{pmatrix}
+-\nicefrac{1}{2} & -\nicefrac{1}{3} & 0 & \nicefrac{13}{10}\\
+0 &  -\nicefrac{1}{3} &  -\nicefrac{51}{50} & \nicefrac{2}{5}\\
+-1 & 0 & -\nicefrac{1}{4} & 2
+\end{pmatrix} 
+\quad
+\tilde{B} = \begin{pmatrix}
+\theta_1 + 1 & \theta_2 & \theta_3 \\
+\theta_1 & \theta_2 +1 & \theta_3 \\
+\theta_1  & \theta_2 & \theta_3 +1 \\
+\theta_1 & \theta_2 & \theta_3
+\end{pmatrix}
+\end{equation}
+
+Now we are free to choose the three coefficients defining the time rescaling ($\theta_1, \theta_2, \theta_3$) as well as the four positive weigths ($w_1, w_2, w_3, w_4$). Each choice corresponds to a matrix $\tilde{G}$ $\tilde{G} = \frac{1}{2} (D(\tilde{w}) \tilde{B}\tilde{M} + \tilde{M}^T\tilde{B}^T D(\tilde{w}))$, and if we can find a combination of weights and scales such that $\tilde{G}$ is negative semi-definite, we have provent the stability of the equilibrium. In this case, there are infinitely many choices: for example, take the weights to be $w_1 = 21$, $w_2 = 5$, $w_3 = 2$, and $w_4 = 12$. Then choose the values for $\theta$ that are the only real solution satisfying $\det G = 0$: $\theta = -\frac{1}{63941}(47565, 2136, 500)^T$. We obtain a matrix $\tilde{G}$ in which an eigenvalue is zero, and all others are negative, proving the stability of the original system.
+
+<!--
+\begin{equation}
+\tiny
+\setlength{\arraycolsep}{2pt}
+  \renewcommand{\arraystretch}{0.8}
+\tilde{G} = 
+\begin{pmatrix}
+ -\frac{1}{2} (\theta_1+2 \theta_3+1) w_1 & -\frac{1}{6} (\theta_1+\theta_2+1) w_1-\frac{1}{4} (\theta_1+2 \theta_3) w_2 & -\frac{\theta_3 w_1}{8}-\frac{51 \theta_2 w_1}{100}-\frac{1}{4} (\theta_1+2 \theta_3+2) w_3 & \frac{1}{20} ((13 \theta_1+4 \theta_2+20 \theta_3+13) w_1-5 (\theta_1+2 \theta_3) w_4) \\
+ -\frac{1}{6} (\theta_1+\theta_2+1) w_1-\frac{1}{4} (\theta_1+2 \theta_3) w_2 & -\frac{1}{3} (\theta_1+\theta_2+1) w_2 & \frac{1}{100} (-51) (\theta_2+1) w_2-\frac{\theta_3 w_2}{8}-\frac{1}{6} (\theta_1+\theta_2) w_3 & \frac{1}{60} (39 \theta_1 w_2+12 (\theta_2+5 \theta_3+1) w_2-10 (\theta_1+\theta_2) w_4) \\
+ -\frac{\theta_3 w_1}{8}-\frac{51 \theta_2 w_1}{100}-\frac{1}{4} (\theta_1+2 \theta_3+2) w_3 & \frac{1}{100} (-51) (\theta_2+1) w_2-\frac{\theta_3 w_2}{8}-\frac{1}{6} (\theta_1+\theta_2) w_3 & -\frac{1}{4} (\theta_3+1) w_3-\frac{51 \theta_2 w_3}{50} & \left(\frac{13 \theta_1}{20}+\frac{\theta_2}{5}+\theta_3+1\right) w_3-\frac{1}{200} (102 \theta_2+25 \theta_3) w_4 \\
+ \frac{1}{20} ((13 \theta_1+4 \theta_2+20 \theta_3+13) w_1-5 (\theta_1+2 \theta_3) w_4) & \frac{1}{60} (39 \theta_1 w_2+12 (\theta_2+5 \theta_3+1) w_2-10 (\theta_1+\theta_2) w_4) & \left(\frac{13 \theta_1}{20}+\frac{\theta_2}{5}+\theta_3+1\right) w_3-\frac{1}{200} (102 \theta_2+25 \theta_3) w_4 & \frac{1}{10} (13 \theta_1+4 (\theta_2+5 \theta_3)) w_4
+\end{pmatrix}
+\end{equation}
+-->

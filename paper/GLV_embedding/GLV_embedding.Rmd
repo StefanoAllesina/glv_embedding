@@ -394,7 +394,11 @@ In this section we present XXXX simple examples in which we prove stability usin
 
 ```
 
-# Further transformations
+# Rescaling time
+
+```{r child=here::here("paper", "GLV_embedding", "time.Rmd")}
+
+```
 
 # Other approaches to stability for Lotka-Volterra
 

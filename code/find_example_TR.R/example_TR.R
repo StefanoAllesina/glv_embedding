@@ -14,6 +14,7 @@ check_TRLD <- function(pars, A, twoeigen = FALSE){
   n <- ncol(A)
   w <- abs(pars[1:n])
   w <- w / mean(w)
+  w <- round(w * 10)
   # scales 
   ts <- pars[n + 1:(n-1)]
   # build new A
@@ -32,13 +33,13 @@ check_TRLD <- function(pars, A, twoeigen = FALSE){
 
 
 A <- matrix(c(
-  -1/2, 0, -1/3,
-  -1/4, -1/3, 0,
-  0, 0, -1/4
+  -1/2, -1/3,0,
+  0, -1/3, 0,
+  -1, 0, -1/4
 ), 3, 3, byrow = TRUE)
 
 global_success <- FALSE
-i <- 188
+i <- 160
 while(!global_success){
   i <- i + 1
   set.seed(i)
@@ -50,11 +51,13 @@ while(!global_success){
   print("Find matrix")
   while(!success){
     A[2,3] <- round(rnorm(1), 2)
-    A[3,2] <- round(rnorm(1), 2)
+    #A[3,2] <- round(rnorm(1), 2)
+    if (abs(det(A)) > 10^-10) {
     maxReL1 <- max(Re(eigen(A, only.values = TRUE, symmetric = FALSE)$values))
     if (maxReL1 < 0){
       tmp <- optim(par = rep(1, 3), fn = check_LD, method = "Nelder-Mead", control = list(maxit = 10000), A = A)
       if (tmp$value > 0) success <- TRUE
+    }
     }
   }
   
@@ -62,7 +65,8 @@ while(!global_success){
   success <- FALSE
   print("Find equil")
   while(!success){
-    r <- sample(1:10,3)/5
+    r <- sample(1:20,3)/10
+    #r <- round(abs(rnorm(3)), 2)
     xstar <- solve(A, -r)
     if (all(xstar > 0.05)) success <- TRUE
   }
@@ -91,6 +95,7 @@ n <- ncol(Att)
 pars <- tmp$par
 w <- abs(pars[1:n])
 w <- w / mean(w)
+w <- round(w * 10)
 # scales 
 ts <- pars[n + 1:(n-1)]
 # build new A
@@ -104,3 +109,5 @@ eG <- eigen(G, only.values = TRUE, symmetric = TRUE)$values
 print(eG)
 print(A)
 print(r)
+print(w)
+print(ts)
