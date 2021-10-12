@@ -17,7 +17,7 @@ To proceed with a quasi-monomial rescaling of time, it is convenient to rewrite 
 \tilde{M} = \left(\begin{array}{c|c} 
 M & s
 \end{array}
-\right) \quad B = \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right)
+\right) \quad \tilde{B} = \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right)
 \end{equation}
 
 with this notation at hand, we want to rescale time such that $t = \tau \prod_{k} y_k^{\theta_k}$, and as such $\frac{d y}{d\tau} = \frac{d y}{d t} \prod_{k} y_k^{\theta_k}$. Because we are multiplying all equations by a quasi monomial ($\prod_{k} y_k^{\theta_k}$), if the original system was quasi-polynomial, the system with rescaled time is also QP. In fact, we can compactly define the new QP system as:
@@ -26,7 +26,7 @@ with this notation at hand, we want to rescale time such that $t = \tau \prod_{k
 \tilde{s} = 0_{n} \quad \tilde{M} = \left(\begin{array}{c|c} 
 M & s
 \end{array} \right) \quad 
-\tilde{B} =  \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right) + 1_{(m+1 \times n)} D(\theta)
+\overset{\approx}{B} =  \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right) + 1_{(m+1 \times n)} D(\theta)
 \end{equation}
 
 I.e., we have added a constant $\theta_k$ to each column in $\tilde{B}$. To show that this transformation can extend the applicability of the candidate Lyapunov function by Goh, we consider the competitive GLV system defined as:
@@ -55,7 +55,7 @@ We therefore compute $\tilde{M}$ and $\tilde{B}$ as:
 -1 & 0 & -\nicefrac{1}{4} & 2
 \end{pmatrix} 
 \quad
-\tilde{B} = \begin{pmatrix}
+\overset{\approx}{B} = \begin{pmatrix}
 \theta_1 + 1 & \theta_2 & \theta_3 \\
 \theta_1 & \theta_2 +1 & \theta_3 \\
 \theta_1  & \theta_2 & \theta_3 +1 \\
@@ -63,7 +63,7 @@ We therefore compute $\tilde{M}$ and $\tilde{B}$ as:
 \end{pmatrix}
 \end{equation}
 
-Now we are free to choose the three coefficients defining the time rescaling ($\theta_1, \theta_2, \theta_3$) as well as the four positive weigths ($w_1, w_2, w_3, w_4$). Each choice corresponds to a matrix $\tilde{G}$ $\tilde{G} = \frac{1}{2} (D(\tilde{w}) \tilde{B}\tilde{M} + \tilde{M}^T\tilde{B}^T D(\tilde{w}))$, and if we can find a combination of weights and scales such that $\tilde{G}$ is negative semi-definite, we have provent the stability of the equilibrium. In this case, there are infinitely many choices: for example, take the weights to be $w_1 = 21$, $w_2 = 5$, $w_3 = 2$, and $w_4 = 12$. Then choose the values for $\theta$ that are the only real solution satisfying $\det G = 0$: $\theta = -\frac{1}{63941}(47565, 2136, 500)^T$. We obtain a matrix $\tilde{G}$ in which an eigenvalue is zero, and all others are negative, proving the stability of the original system.
+Now we are free to choose the three coefficients defining the time rescaling ($\theta_1, \theta_2, \theta_3$) as well as the four positive weigths ($w_1, w_2, w_3, w_4$). Each choice corresponds to a matrix $\tilde{G}$ $\tilde{G} = \frac{1}{2} (D(\tilde{w}) \overset{\approx}{B}\tilde{M} + \tilde{M}^T\overset{\approx}{B}^T D(\tilde{w}))$, and if we can find a combination of weights and scales such that $\tilde{G}$ is negative semi-definite, we have provent the stability of the equilibrium. In this case, there are infinitely many choices: for example, take the weights to be $w_1 = 21$, $w_2 = 5$, $w_3 = 2$, and $w_4 = 12$. Then choose the values for $\theta$ that are the only real solution satisfying $\det G = 0$: $\theta = -\frac{1}{63941}(47565, 2136, 500)^T$. We obtain a matrix $\tilde{G}$ in which an eigenvalue is zero, and all others are negative, proving the stability of the original system.
 
 <!--
 \begin{equation}

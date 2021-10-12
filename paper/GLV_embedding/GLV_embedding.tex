@@ -579,10 +579,86 @@ To prove stability, we need to show that the equilibrium is the only trajectory 
 \section{Examples: quasi-polynomial
 systems}\label{examples-quasi-polynomial-systems}}
 
-In this section we present XXXX simple examples in which we prove
+In this section we present five simple examples in which dynamics are
+defined by a quasi-polynomial system of differential equations. We prove
 stability using the quasi-monomial transformation in conjunction with
 the candidate Lyapunov function in Eq. \ref{eq:goh}. See Rocha Filho et
 al. (2005) for other relevant examples.
+
+\hypertarget{growth-under-allee-effect}{%
+\subsection{Growth under Allee effect}\label{growth-under-allee-effect}}
+
+To set the stage for more complex derivations, we analyze the simple
+case of a single population experiencing an Allee effect: under the
+critical threshold \(\alpha\), the population declines; between
+\(\alpha < y < \beta\), it grows; and, finally, it declines if the
+density is above \(\beta\). Growth in this model can be represented as a
+cubic polynomial:
+
+\begin{equation}
+\dot{y} = y (y - \alpha) (\beta - y) = y(-\alpha \beta + (\alpha + \beta) y - y^2)
+\end{equation}
+
+Clearly, there are three equilibria, corresponding to the absence of the
+population, \(y^\star = \alpha\) and \(y^\star = \beta\). We want to
+show that the equilibrium \(y^\star = \beta\) is asymptotically stable
+for any trajectory starting at \(y(0) > \alpha\). First, we rewrite the
+system in QP form, and then turn it into a two-dimensional GLV system:
+
+\begin{equation}
+\begin{aligned}
+x = \begin{pmatrix}
+y\\
+y^2
+\end{pmatrix}
+\quad
+s = \begin{pmatrix}
+- \alpha \beta
+\end{pmatrix}
+\quad
+M = \begin{pmatrix}
+\alpha + \beta & -1
+\end{pmatrix}
+\quad
+B = \begin{pmatrix}
+1 \\
+2
+\end{pmatrix}
+\\
+r = Bs= \begin{pmatrix}
+- \alpha \beta\\
+- 2 \alpha \beta
+\end{pmatrix}
+\quad 
+A = BM = \begin{pmatrix}
+\alpha +  \beta & -1\\
+2 (\alpha + \beta) & -2
+\end{pmatrix}
+\end{aligned}
+\end{equation}
+
+Clearly, the matrix \(A\) has rank one. Now we consider the matrix
+\(G = \frac{1}{2} (D(w)A + A^T D(w))\):
+
+\begin{equation}
+G = \begin{pmatrix}
+w_1 (\alpha + \beta) & (\alpha + \beta) w_2 - \frac{1}{2} w_1\\
+(\alpha + \beta) w_2 - \frac{1}{2} w_1 & - 2 w_2
+\end{pmatrix}
+\end{equation}
+
+along with the perturbation
+\(\Delta x = (y - y^\star, y^2 - {y^\star}^2)^T = (y - \beta, y^2 - \beta^2)^T\).
+We find:
+
+\begin{equation}
+\dot{V} = -(y - \alpha) (\beta - y)^2 (w_1 + 2 w_2 (\beta + y))
+\end{equation}
+
+Because \((\beta - y)^2 (w_1 + 2 w_2 (\beta + y)) > 0\) for any choice
+of \(w_1>0\) and \(w_2>0\), then the function \(\dot{V}\) is negative
+whenever \(y > \alpha\) and \(y \neq \beta\), proving stability (given
+that if \(y(0) > \alpha\), then \(y(t) > \alpha\) for every \(t\)).
 
 \hypertarget{leslie-gower-without-intraspecific-competition}{%
 \subsection{Leslie-Gower without intraspecific
@@ -1134,7 +1210,7 @@ another column containing the vector \(s\); \(\tilde{B}\) is the matrix
 \tilde{M} = \left(\begin{array}{c|c} 
 M & s
 \end{array}
-\right) \quad B = \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right)
+\right) \quad \tilde{B} = \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right)
 \end{equation}
 
 with this notation at hand, we want to rescale time such that
@@ -1149,7 +1225,7 @@ can compactly define the new QP system as:
 \tilde{s} = 0_{n} \quad \tilde{M} = \left(\begin{array}{c|c} 
 M & s
 \end{array} \right) \quad 
-\tilde{B} =  \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right) + 1_{(m+1 \times n)} D(\theta)
+\overset{\approx}{B} =  \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right) + 1_{(m+1 \times n)} D(\theta)
 \end{equation}
 
 I.e., we have added a constant \(\theta_k\) to each column in
@@ -1186,7 +1262,7 @@ We therefore compute \(\tilde{M}\) and \(\tilde{B}\) as:
 -1 & 0 & -\nicefrac{1}{4} & 2
 \end{pmatrix} 
 \quad
-\tilde{B} = \begin{pmatrix}
+\overset{\approx}{B} = \begin{pmatrix}
 \theta_1 + 1 & \theta_2 & \theta_3 \\
 \theta_1 & \theta_2 +1 & \theta_3 \\
 \theta_1  & \theta_2 & \theta_3 +1 \\
@@ -1198,7 +1274,7 @@ Now we are free to choose the three coefficients defining the time
 rescaling (\(\theta_1, \theta_2, \theta_3\)) as well as the four
 positive weigths (\(w_1, w_2, w_3, w_4\)). Each choice corresponds to a
 matrix \(\tilde{G}\)
-\(\tilde{G} = \frac{1}{2} (D(\tilde{w}) \tilde{B}\tilde{M} + \tilde{M}^T\tilde{B}^T D(\tilde{w}))\),
+\(\tilde{G} = \frac{1}{2} (D(\tilde{w}) \overset{\approx}{B}\tilde{M} + \tilde{M}^T\overset{\approx}{B}^T D(\tilde{w}))\),
 and if we can find a combination of weights and scales such that
 \(\tilde{G}\) is negative semi-definite, we have provent the stability
 of the equilibrium. In this case, there are infinitely many choices: for

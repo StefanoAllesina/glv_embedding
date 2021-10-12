@@ -370,7 +370,11 @@ To prove stability, we need to show that the equilibrium is the only trajectory 
 
 # Examples: quasi-polynomial systems
 
-In this section we present XXXX simple examples in which we prove stability using the quasi-monomial transformation in conjunction with the candidate Lyapunov function in Eq. \ref{eq:goh}. See @rocha2005lotka for other relevant examples.
+In this section we present five simple examples in which dynamics are defined by a quasi-polynomial system of differential equations. We prove stability using the quasi-monomial transformation in conjunction with the candidate Lyapunov function in Eq. \ref{eq:goh}. See @rocha2005lotka for other relevant examples.
+
+```{r child=here::here("paper", "GLV_embedding", "allee.Rmd")}
+
+```
 
 ```{r child=here::here("paper", "GLV_embedding", "lg_no_self.Rmd")}
 

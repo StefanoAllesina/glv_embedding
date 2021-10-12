@@ -111,8 +111,10 @@ find_constants_GLV_embedding <- function(
     alpha <- abs(alpha) * weight_pattern
     alpha <- alpha / mean(alpha)
     print(alpha)
+    G <- diag(alpha) %*% A
+    G <- (G + t(G)) / 2
     return(list(lambda = lambda, M = M, B = B, 
-                r = r, A = A, DZ = DZ,
+                r = r, A = A, G = G, DZ = DZ,
                 alpha = alpha))
   } else {
     cat("Search failed!\n")
