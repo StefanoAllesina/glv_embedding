@@ -95,7 +95,7 @@ Substituting the perturbations measured in the QP, and then the original coordin
 \dot{V} = - \alpha_1 w_1 \Delta z_1^2 - \alpha_2 w_2 \Delta z_2^2 + \Delta z_1 \Delta z_2 \left(\frac{\gamma_2 \beta_1 w_1}{(\gamma_2 +z_2)(\gamma_2 +z_2^\star)} + \frac{\gamma_1 \beta_2 w_2}{(\gamma_1 +z_1)(\gamma_1 +z_1^\star)} \right)
 \end{equation}
 
-Naturally, the first two terms are negative (as long as the two weights are positive), and the coefficients in parenthesis are positive. As such whenever $\Delta z_1 \Delta z_2 \leq 0$, $\dot{V} \leq 0$. When this is not the case, we can bound the function from above:
+Naturally, the first two terms are negative (as long as the two weights are positive), and the coefficients in parenthesis are positive. As such whenever $\Delta z_1 \Delta z_2 \leq 0$, $\dot{V} \leq 0$. When this is not the case, we can bound the function from above by noticing that the term in parenthesis is maximal when $z_1 \to 0$ and $z_2 \to 0$:
 
 \begin{equation}
 \begin{aligned}

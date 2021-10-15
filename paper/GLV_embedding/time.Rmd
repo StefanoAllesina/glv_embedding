@@ -29,7 +29,67 @@ M & s
 \overset{\approx}{B} =  \left( \begin{array}{c} B \\ \hline 0_n \end{array} \right) + 1_{(m+1 \times n)} D(\theta)
 \end{equation}
 
-I.e., we have added a constant $\theta_k$ to each column in $\tilde{B}$. To show that this transformation can extend the applicability of the candidate Lyapunov function by Goh, we consider the competitive GLV system defined as:
+i.e., we have added a constant $\theta_k$ to each column in $\tilde{B}$. To show that this transformation can extend the applicability of the candidate Lyapunov function by Goh, we consider two cases of the simplest situation, in which we start from a GLV system. 
+
+To start,  we take the GLV system:
+
+\begin{equation}
+r = \begin{pmatrix}
+\nicefrac{47}{10}\\
+\nicefrac{43}{10}
+\end{pmatrix} \quad
+A = \begin{pmatrix}
+0 & -\nicefrac{2}{5}\\
+9 & -\nicefrac{47}{10}
+\end{pmatrix}
+\end{equation}
+
+This is also a QP system with $s = r$, $M = A$ and $B = I_3$. The system has a feasible, locally stable equilibrium. However, for any choice of positive $w = (w_1, w_2)^T$, at least one eigenvalue of $G = \frac{1}{2}(D(w) A + A^T D(w))$ is positive. It is therefore impossible to prove stability using Goh's candidate Lyapunov function. To prove stability, we rescale time. First, we form the augmented matrices:
+
+\begin{equation}
+\tilde{M} = \begin{pmatrix}
+0 & -\nicefrac{2}{5} & \nicefrac{47}{10}\\
+9 & -\nicefrac{47}{10} & \nicefrac{43}{10}
+\end{pmatrix}
+\quad \tilde{B} = \begin{pmatrix}
+1 & 0 \\
+0 & 1 \\
+0 & 0 
+\end{pmatrix}
+\end{equation}
+
+We have two special choices for rescaling time: for example, if we choose $\theta_1 = -1, \theta_2 = 0$ we are rescaling time such that now the first species serves as the external environment; choosing $\theta_1 = 0, \theta_2 = -1$ would set the second species as the external environment. With the first choice, we obtain:
+
+\begin{equation}
+\overset{\approx}{B} = \begin{pmatrix}
+0 & 0\\
+-1 & 1\\
+-1 & 0
+\end{pmatrix}\quad \overset{\approx}{M} = \overset{\approx}{B} \tilde{M} = \begin{pmatrix}
+0 & 0 & 0\\
+9 & -\nicefrac{43}{10} & -\nicefrac{2}{5}\\
+0 & \nicefrac{2}{5} & -\nicefrac{47}{10}\\
+\end{pmatrix}
+\end{equation}
+
+This means that if we rescale time such that one of the rows of $\overset{\approx}{B}$ is zero, we end up with a transformed GLV system with the same number of equations. I.e., the GLV system with rescaled time, and having defined $y_1 = x_2 / x_1$ and $y_2 = 1 / x_1$ is GLV with:
+
+\begin{equation}
+r = \begin{pmatrix}
+9\\
+0
+\end{pmatrix} \quad
+A = \begin{pmatrix}
+-\nicefrac{43}{10} & -\nicefrac{2}{5}\\
+\nicefrac{2}{5} & -\nicefrac{47}{10}
+\end{pmatrix}
+\end{equation}
+
+Notice that the off-diagonal part of $A$ is skew-symmetric, and the diagonal is negative, ensuring stability. The Lyapunov function proposed by Goh can be applied choosing unit weights. 
+
+Through this special transformation, we have connected two seemingly different GLV models---which have the same stability properties---such that it is impossible to prove stability using the usual function in the former, and trivial in the latter. For any system of $n$ equations, one can attempt $n$ such special time rescalings, each zeroing a different row of $\tilde{B}$.
+
+Now a more complex case, in which the time rescaling yields a larger-dimensional (but rank-deficient) system. Consider the competitive GLV system defined as:
 
 \begin{equation}
 s = \begin{pmatrix}

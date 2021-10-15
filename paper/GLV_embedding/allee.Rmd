@@ -1,12 +1,12 @@
 ## Growth under Allee effect
 
-To set the stage for more complex derivations, we analyze the simple case of a single population experiencing an Allee effect: under the critical threshold $\alpha$, the population declines; between $\alpha < y < \beta$, it grows; and, finally, it declines if the density is above $\beta$. Growth in this model can be represented as a cubic polynomial:
+To set the stage for more complex derivations, we analyze the simple case of a single population experiencing an Allee effect: when the density of a population is below the critical threshold $\alpha$, the population declines; between $\alpha < y < \beta$, it grows; and, finally, it declines if the density is above $\beta$. Growth in this model can be represented as a cubic polynomial:
 
 \begin{equation}
 \dot{y} = y (y - \alpha) (\beta - y) = y(-\alpha \beta + (\alpha + \beta) y - y^2)
 \end{equation}
 
-Clearly, there are three equilibria, corresponding to the absence of the population, $y^\star = \alpha$ and $y^\star = \beta$. We want to show that the equilibrium $y^\star = \beta$ is asymptotically stable for any trajectory starting at $y(0) > \alpha$. First, we rewrite the system in QP form, and then turn it into a two-dimensional GLV system:
+Clearly, there are three equilibria, corresponding to the absence of the population, $y^\star = \alpha$, and $y^\star = \beta$. It is also fairly simple to show (for example using a graphical method, or a quadratic Lyapunov function) that any initial condition $y(0) < \alpha$ leads to the extinction of the population, while any initial density above $\alpha$ defines trajectories converging to $\beta$. We want to show that the equilibrium $y^\star = \beta$ is asymptotically stable for any trajectory starting at $y(0) > \alpha$. First, we rewrite the system in QP form, and then turn it into a two-dimensional GLV system:
 
 \begin{equation}
 \begin{aligned}

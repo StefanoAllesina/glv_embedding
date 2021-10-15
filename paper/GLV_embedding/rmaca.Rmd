@@ -1,0 +1,81 @@
+## Rosenzweig-MacArthur model with competing prey
+
+Sometimes, we do not need to introduce auxiliary variables to turn our model of interest into a QP system. For example, consider the Rosenzweig-MacArthur model in which a predator consumes two prey that are competing for resources:
+
+\begin{equation}
+\begin{cases}
+\dot{z}_1 = z_1 (\rho_1 - C_{11} z_1 - C_{12} z_2) - \beta_1 \frac{z_1 z_3}{\gamma + z_1 + z_2}\\
+\dot{z}_2 = z_2 (\rho_2 - C_{21} z_1 - C_{22} z_2) - \beta_2 \frac{z_2 z_3}{\gamma + z_1 + z_2}\\
+\dot{z}_3 = z_3 \left(-\delta + \epsilon \frac{\beta_1 z_1 + \beta_2 z_2}{\gamma + z_1 + z_2} \right)
+\end{cases}
+\end{equation}
+
+If we choose a variable rescale of time $t = \tau (\gamma + z_1 + z_2)$, which is akin to multiplying all equations by $(\gamma + z_1 + z_2) > 0$, the resulting system is in QP form:
+
+\begin{equation}
+\begin{cases}
+\dot{y}_1 = y_1 (\rho_1 - C_{11} y_1 - C_{12} y_2)(\gamma + y_1 + y_2) - \beta_1 y_1 y_3\\
+\dot{y}_2 = y_2 (\rho_2 - C_{21} y_1 - C_{22} y_2)(\gamma + y_1 + y_2) - \beta_2 y_2 y_3\\
+\dot{y}_3 = y_3 \left(-\delta (\gamma + y_1 + y_2) + \epsilon (\beta_1 z_1 + \beta_2 z_2) \right)
+\end{cases}
+\end{equation}
+
+We therefore define:
+
+\begin{equation}
+\begin{aligned}
+s = \begin{pmatrix}
+\rho_1 \gamma \\
+\rho_2 \gamma \\
+-\delta \gamma
+\end{pmatrix}
+\quad 
+B = \begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+2 & 0 & 0 \\
+0 & 2 & 0 \\
+1 & 1 & 0 
+\end{pmatrix}
+\quad 
+M = \begin{pmatrix}
+\rho_1 - \gamma C_{11} & \rho_1 - \gamma C_{12} & -\beta_1 & -C_{11} & -C_{12} & - (C_{11} + C_{12})\\
+\rho_2 - \gamma C_{21} & \rho_2 - \gamma C_{22} & -\beta_2 & -C_{21} & -C_{22} & - (C_{21} + C_{22})\\
+\epsilon  \beta_1 - \delta & \epsilon  \beta_2 - \delta & 0 & 0 & 0 & 0
+\end{pmatrix}\quad
+x = \begin{pmatrix}
+y_1\\
+y_2\\
+y_3\\
+y_1^2\\
+y_2^2 \\
+y_1 y_2
+\end{pmatrix}
+\end{aligned}
+\end{equation}
+
+The model can give rise to complex dynamics (e.g., even for a single predator and prey we can have stable limit cycles). We therefore choose parameters in which a coexistence equilibrium exists, is feasible, and, as we will prove, globally stable. 
+
+\begin{equation}
+\delta = 13 \quad \epsilon = 9 \quad \gamma = 4 \quad
+\rho = \begin{pmatrix} 15\\18 \end{pmatrix} \quad
+\beta = \begin{pmatrix} 3\\8 \end{pmatrix} 
+\quad
+C = \begin{pmatrix} 20 & 5\\4 & 18\end{pmatrix}
+\end{equation}
+
+Substituting the values for the variables, and computing $r = Bs$ and $A = B M$, we obtain the six-dimensional GLV system defined by:
+
+\begin{equation}
+r = \begin{pmatrix} 60 \\ 72 \\ -52 \end{pmatrix} \quad
+A = \begin{pmatrix}
+ -65 & -5 & -3 & -20 & -5 & -25 \\
+ 2 & -54 & -8 & -4 & -18 & -22 \\
+ 14 & 59 & 0 & 0 & 0 & 0 \\
+ -130 & -10 & -6 & -40 & -10 & -50 \\
+ 4 & -108 & -16 & -8 & -36 & -44 \\
+ -63 & -59 & -11 & -24 & -23 & -47 \\
+\end{pmatrix}
+\end{equation}
+
