@@ -135,12 +135,13 @@ facilitate the task of proving stability via this transformation.
 
 We start by deriving the transformation of QP systems into GLV, using
 the Leslie-Gower predator-prey model as an example; next, we analyze
-FIVE? models taken from the ecological, evolutionary and epidemiological
+five models taken from the ecological, evolutionary and epidemiological
 literature, and use the transformation to prove global asymptotic
 stability; we then show how non-QP systems can be turned into GLV via
-auxiliary variables; we conclude by briefly presenting more advanced
-techniques. The Appendix discusses numerical approaches meant to
-facilitate the application of this methods to systems of interest.
+auxiliary variables or an appropriate rescaling of time; we conclude by
+briefly presenting more advanced techniques. The Appendix discusses
+numerical approaches meant to facilitate the application of this methods
+to systems of interest.
 
 \hypertarget{quasi-monomial-transformation}{%
 \section{Quasi-monomial
@@ -265,7 +266,7 @@ appearing in the equations for \(\dot{\log y}_i\) defines the
 quasi-monomials in \(x\). Here we concentrate on the most common case in
 which the number of \emph{quasi-monomials}, \(m\), is larger or equal
 than the number of equations in the QP system, \(n\), and the matrix
-\(B\) has rank \(m\). In such cases, the GLV embedding will result in a
+\(B\) has rank \(n\). In such cases, the GLV embedding will result in a
 system that is of the same dimension of the original system, or larger.
 A similar approach can be employed when this is not the case
 (Hernández-Bermejo and Fairén 1997).
@@ -875,11 +876,8 @@ efficiency of transformation of resources into consumers. We want to
 show that, whenever a feasible equilibrium exists, it is globally
 stable.
 
-We identify \(3n\) quasi-monomials: \(x_i = z_i\) for
-\(i \in \{1, \ldots, n\}\), \(x_i = y_i\) for
-\(i \in \{n + 1, \ldots, 2 n\}\), and finally \(x_i = 1 / z_i\) for
-\(i \in \{2 n + 1, \ldots, 3 n\}\). This allows us to rewrite the system
-in Eq. \ref{eq:cr} as a QP-system defined by:
+We identify \(3n\) quasi-monomials: \(x = (z, y, 1 / z)^T\). This allows
+us to rewrite the system in Eq. \ref{eq:cr} as a QP-system defined by:
 
 \begin{equation}
 \label{eq:crqp}

@@ -40,7 +40,7 @@ The goal of this work is to provide a concise, self-contained introduction to th
 
 While most of the material is a review or a re-elaboration of published results, we highlight two aspects that are rarely discussed: first, we show that stability can often be proven in a straightforward way by considering that the perturbations of the transformed system are constrained by the perturbations of the original system---and have therefore a characteristic form; second, we discuss at length the (and provide code for) numerical approaches that can be implemented to facilitate the task of proving stability via this transformation.
 
-We start by deriving the transformation of QP systems into GLV, using the Leslie-Gower predator-prey model as an example; next, we analyze FIVE? models taken from the ecological, evolutionary and epidemiological literature, and use the transformation to prove global asymptotic stability; we then show how non-QP systems can be turned into GLV via auxiliary variables; we conclude by briefly presenting more advanced techniques. The Appendix discusses numerical approaches meant to facilitate the application of this methods to systems of interest.
+We start by deriving the transformation of QP systems into GLV, using the Leslie-Gower predator-prey model as an example; next, we analyze five models taken from the ecological, evolutionary and epidemiological literature, and use the transformation to prove global asymptotic stability; we then show how non-QP systems can be turned into GLV via auxiliary variables or an appropriate rescaling of time; we conclude by briefly presenting more advanced techniques. The Appendix discusses numerical approaches meant to facilitate the application of this methods to systems of interest.
 
 # Quasi-monomial transformation
 
@@ -122,7 +122,7 @@ A simple way to identify quasi-monomials for any system that can be written in Q
 \dot{\log y}_i = \frac{\dot{y}_i}{y_i} = s_i + \sum_{j = 1}^m M_{ij} \prod_{k = 1}^n y_k^{B_{jk}}
 \end{equation}
 
-As such, the set of variables, or product of powers of variables appearing in the equations for $\dot{\log y}_i$ defines the quasi-monomials in $x$. Here we concentrate on the most common case in which the number of *quasi-monomials*, $m$, is larger or equal than the number of equations in the QP system, $n$, and the matrix $B$ has rank $m$. In such cases, the GLV embedding will result in a system that is of the same dimension of the original system, or larger. A similar approach can be employed when this is not the case [@hernandez1997lotka].
+As such, the set of variables, or product of powers of variables appearing in the equations for $\dot{\log y}_i$ defines the quasi-monomials in $x$. Here we concentrate on the most common case in which the number of *quasi-monomials*, $m$, is larger or equal than the number of equations in the QP system, $n$, and the matrix $B$ has rank $n$. In such cases, the GLV embedding will result in a system that is of the same dimension of the original system, or larger. A similar approach can be employed when this is not the case [@hernandez1997lotka].
 
 \begin{cb}
 \textbf{Quasi-monomials for the Leslie-Gower model}

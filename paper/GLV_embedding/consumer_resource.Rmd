@@ -12,7 +12,7 @@ We consider a model with $2n$ equations, equally divided into resources ($z_i$) 
 
 where $\kappa_i$ is the input to resource $i$, $\delta_i$ its degradation rate, $C_{ij}$ the consumption of $i$ by consumer $j$, $\mu_i$ the mortality rate of consumer $i$, and $\epsilon_i$ the efficiency of transformation of resources into consumers. We want to show that, whenever a feasible equilibrium exists, it is globally stable.
 
-We identify $3n$ quasi-monomials: $x_i = z_i$ for $i \in \{1, \ldots, n\}$, $x_i = y_i$ for $i \in  \{n + 1, \ldots, 2 n\}$, and finally $x_i = 1 / z_i$ for $i \in  \{2 n + 1, \ldots, 3 n\}$. This allows us to rewrite the system in Eq. \ref{eq:cr} as a QP-system defined by:
+We identify $3n$ quasi-monomials: $x = (z, y, 1 / z)^T$. This allows us to rewrite the system in Eq. \ref{eq:cr} as a QP-system defined by:
 
 \begin{equation}
 \label{eq:crqp}
